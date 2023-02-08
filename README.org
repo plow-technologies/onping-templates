@@ -1,0 +1,6 @@
+* OnPing Templates
+OnPing has a lot of powerful features that can be confusing to use without some sort of guidance.
+For now, we are making this repository of templates for various kinds of projects to help integrators
+who want to make their own dashboards and reports.
+
+[[./industry/oil/README.org][Here is a listing of Industrial items]]
