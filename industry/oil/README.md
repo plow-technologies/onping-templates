@@ -5,3 +5,8 @@
 
 [Download Above HMI](https://github.com/TreyLav7/onping-templates/blob/main/industry/oil/OilTankBatteryHMI.dhall)
 
+
+## Oil Pad HMI
+![image](https://user-images.githubusercontent.com/115479407/217913716-ec181fc8-36f8-4e55-b4d2-a4d0b5322e6b.png)
+
+[Download Above HMI](https://github.com/TreyLav7/onping-templates/blob/main/industry/oil/OilPadHMI.dhall)
