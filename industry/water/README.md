@@ -28,3 +28,30 @@
 ## Lift Station Mobile HMI
 
 [Download Above HMI](https://github.com/TreyLav7/onping-templates/blob/main/industry/oil/LiftStationMobileHMI.dhall)
+
+# Example Wastewater Dashboard
+
+## SBR Overview HMI
+![image](https://user-images.githubusercontent.com/115479407/218161977-a050b3d5-76df-41e8-a027-2fe56e5c96fe.png)
+
+[Download Above HMI](https://github.com/TreyLav7/onping-templates/blob/main/industry/oil/WastewaterSBROverviewHMI.dhall)
+
+## Control/Setpoints HMI
+![image](https://user-images.githubusercontent.com/115479407/218162090-d086a166-4ef3-4b4a-83e9-1812652d7387.png)
+
+[Download Above HMI](https://github.com/TreyLav7/onping-templates/blob/main/industry/water/WastewaterControlSetpointsHMI.dhall)
+
+## Pump HOA and Lead/Lag HMI
+![image](https://user-images.githubusercontent.com/115479407/218162387-7d11c5b1-131a-4b8d-8e1d-7fdbb9bcb262.png)
+
+[Download Above HMI](https://github.com/TreyLav7/onping-templates/blob/main/industry/water/WastewaterPumpHOALeadLagHMI.dhall)
+
+## Influent Control HMI
+![image](https://user-images.githubusercontent.com/115479407/218162534-21fe15e4-54a0-47cb-8dc1-da24ac7dc981.png)
+
+[Download Above HMI](https://github.com/TreyLav7/onping-templates/blob/main/industry/water/WastewaterInfluentControlHMI.dhall)
+
+## Effluent Control HMI
+![image](https://user-images.githubusercontent.com/115479407/218162655-3461017a-56fc-44b3-877d-c4e0176da629.png)
+
+[Download Above HMI](https://github.com/TreyLav7/onping-templates/blob/main/industry/water/WastewaterEffluentControlHMI.dhall)
