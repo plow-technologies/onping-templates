@@ -3,4 +3,5 @@ OnPing has a lot of powerful features that can be confusing to use without some 
 For now, we are making this repository of templates for various kinds of projects to help integrators
 who want to make their own dashboards and reports.
 
-[[./industry/oil/README.org][Here is a listing of Industrial items]]
+[[./industry/oil/README.md][Here is a listing of Industrial Oil items]]
+[[./industry/water/README.md][Here is a listing of Industrial Water items]]
