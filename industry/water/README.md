@@ -20,6 +20,16 @@
 
 [Download Above HMI](https://github.com/TreyLav7/onping-templates/blob/main/industry/oil/WaterAcquisitionHMI.dhall)
 
+## Well and Energy HMI
+![image](https://user-images.githubusercontent.com/8346563/218879944-e681fefa-6063-427c-9278-c1ea3873d498.png)
+
+[Download Above HMI](https://github.com/plow-technologies/onping-templates/blob/main/industry/water/WellAndEnergyHMI.dhall)
+
+## Tower and Pump HMI
+![image](https://user-images.githubusercontent.com/8346563/218878163-6352e88b-e12e-43dd-92a7-0741591e99fb.png)
+
+[Download Above HMI](https://github.com/plow-technologies/onping-templates/blob/main/industry/water/TowerAndPumpHMI.dhall)
+
 ## Lift Station HMI
 ![image](https://user-images.githubusercontent.com/115479407/218140769-e4a80edf-bdda-4a0e-90fc-34afd5152669.png)
 
