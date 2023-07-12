@@ -105,7 +105,8 @@ void produce_current_msg(Pin Pins[], PubSubClient client, char* topic, unsigned 
     // add the pin and its default value to the Json dictionary
     pub_doc[Pins[i].name] = Pins[i].current_value;
     serializeJson(pub_doc, serialized_pub_doc);
-    //serializeJson(pub_doc, Serial);
+    serializeJson(pub_doc, Serial);
+    Serial.println();
     
     client.publish(topic, serialized_pub_doc); 
   }
@@ -127,7 +128,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   doc_pointer = &doc;
   pin = contains_pin(feather_pins, doc_pointer);
   value = doc[pin];
-  Serial.print(F("Message arrived ["));
+  /*Serial.print(F("Message arrived ["));
   Serial.print(topic);
   Serial.print(F("]"));
   Serial.println();
@@ -149,7 +150,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   
   
   Serial.print(F("value: "));
-  Serial.println(value);
+  Serial.println(value);*/
   digitalWrite(get_pin_number(feather_pins, pin), value);
 }
 
@@ -167,8 +168,8 @@ void reconnect() {
     } else {
       set_current_to_default(feather_pins);
       Serial.print(F("failed, rc="));
-      Serial.print(client.state());
-      Serial.println(F(" try again in 5 seconds"));
+      //Serial.print(client.state());
+      //Serial.println(F(" try again in 5 seconds"));
       // Wait 5 seconds before retrying
       delay(5000);
     }
@@ -180,29 +181,29 @@ void setup() {
   pinMode(A0, OUTPUT);
   pinMode(A1, OUTPUT);
   pinMode(A2, OUTPUT);
-  pinMode(A3, OUTPUT);
-  pinMode(A4, OUTPUT);
-  pinMode(A5, OUTPUT);
+  pinMode(A3, INPUT);
+  pinMode(A4, INPUT);
+  pinMode(A5, INPUT);
 
   set_current_to_default(feather_pins);
 
   Serial.begin(57000);
   while(!Serial);
   
-  Serial.println(F("What's good?"));
+  //Serial.println(F("What's good?"));
 
   client.setServer(server, 1884);
-  Serial.println(F("Server set"));
+  //Serial.println(F("Server set"));
   client.setCallback(callback);
-  Serial.println(F("Callback set"));
+  //Serial.println(F("Callback set"));
 
   Ethernet.begin(mac);
-  Serial.println(F("ethernet has begun"));
+  //Serial.println(F("ethernet has begun"));
   
-  Serial.print(F("Server IP: "));
-  Serial.println(server);
-  Serial.print(F("Feather IP: "));
-  Serial.println(Ethernet.localIP());
+  //Serial.print(F("Server IP: "));
+  //Serial.println(server);
+  //Serial.print(F("Feather IP: "));
+  //Serial.println(Ethernet.localIP());
   
   delay(1500);
 }
