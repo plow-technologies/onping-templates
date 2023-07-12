@@ -21,6 +21,7 @@ struct Pin {
   const char* name;
   uint8_t pin_number;
   uint8_t default_value;
+  uint8_t current_value;
 };
 
 
@@ -28,12 +29,12 @@ struct Pin {
 // add your pinout structs to the array in the form {"logical_name", pinout}
 // order from high priority in search to low priority
 Pin feather_pins[number_pins] = { 
-  {"A0", A0, 1},
-  {"A1", A1, 0},
-  {"A2", A2, 0},
-  {"A3", A3, 1},
-  {"A4", A4, 0},
-  {"A5", A5, 0}
+  {"A0", A0, 1, 1},
+  {"A1", A1, 0, 0},
+  {"A2", A2, 0, 0},
+  {"A3", A3, 1, 1},
+  {"A4", A4, 0, 0},
+  {"A5", A5, 0, 0}
 };
 
 // searches the pinout array for the pin with the name called in the Json packet
@@ -41,9 +42,9 @@ Pin feather_pins[number_pins] = {
 uint8_t get_pin_number(Pin Pins[], const char* name) {
   for (uint8_t i; i<number_pins; i++){
     if(strncmp(Pins[i].name, name, 10) == 0) {
-      Serial.print(F("pin number: "));
+      /*Serial.print(F("pin number: "));
       Serial.println(Pins[i].pin_number);
-      Serial.println();
+      Serial.println();*/
       return Pins[i].pin_number;
     }    
   }
@@ -62,21 +63,39 @@ const char* contains_pin(Pin Pins[], JsonDocument* json_doc) {
 
 // sends a message with the default pin values
 void produce_default_msg(Pin Pins[], PubSubClient client, char* topic) {
-  // for each pin
-  for (uint8_t i; i<number_pins; i++) {
   // create the json doc
   StaticJsonDocument<48> pub_doc;
-  char serialized_pub_doc[48];
-  // add the pin and its default value to the Json dictionary
-  pub_doc[Pins[i].name] = Pins[i].default_value;
-  serializeJson(pub_doc, serialized_pub_doc);
-  /*Serial.print(i);
-  Serial.print(F(" "));
-  Serial.print(Pins[i].name);
-  Serial.print(F(" : "));
-  Serial.println(Pins[i].default_value);*/
-  serializeJson(pub_doc, Serial);
-  client.publish(topic, serialized_pub_doc);
+  // for each pin
+  for (uint8_t i; i<number_pins; i++) {
+    pub_doc.clear();
+    char serialized_pub_doc[48];
+    // add the pin and its default value to the Json dictionary
+    pub_doc[Pins[i].name] = Pins[i].default_value;
+    serializeJson(pub_doc, serialized_pub_doc);
+    //serializeJson(pub_doc, Serial);
+  
+    client.publish(topic, serialized_pub_doc);
+  }
+}
+
+// need a function that updates the current pin values
+
+// sends a message with the current pin values
+void produce_current_msg(Pin Pins[], PubSubClient client, char* topic) {
+  // create the json doc
+  StaticJsonDocument<48> pub_doc;
+  // for each pin
+  for (uint8_t i; i<number_pins; i++) {
+    pub_doc.clear();
+    
+    char serialized_pub_doc[48];
+    // add the pin and its default value to the Json dictionary
+    pub_doc[Pins[i].name] = Pins[i].current_value;
+    serializeJson(pub_doc, serialized_pub_doc);
+    //serializeJson(pub_doc, Serial);
+    //Serial.println();
+    
+    client.publish(topic, serialized_pub_doc);
   }
 }
 
@@ -120,7 +139,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print(F("value: "));
   Serial.println(value);
   digitalWrite(get_pin_number(feather_pins, pin), value);
-  //produce_default_msg(feather_pins, client, "pindefaults");
+  produce_current_msg(feather_pins, client, "pincurrents");
+  produce_default_msg(feather_pins, client, "pindefaults");
+  
 }
 
 /**** ATTEMPT TO RECONNECT TO MQTT BROKER ****/ 
@@ -128,16 +149,16 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
-    Serial.print(F("Attempting MQTT connection..."));
+    //Serial.print(F("Attempting MQTT connection..."));
     // Attempt to connect
     if (client.connect("arduinoClient")) {
-      Serial.println(F("connected"));
+      //Serial.println(F("connected"));
       // subscribe once connected
       client.subscribe("setpins");
     } else {
-      Serial.print(F("failed, rc="));
-      Serial.print(client.state());
-      Serial.println(F(" try again in 5 seconds"));
+      //Serial.print(F("failed, rc="));
+      //Serial.print(client.state());
+      //Serial.println(F(" try again in 5 seconds"));
       // Wait 5 seconds before retrying
       delay(5000);
     }
@@ -149,16 +170,16 @@ void setup() {
   Serial.begin(57000);
   while(!Serial);
   
-  Serial.println(F("What's good?"));
+  //Serial.println(F("What's good?"));
 
   client.setServer(server, 1884);
   client.setCallback(callback);
 
   Ethernet.begin(mac);
-  Serial.print(F("Server IP: "));
-  Serial.println(server);
-  Serial.print(F("Feather IP: "));
-  Serial.println(Ethernet.localIP());
+  //Serial.print(F("Server IP: "));
+  //Serial.println(server);
+  //Serial.print(F("Feather IP: "));
+  //Serial.println(Ethernet.localIP());
   
   delay(1500);
 }
