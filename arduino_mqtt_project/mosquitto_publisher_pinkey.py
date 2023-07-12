@@ -50,7 +50,7 @@ json_msg = json_msg_A1_on
 # send 16 different messages (for the sake of the example)
 for i in range(16):
     # send the json message over mqtt
-    timed_mqtt_publish(1, client, "setpins", json_msg, 0)
+    timed_mqtt_publish(1, client, "pins/set", json_msg, 0)
     
     # rotate through the example messages
     if json_msg == json_msg_A1_on: 
