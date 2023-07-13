@@ -14,7 +14,7 @@ PubSubClient client(ethClient);
 
 /**** PIN STRUCTURE ARRAY ****/
 // set number_pins equal to the number of pinouts you want to define
-constexpr uint8_t number_pins = 9;
+constexpr uint8_t number_pins = 8;
 
 // struct for associating pin logical names with pinouts
 struct Pin {
@@ -31,9 +31,8 @@ struct Pin {
 // order from high priority in search to low priority
 Pin feather_pins[number_pins] = { 
   {"D5", 5, "digital", 0, 0},
-  {"D6", 6, "digital", 1, 1},
-  {"D9", 9, "digital", 0, 0},
-  {"A0", A0, "digital", 1, 1},
+  {"D6", 6, "digital", 1, 0},
+  {"A0", A0, "digital", 1, 0},
   {"A1", A1, "analog", 0, 0},
   {"A2", A2, "analog", 0, 0},
   {"A3", A3, "analog", 0, 0},
@@ -47,9 +46,6 @@ Pin feather_pins[number_pins] = {
 uint8_t get_pin_number(Pin Pins[], const char* name) {
   for (uint8_t i=0; i<number_pins; i++){
     if(strncmp(Pins[i].name, name, 10) == 0) {
-      /*Serial.print(F("pin number: "));
-      Serial.println(Pins[i].pin_number);
-      Serial.println();*/
       return Pins[i].pin_number;
     }    
   }
@@ -58,9 +54,6 @@ uint8_t get_pin_number(Pin Pins[], const char* name) {
 const char* get_pin_type(Pin Pins[], const char* name) {
   for (uint8_t i=0; i<number_pins; i++){
     if(strncmp(Pins[i].name, name, 10) == 0) {
-      /*Serial.print(F("pin number: "));
-      Serial.println(Pins[i].pin_number);
-      Serial.println();*/
       return Pins[i].pin_type;
     }    
   }
@@ -75,25 +68,6 @@ const char* contains_pin(Pin Pins[], JsonDocument* json_doc) {
   }
 }
 
-// check if current values in memory for digital pins are the same as on their physical lines
-bool are_current_digital_values_same(Pin Pins[]) {
-  for (uint8_t i=0; i<number_pins; i++) {
-    if (Pins[i].pin_type == "digital") {
-      
-      // at least one of the digital pins values are different
-      if (Pins[i].current_value != digitalRead(Pins[i].pin_number)) {
-        Serial.print(F("digital pin "));
-        Serial.print(Pins[i].name);
-        Serial.println(" is different from ");
-        Serial.println(digitalRead(Pins[i].pin_number));
-        return false;
-      }
-    }  
-  }
-  // none of the digital values are different
-  return true;  
-}
-
 // sets all pin structures current values in memory to what is on the pinin line
 void set_pin_current_values(Pin Pins[]) {
   for (uint8_t i=0; i<number_pins; i++){
@@ -106,6 +80,8 @@ void set_pin_current_values(Pin Pins[]) {
   }
 }
 
+//sends a message with the current pin value
+
 // sends a message with the default pin values
 void produce_default_msg(Pin Pins[], PubSubClient client, char* topic) {
   // create the json doc
@@ -116,7 +92,6 @@ void produce_default_msg(Pin Pins[], PubSubClient client, char* topic) {
     // add the pin and its default value to the Json dictionary
     pub_doc[Pins[i].name] = Pins[i].default_value;
     serializeJson(pub_doc, serialized_pub_doc);
-    //serializeJson(pub_doc, Serial);
   }
   client.publish(topic, serialized_pub_doc);
   pub_doc.clear();
@@ -140,8 +115,6 @@ void produce_current_msg(Pin Pins[], PubSubClient client, char* topic, unsigned 
     // add the pin and its default value to the Json dictionary
     pub_doc[Pins[i].name] = Pins[i].current_value;
     serializeJson(pub_doc, serialized_pub_doc);
-    //serializeJson(pub_doc, Serial);
-    //Serial.println();
   }
   client.publish(topic, serialized_pub_doc);
   pub_doc.clear();
@@ -156,50 +129,17 @@ void callback(char* topic, byte* payload, unsigned int length) {
   JsonDocument *doc_pointer;
   const char* pin;
   uint8_t value;
-  const char* value_string;
   // deserialize the Json message
   deserializeJson(doc, payload);
   //doc_object = doc.to<JsonObject>();
   doc_pointer = &doc;
   pin = contains_pin(feather_pins, doc_pointer);
   value = doc[pin];
-  Serial.print(F("Message arrived ["));
-  Serial.print(topic);
-  Serial.print(F("]"));
-  Serial.println();
-
-  
-  Serial.println(F("Json values: "));
-  Serial.print(F("pin: "));
-  Serial.println(pin);
-  Serial.print(F("value "));
-  Serial.println(value);
-  Serial.println();
-
-  // write to the correct pinout
-  Serial.print(F("Writing pin "));
-  Serial.print(pin);
-  Serial.print(" ");
-  value > 0 ? value_string = "HIGH" : value_string = "LOW";
-  Serial.println(value_string);
-  
-  
-  Serial.print(F("value: "));
-  Serial.println(value);
   if (strncmp(get_pin_type(feather_pins, pin), "digital", 10) == 0)  {
-    Serial.println(F("digital pin"));
     digitalWrite(get_pin_number(feather_pins, pin), value);
   }
   else {
-    Serial.println(F("analog pin"));
     analogWrite(get_pin_number(feather_pins, pin), value);  
-  }
-
-  // publish the current values on the pin lines to the mqtt server
-  //set_pin_current_values(feather_pins);
-  set_pin_current_values(feather_pins);
-  for (uint8_t i = 0; i<9; i++) {
-    produce_current_msg(feather_pins, client, "pins/current", 20);
   }
 }
 
@@ -208,17 +148,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
-    Serial.print(F("Attempting MQTT connection..."));
     // Attempt to connect
     if (client.connect("arduinoClient")) {
-      Serial.println(F("connected"));
       // subscribe once connected
       client.subscribe("pins/set");
     } else {
       set_current_to_default(feather_pins);
-      Serial.print(F("failed, rc="));
-      Serial.print(client.state());
-      Serial.println(F(" try again in 5 seconds"));
       // Wait 5 seconds before retrying
       delay(5000);
     }
@@ -229,7 +164,6 @@ void setup() {
   // put your setup code here, to run once:
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
-  pinMode(9, INPUT);
   pinMode(A0, OUTPUT);
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
@@ -237,28 +171,12 @@ void setup() {
   pinMode(A4, INPUT);
   pinMode(A5, INPUT);
 
-  digitalWrite(9, LOW);
-
   set_current_to_default(feather_pins);
 
-  Serial.begin(57000);
-  while(!Serial);
-  
-  //Serial.println(F("What's good?"));
-
   client.setServer(server, 1884);
-  //Serial.println(F("Server set"));
   client.setCallback(callback);
-  //Serial.println(F("Callback set"));
 
   Ethernet.begin(mac);
-  //Serial.println(F("ethernet has begun"));
-  
-  //Serial.print(F("Server IP: "));
-  //Serial.println(server);
-  //Serial.print(F("Feather IP: "));
-  //Serial.println(Ethernet.localIP());
-  
   delay(1500);
 }
 
@@ -267,15 +185,8 @@ void loop() {
   if (!client.connected()) {
     reconnect();
   }
-  
-  if (!are_current_digital_values_same(feather_pins)) {
-    Serial.println(F("current values are NOT the same"));
-    set_pin_current_values(feather_pins);
-    produce_current_msg(feather_pins, client, "pins/current/on_change", 20);
-  }
-
   set_pin_current_values(feather_pins);
-  //produce_current_msg(feather_pins, client, "pins/current", 20);
+  produce_current_msg(feather_pins, client, "pins/current", 20);
   produce_default_msg(feather_pins, client, "pins/default");
   client.loop();
 }

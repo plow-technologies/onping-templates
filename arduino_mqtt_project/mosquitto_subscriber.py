@@ -14,9 +14,11 @@ if client.connect("192.168.4.121", 1884, 60) != 0:
 else:
     print("Connected to the MQTT Broker!")
 
-client.subscribe("pins/default")
+#client.subscribe("pins/default")
 
 #client.subscribe("pins/current")
+
+client.subscribe("pins/current/on_change")
 
 client.loop_forever()
 
