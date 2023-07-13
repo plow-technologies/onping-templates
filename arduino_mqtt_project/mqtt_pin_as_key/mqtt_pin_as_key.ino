@@ -30,10 +30,10 @@ struct Pin {
 // add your pinout structs to the array in the form {"logical_name", pinout}
 // order from high priority in search to low priority
 Pin feather_pins[number_pins] = { 
-  {"D5", 5, "digital", 0, 0},
+  {"D5", 5, "digital", 1, 1},
   {"D6", 6, "digital", 1, 1},
   {"D9", 9, "digital", 0, 0},
-  {"A0", A0, "digital", 1, 1},
+  {"A0", A0, "digital", 0, 0},
   {"A1", A1, "analog", 0, 0},
   {"A2", A2, "analog", 0, 0},
   {"A3", A3, "analog", 0, 0},
@@ -196,7 +196,13 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
 
   // publish the current values on the pin lines to the mqtt server
-  //set_pin_current_values(feather_pins);
+  // set_pin_current_values(feather_pins);
+  if (!are_current_digital_values_same(feather_pins)) {
+    Serial.println(F("current values are NOT the same"));
+    set_pin_current_values(feather_pins);
+    produce_current_msg(feather_pins, client, "pins/on_change/current", 20);
+  }
+  
   set_pin_current_values(feather_pins);
   for (uint8_t i = 0; i<9; i++) {
     produce_current_msg(feather_pins, client, "pins/current", 20);
@@ -213,6 +219,8 @@ void reconnect() {
     if (client.connect("arduinoClient")) {
       Serial.println(F("connected"));
       // subscribe once connected
+      digitalWrite(A0, HIGH);
+      set_pin_current_values(feather_pins);
       client.subscribe("pins/set");
     } else {
       set_current_to_default(feather_pins);
@@ -271,7 +279,7 @@ void loop() {
   if (!are_current_digital_values_same(feather_pins)) {
     Serial.println(F("current values are NOT the same"));
     set_pin_current_values(feather_pins);
-    produce_current_msg(feather_pins, client, "pins/current/on_change", 20);
+    produce_current_msg(feather_pins, client, "pins/on_change/current", 20);
   }
 
   set_pin_current_values(feather_pins);

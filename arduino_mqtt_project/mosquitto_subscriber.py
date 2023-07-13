@@ -16,7 +16,7 @@ else:
 
 #topic = "pins/default"
 #topic = "pins/current"
-topic = "pins/digital/on_change/current"
+topic = "pins/on_change/current"
 client.subscribe(topic)
 print(f"subscribed to {topic}")
 
