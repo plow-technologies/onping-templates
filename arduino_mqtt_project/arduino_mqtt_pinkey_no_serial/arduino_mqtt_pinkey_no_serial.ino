@@ -14,7 +14,8 @@ PubSubClient client(ethClient);
 
 /**** PIN STRUCTURE ARRAY ****/
 // set number_pins equal to the number of pinouts you want to define
-constexpr uint8_t number_pins = 8;
+constexpr uint8_t number_pins = 9;
+constexpr uint8_t number_virtual_pins = 1;
 
 // struct for associating pin logical names with pinouts
 struct Pin {
@@ -31,14 +32,18 @@ struct Pin {
 // order from high priority in search to low priority
 Pin feather_pins[number_pins] = { 
   {"D5", 5, "digital", 0, 0},
-  {"D6", 6, "digital", 1, 0},
-  {"A0", A0, "digital", 1, 0},
+  {"D6", 6, "digital", 1, 1},
+  {"D9", 9, "digital", 0, 0},
+  {"A0", A0, "digital", 0, 0},
   {"A1", A1, "analog", 0, 0},
   {"A2", A2, "analog", 0, 0},
   {"A3", A3, "analog", 0, 0},
   {"A4", A4, "analog", 0, 0},
   {"A5", A5, "analog", 0, 0},
-  
+};
+
+Pin virtual_pins[number_virtual_pins] = {
+  {"analogs_tied_down", 999, "config", 0, 0}
 };
 
 // searches the pinout array for the pin with the name called in the Json packet
@@ -68,6 +73,28 @@ const char* contains_pin(Pin Pins[], JsonDocument* json_doc) {
   }
 }
 
+// check if current values in memory for digital pins are the same as on their physical lines
+bool are_current_digital_values_same(Pin Pins[], Pin VPinAnalogs) {
+  for (uint8_t i=0; i<number_pins; i++) {
+    if (VPinAnalogs.default_value == 0) {
+     if (Pins[i].pin_type == "digital") {
+        // at least one of the digital pins values are different
+        if (Pins[i].current_value != digitalRead(Pins[i].pin_number)) {
+          return false;
+        }
+      }  
+    }
+    else {
+      // at least one of the pins values are different
+        if (Pins[i].current_value != digitalRead(Pins[i].pin_number)) {
+          return false;
+      }
+  }
+  // none of the values are different
+  return true;  
+  }
+}
+
 // sets all pin structures current values in memory to what is on the pinin line
 void set_pin_current_values(Pin Pins[]) {
   for (uint8_t i=0; i<number_pins; i++){
@@ -79,8 +106,6 @@ void set_pin_current_values(Pin Pins[]) {
     }
   }
 }
-
-//sends a message with the current pin value
 
 // sends a message with the default pin values
 void produce_default_msg(Pin Pins[], PubSubClient client, char* topic) {
@@ -141,6 +166,17 @@ void callback(char* topic, byte* payload, unsigned int length) {
   else {
     analogWrite(get_pin_number(feather_pins, pin), value);  
   }
+
+  // publish the current values on the pin lines to the mqtt server
+  //set_pin_current_values(feather_pins);
+  if (!are_current_digital_values_same(feather_pins, virtual_pins[0])) {
+    set_pin_current_values(feather_pins);
+    produce_current_msg(feather_pins, client, "pins/digital/on_change/current", 20);
+  }
+  set_pin_current_values(feather_pins);
+  for (uint8_t i = 0; i<1; i++) {
+    produce_current_msg(feather_pins, client, "pins/current", 20);
+  }
 }
 
 /**** ATTEMPT TO RECONNECT TO MQTT BROKER ****/ 
@@ -150,6 +186,8 @@ void reconnect() {
   while (!client.connected()) {
     // Attempt to connect
     if (client.connect("arduinoClient")) {
+      digitalWrite(A0, HIGH);
+      set_pin_current_values(feather_pins);
       // subscribe once connected
       client.subscribe("pins/set");
     } else {
@@ -164,6 +202,7 @@ void setup() {
   // put your setup code here, to run once:
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
+  pinMode(9, INPUT);
   pinMode(A0, OUTPUT);
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
@@ -171,12 +210,15 @@ void setup() {
   pinMode(A4, INPUT);
   pinMode(A5, INPUT);
 
+  digitalWrite(9, LOW);
+
   set_current_to_default(feather_pins);
 
   client.setServer(server, 1884);
   client.setCallback(callback);
 
   Ethernet.begin(mac);
+  
   delay(1500);
 }
 
@@ -185,8 +227,14 @@ void loop() {
   if (!client.connected()) {
     reconnect();
   }
+  
+  if (!are_current_digital_values_same(feather_pins, virtual_pins[0])) {
+    set_pin_current_values(feather_pins);
+    produce_current_msg(feather_pins, client, "pins/digital/on_change/current", 20);
+  }
+
   set_pin_current_values(feather_pins);
-  produce_current_msg(feather_pins, client, "pins/current", 20);
+  //produce_current_msg(feather_pins, client, "pins/current", 20);
   produce_default_msg(feather_pins, client, "pins/default");
   client.loop();
 }
