@@ -3,18 +3,16 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <Adafruit_SleepyDog.h>
+#include "pinkey_settings.h"
 
 //WatchDog
-WatchdogAVR doge;
+// if the production mode (and thereby the watchdog) is enabled, the reset button must be pressed during each arduino IDE upload
+#ifdef production
+// enable the watchdog
+WatchdogAVR spike; // his name is spike
+#endif
 
 // PubSubClient
-// set your mac address with each term as a base 16 byte
-// 98:76:B6:11:2D:14
-// byte mac[] = {0x02, 0x42, 0x0a, 0x60, 0x15, 0x65};
-byte mac[] = {0x98, 0x76, 0xB6, 0x11, 0x2D, 0x14};
-
-// set the ip address of the server
-IPAddress server(192, 168, 4, 121);
 EthernetClient ethClient;
 PubSubClient client(ethClient);
 
@@ -23,7 +21,7 @@ PubSubClient client(ethClient);
 constexpr uint8_t number_pins = 14;
 constexpr uint8_t number_Vpins = 1;
 
-// struct for associating pin logical names with pinouts
+// struct for associating logical names with pinouts
 struct Pin {
   const char* name;
   uint8_t pin_number;
@@ -33,19 +31,20 @@ struct Pin {
 };
 
 
-// IMPORTANT
-// add your pinout structs to the array in the form {"logical_name", pinout}
-// boolean configuration parameters can be defined here as well, and 1 (true) or 0 (false) can be sent over mqtt to turn them on or off
-// order from high priority in search to low priority
+/* IMPORTANT
+   add your pinout structs to the array in the form {"logical_name", pinout, "type", default_value, current_value}
+   boolean configuration parameters can be defined here as well, and 1 (true) or 0 (false) can be sent over mqtt to turn them on or off
+   order from high priority in search to low priority */
+// defines the mqtt names of the adafruit feather 32u4 bluefruit LE pins
 Pin feather_pins[number_pins] = { 
-  {"D5", 5, "digital", 1, 1},
-  {"D6", 6, "digital", 1, 1},
+  {"D5", 5, "digital", 0, 0},
+  {"D6", 6, "digital", 0, 0},
   {"D9", 9, "digital", 0, 0},
   {"D10", 10, "digital", 0, 0},
   {"D11", 11, "digital", 0, 0},
   {"D12", 12, "digital", 0, 0},
   {"D13", 13, "digital", 0, 0},
-  {"A0", A0, "digital", 0, 0}, // ethernet pin by default
+  {"A0", A0, "digital", 0, 0}, // mqtt connection status pin by default
   {"A1", A1, "analog", 0, 0},
   {"A2", A2, "analog", 0, 0},
   {"A3", A3, "analog", 0, 0},
@@ -53,29 +52,16 @@ Pin feather_pins[number_pins] = {
   {"A5", A5, "analog", 0, 0}
 };
 
+// Virtual pins used for configuration, explaination in README
 Pin virtual_configuration_pins[number_Vpins] = {
   {"analogs_tied_down", 999, "virtual_configuration", 0, 0} // set to 1 if your analogs are tied down, allows feather to publish current values when an analog input line changes
 };
 
-// searches the pinout array for the pin with the name called in the Json packet
-// returns the logical pins pinout number
-uint8_t get_pin_number(Pin Pins[], const char* name) {
-  for (uint8_t i=0; i<number_pins; i++){
-    if(strncmp(Pins[i].name, name, 10) == 0) {
-      return Pins[i].pin_number;
-    }    
-  }
-}
 
-const char* get_pin_type(Pin Pins[], const char* name) {
-  for (uint8_t i=0; i<number_pins; i++){
-    if(strncmp(Pins[i].name, name, 10) == 0) {
-      return Pins[i].pin_type;
-    }    
-  }
-}
+/******FUNCTIONS FOR PIN STRUCTURE ARRAYS******/
 
-// searches the Json message for the pin name key
+/***Search functions***/
+// searches the Json message for the pin name
 const char* contains_pin(Pin Pins[], JsonDocument* json_doc) {
   for (uint8_t i=0; i<number_pins; i++) {
     if (json_doc->containsKey(Pins[i].name)) {
@@ -85,20 +71,37 @@ const char* contains_pin(Pin Pins[], JsonDocument* json_doc) {
   return "virtual pin";
 }
 
-// check if current values in memory for digital pins are the same as on their physical lines
-bool are_current_digital_values_same(Pin Pins[], Pin Vpin) {
-  if (Vpin.current_value == 0) {
+// searches the pinout array for the pin number of the named pin
+uint8_t get_pin_number(Pin Pins[], const char* name) {
+  for (uint8_t i=0; i<number_pins; i++){
+    if(strncmp(Pins[i].name, name, 10) == 0) {
+      return Pins[i].pin_number;
+    }    
+  }
+}
+
+// Searches the pinout array for the type of the named pin
+const char* get_pin_type(Pin Pins[], const char* name) {
+  for (uint8_t i=0; i<number_pins; i++){
+    if(strncmp(Pins[i].name, name, 10) == 0) {
+      return Pins[i].pin_type;
+    }    
+  }
+}
+
+// check if current values in memory for input pins are the same as on their physical lines
+bool are_current_values_same(Pin Pins[], Pin Vpin) {
+  if (Vpin.current_value == 0) { // Default behavior, updates on the analog pins are ignored
     for (uint8_t i=0; i<number_pins; i++) {
       if (Pins[i].pin_type == "digital") {
-        
-        // at least one of the digital pins values are different
+        // at least one of the digital pins real values is different from in memory
         if (Pins[i].current_value != digitalRead(Pins[i].pin_number)) {
           return false;
         }
       }  
     }
     // if analog pins are not tied down this will DDOS your mqtt server
-  } else if (Vpin.current_value != 0) { // if your analogs are tied down, this function will return true when any pin, digital or analog, has a different written value
+  } else if (Vpin.current_value != 0) { // if you write analog_pins_tied_down to high, this function will return true when any pin, digital or analog, has a different actual value than in memory
     for (uint8_t i=0; i<number_pins; i++) {
       // at least one of the pins values are different
       if (Pins[i].current_value != analogRead(Pins[i].pin_number)) {
@@ -106,11 +109,12 @@ bool are_current_digital_values_same(Pin Pins[], Pin Vpin) {
       }
     }  
   }
-  // none of the digital values are different
+  // none of the values are different
   return true;  
 }
 
-// sets all pin structures current values in memory to what is on the pinin line
+/***Memory setting Functions***/
+// sets all pin structures current values in memory to what is on their pinin line
 void set_pin_current_values(Pin Pins[]) {
   for (uint8_t i=0; i<number_pins; i++){
     if (strncmp(Pins[i].pin_type, "digital", 10) == 0) {
@@ -122,6 +126,28 @@ void set_pin_current_values(Pin Pins[]) {
   }
 }
 
+// sets values of virtual pins in memory
+void set_virtual_pin_values (Pin Vpins[], const char* name, uint8_t value) {
+  for (uint8_t i=0;i<number_Vpins;i++) {
+    if (strncmp(Vpins[i].name, name, 20) == 0) {
+      Serial.println("virtual pin: ");
+      Serial.print(Vpins[i].name);
+      Serial.print(" getting set to ");
+      Serial.println(value);
+      Vpins[i].current_value = value;  
+    }
+  }
+}
+
+/***Writing functions***/
+// writes the default value for each output pin if the mqtt connection is lost
+void set_current_to_default(Pin pins[]) {
+  for (uint8_t i=0; i<number_pins; i++) {
+    digitalWrite(pins[i].pin_number, pins[i].default_value);    
+  }
+}
+
+/***Messaging Functions***/
 // sends a message with the default pin values
 void produce_default_msg(Pin Pins[], PubSubClient client, char* topic) {
   // create the json doc
@@ -138,16 +164,9 @@ void produce_default_msg(Pin Pins[], PubSubClient client, char* topic) {
   pub_doc.clear();
 }
 
-// function that sets currents to the default if connection is lost
-void set_current_to_default(Pin pins[]) {
-  for (uint8_t i=0; i<number_pins; i++) {
-    digitalWrite(pins[i].pin_number, pins[i].default_value);    
-  }
-}
 
 // sends a message with the current pin values
 void produce_current_msg(Pin Pins[], PubSubClient client, char* topic, unsigned int length) {
-  
   // create the json doc
   StaticJsonDocument<256> pub_doc;
   char serialized_pub_doc[256];
@@ -161,24 +180,11 @@ void produce_current_msg(Pin Pins[], PubSubClient client, char* topic, unsigned 
   pub_doc.clear();
 }
 
-// sets values of virtual pins
-void set_virtual_pin_values (Pin Vpins[], const char* name, uint8_t value) {
-  for (uint8_t i=0;i<number_Vpins;i++) {
-    if (strncmp(Vpins[i].name, name, 20) == 0) {
-      Serial.println("virtual pin: ");
-      Serial.print(Vpins[i].name);
-      Serial.print(" getting set to ");
-      Serial.println(value);
-      Vpins[i].current_value = value;  
-    }
-  }
-}
-
 /**** INCOMING MQTT PAYLOAD ****/
 // callback on MQTT payload received
 void callback(char* topic, byte* payload, unsigned int length) {
   // https://arduinojson.org/v6/assistant/# can help with sizing the Json document object
-  // I've made the size 256 bytes just to have more than enough memory
+  // I've made the size 48 bytes just to have more than enough memory
   StaticJsonDocument<48> doc;
   JsonDocument *doc_pointer;
   const char* pin;
@@ -205,7 +211,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   // publish the current values on the pin lines to the mqtt server
   // set_pin_current_values(feather_pins);
-  if (!are_current_digital_values_same(feather_pins, virtual_configuration_pins[0])) {
+  if (!are_current_values_same(feather_pins, virtual_configuration_pins[0])) {
     set_pin_current_values(feather_pins);
     produce_current_msg(feather_pins, client, "pins/on_change/current", 20);
   }
@@ -215,10 +221,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
     produce_current_msg(feather_pins, client, "pins/current", 20);
   }
 
-  // This is a test for the watchdog
-  //while(true) {
-  //  Serial.println("Causing the watchdog to bark");
-  //}
+  /* This is a test for the watchdog
+  while(true) {
+    Serial.println("Causing the watchdog spike to bark");
+  }*/
 }
 
 /**** ATTEMPT TO RECONNECT TO MQTT BROKER ****/ 
@@ -227,7 +233,9 @@ void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
     Serial.println("Attempting to connect");
-    doge.reset();
+    #ifdef production
+    spike.reset();
+    #endif
     // Attempt to connect
     if (client.connect("arduinoClient")) {
       // subscribe once connected
@@ -243,8 +251,10 @@ void reconnect() {
 }
 
 void setup() {
-  USBDevice.attach();
   // put your setup code here, to run once:
+  
+  USBDevice.attach();
+
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(9, INPUT);
@@ -273,19 +283,23 @@ void setup() {
   Ethernet.begin(mac);
   
   delay(1500);
-  int countdownMS = doge.enable(7000);
+  
+  #ifdef production
+  int countdownMS = spike.enable(7000);
+  #endif
 }
 
 void loop() {
-  
   // put your main code here, to run repeatedly:
-  doge.reset();
-  Serial.println("doge not sleeping");
+  
+  #ifdef production
+  spike.reset();
+  #endif
   if (!client.connected()) {
     reconnect();
   }
   
-  if (!are_current_digital_values_same(feather_pins, virtual_configuration_pins[0])) {
+  if (!are_current_values_same(feather_pins, virtual_configuration_pins[0])) {
     Serial.println(F("current values are NOT the same"));
     set_pin_current_values(feather_pins);
     produce_current_msg(feather_pins, client, "pins/on_change/current", 20);
