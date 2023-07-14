@@ -2,6 +2,10 @@
 #include <Ethernet.h>
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
+#include <Adafruit_SleepyDog.h>
+
+//WatchDog
+WatchdogAVR doge;
 
 // PubSubClient
 // set your mac address with each term as a base 16 byte
@@ -210,6 +214,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
   for (uint8_t i = 0; i<1; i++) {
     produce_current_msg(feather_pins, client, "pins/current", 20);
   }
+
+  // This is a test for the watchdog
+  //while(true) {
+  //  Serial.println("Causing the watchdog to bark");
+  //}
 }
 
 /**** ATTEMPT TO RECONNECT TO MQTT BROKER ****/ 
@@ -217,6 +226,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
+    Serial.println("Attempting to connect");
+    doge.reset();
     // Attempt to connect
     if (client.connect("arduinoClient")) {
       // subscribe once connected
@@ -225,17 +236,22 @@ void reconnect() {
       client.subscribe("pins/set");
     } else {
       set_current_to_default(feather_pins);
-      // Wait 5 seconds before retrying
-      delay(5000);
+      // Wait 3 seconds before retrying
+      delay(3000);
     }
   }
 }
 
 void setup() {
+  USBDevice.attach();
   // put your setup code here, to run once:
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(9, INPUT);
+  pinMode(10, INPUT);
+  pinMode(11, INPUT);
+  pinMode(12, INPUT);
+  pinMode(13, INPUT);
   pinMode(A0, OUTPUT);
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
@@ -244,6 +260,10 @@ void setup() {
   pinMode(A5, INPUT);
 
   digitalWrite(9, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(11, LOW);
+  digitalWrite(12, LOW);
+  digitalWrite(13, LOW);
 
   set_current_to_default(feather_pins);
 
@@ -253,10 +273,14 @@ void setup() {
   Ethernet.begin(mac);
   
   delay(1500);
+  int countdownMS = doge.enable(7000);
 }
 
 void loop() {
+  
   // put your main code here, to run repeatedly:
+  doge.reset();
+  Serial.println("doge not sleeping");
   if (!client.connected()) {
     reconnect();
   }
