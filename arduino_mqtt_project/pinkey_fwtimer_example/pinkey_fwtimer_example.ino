@@ -19,7 +19,7 @@ PubSubClient client(ethClient);
 /**** PIN STRUCTURE ARRAY ****/
 // set number_pins equal to the number of pinouts you want to define
 constexpr uint8_t number_pins = 14;
-constexpr uint8_t number_Vpins = 1;
+constexpr uint8_t number_Vpins = 2;
 
 // struct for associating logical names with pinouts
 struct Pin {
@@ -54,8 +54,8 @@ Pin feather_pins[number_pins] = {
 
 // Virtual pins used for configuration, explaination in README
 Pin virtual_configuration_pins[number_Vpins] = {
-  {"analogs_tied_down", 999, "virtual_configuration", 0, 0} // set to 1 if your analogs are tied down, allows feather to publish current values when an analog input line changes
-  
+  {"analogs_tied_down", 999, "virtual_configuration", 0, 0}, // set to 1 if your analogs are tied down, allows feather to publish current values when an analog input line changes
+  {"firmware_timer", 999, "virtual_configuration", 0, 0}
 };
 
 
@@ -290,6 +290,8 @@ void setup() {
   #endif
 }
 
+int counter = 0;
+
 void loop() {
   // put your main code here, to run repeatedly:
   
@@ -299,7 +301,15 @@ void loop() {
   if (!client.connected()) {
     reconnect();
   }
-    
+
+  if (virtual_configuration_pins[1].current_value == 1) {
+      counter++;
+      if (counter == 500) {
+        produce_current_msg(feather_pins, client, "pins/current", 20);
+        counter = 0;
+      }
+  }
+  
   if (!are_current_values_same(feather_pins, virtual_configuration_pins[0])) {
     Serial.println(F("current values are NOT the same"));
     set_pin_current_values(feather_pins);
