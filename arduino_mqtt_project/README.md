@@ -60,7 +60,7 @@ These next steps require an mqtt client like mosquitto-client [LINKS/ GUIDES TO 
 
 To test that your Pulse is working properly, we will blink the Ethernet LED with an mqtt Json message. This is the same format you will use to write values to any of your digital output pins on the Pulse.
 
-**Linux** 
+**Linux**
 
 Open a new terminal and run the command 
 `mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {A0: 0}`
@@ -150,6 +150,7 @@ The firmware for the Pulse includes a definition of a pin struct, with a name, n
 In theory, you can define as many virtual pins in as many virtual boards as you want. The purpose of this structure is so that firmware execution can be changed remotely. This is usually an unnecessary feature, but for some use cases its helpful. 
 
 **Adding a virtual pin**
+
 Here I'll work through an example of setting up a virtual pin that controls a timer that causes the Pulse to publish its pin status message every 300 loops.
 
 Adding a virtual pin is the same as adding a normal pin. Set the value of `number_Vpins` to 2. Then, in the `virtual_configuration_pins` array replace
@@ -173,7 +174,8 @@ if (virtual_pins[1].current_value == 1) {
         counter = 0;
       }
  }
- ```
+```
+
  Compile and upload the firmware. 
  
  **linux**
