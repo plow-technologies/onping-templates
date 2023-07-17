@@ -214,7 +214,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   // set_pin_current_values(feather_pins);
   if (!are_current_values_same(feather_pins, virtual_configuration_pins[0])) {
     set_pin_current_values(feather_pins);
-    produce_current_msg(feather_pins, client, "pins/on_change/current", 20);
+    produce_current_msg(feather_pins, client, "pins/current/on_change", 20);
   }
   
   set_pin_current_values(feather_pins);
@@ -314,7 +314,7 @@ void loop() {
   if (!are_current_values_same(feather_pins, virtual_configuration_pins[0])) {
     Serial.println(F("current values are NOT the same"));
     set_pin_current_values(feather_pins);
-    produce_current_msg(feather_pins, client, "pins/on_change/current", 20);
+    produce_current_msg(feather_pins, client, "pins/current/on_change", 20);
     produce_current_msg(feather_pins, client, "pins/current", 20);
   }
 

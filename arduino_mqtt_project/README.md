@@ -64,8 +64,7 @@ Open a new terminal and run the command
 
 replace `you.rIP.add.res` and `port` with the mqtt broker's IP address and port.
 
-note: If you want your write commands to show up in OnPing, you'll need to change -m {A0:0} to -m {\"A0\":0}
-since OnPing does not have a permissive Json interpreter.
+note: If you want your write commands to show up in OnPing, you'll need to change `-m {A0:0}` to `-m {\"A0\":0}` since OnPing does not have a permissive Json interpreter.
 
 You should see the green LED on the pulse go dark. To turn it back on run the reciprocal command
 `mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {A0: 1}`
@@ -95,7 +94,7 @@ You should receive a message in the terminal containing a Json formatted diction
 
 You'll notice that when the LED is on, the dictionary contains A0:1, and when its off A0:0. This is how you read values for all digital io pins.
 
-note: You don't need to change a pin in order to read the current values. You can get the current values a couple different ways. One is to publish a message corresponding to a pin that doesn't exist, say {ping:0}. You can set up your own script that publishes {timer:0} every 30 seconds for example, and the Pulse will publish its current values to pins/current every 30 seconds. 
+**note**: You don't need to change a pin in order to read the current values. You can get the current values a couple different ways. One is to publish a message corresponding to a pin that doesn't exist, say `{ping:0}`. You can set up your own script that publishes `{timer:0}` to `pins/set` every 30 seconds for example, and the Pulse will publish its current values to pins/current every 30 seconds in response.
 
 If you only want to read pin values when they change, subscribe to pins/current/on_change instead. The Pulse will only publish its pin dictionary here whenever a pin value *actually* changes.
 
