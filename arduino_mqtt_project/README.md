@@ -1,9 +1,9 @@
 <h1> Features </h1>
 
-The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It does this by sending Json messages as an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain pin names and their values and writes those values in real time. The Pulse also publishes information related to all pin values when a line changes, or when prompted. Any other client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
+The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It does this by sending Json messages as an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain io pin names and their values and writes those values in real time. The Pulse also publishes information related to all pin values when a line changes, or when prompted. Any other mqtt client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
 
 While designed using the Pulse, the firmware is compatible with any arduino board that
-supports a network connection. Look for "fitting the firmware to a different Arduino board" in the README. If you aren't too afraid of jumping into the firmware, there is also support for configuring the boards "virtual pins" struct, which allows you to change the functionality of the firmware when the Pulse receives a "virtual PWM" over mqtt.
+supports a network connection. Look to **Fitting the firmware to a different Arduino board** in this README for more details. If you aren't too afraid of jumping into the firmware, there is also support for configuring the boards "virtual pins", which allows you to change the functionality of the firmware when the Pulse receives a "virtual PWM" over mqtt.
 
 Full feature list
 * Reading and writing digital io lines over mqtt
@@ -20,6 +20,7 @@ Full feature list
 **Configuring mosquitto broker**
 
 [LINKS/ GUIDES TO HOW TO]
+
 Skip to **connecting to your mqtt broker** if you've already configured your mqtt broker.
 
 Be sure to set `allow_anonymous` to `true` in mosquitto.conf
@@ -32,10 +33,10 @@ Conect the Pulse over USB to a computer that can run the Arduino IDE. [INSTALLIN
 
 On the computer, clone this repository using git clone [INSERT GIT COMMAND]
 
-Navigate to the OnPing-templates/arduino_mqtt_project/pinkey_no_serial folder. Open arduino_mqtt_pinkey_no_serial.ino and pinkey_settings.h with the Arduino IDE.
-
 You'll need to configure the arduino IDE for the Feather 32u4 Bluefruit LE board, and install dependencies.
 [INSERT ARDUINO BOARD CONFIG LINKS AND GUIDES]
+
+Navigate to the OnPing-templates/arduino_mqtt_project/pinkey_no_serial folder. Open arduino_mqtt_pinkey_no_serial.ino and pinkey_settings.h with the Arduino IDE.
 
 On the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas (What is my brokers IP address?).
 
