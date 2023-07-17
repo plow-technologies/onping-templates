@@ -54,7 +54,7 @@ You're done configuring the Pulse for almost all default functionalities. The ne
 **END**
 
 
-<h2> Writing values over mqtt** </h2>
+<h2> Writing values over mqtt </h2>
 
 These next steps require an mqtt client like mosquitto-client [LINKS/ GUIDES TO INSTALL].
 
@@ -155,10 +155,12 @@ Here I'll work through an example of setting up a virtual pin that controls a ti
 
 Adding a virtual pin is the same as adding a normal pin. Set the value of `number_Vpins` to 2. Then, in the `virtual_configuration_pins` array replace
 
-'{"analogs_tied_down, 999, "virtual_configuration", 0, 0}`
+`{"analogs_tied_down, 999, "virtual_configuration", 0, 0}`
 with
-'{"analogs_tied_down, 999, "virtual_configuration", 0, 0}, \
-`{"firmware_timer, 999, "virtual_configuration", 0, 0}`
+```
+{"analogs_tied_down, 999, "virtual_configuration", 0, 0},
+{"firmware_timer, 999, "virtual_configuration", 0, 0}
+```
 
 next, right above the main loop() function add the line 
 `int counter = 0;`
