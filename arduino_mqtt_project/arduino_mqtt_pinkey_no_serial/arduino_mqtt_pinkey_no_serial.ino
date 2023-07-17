@@ -245,6 +245,7 @@ void reconnect() {
       client.subscribe("pins/set");
     } else {
       set_current_to_default(feather_pins);
+      digitalWrite(A0, LOW);
       // Wait 3 seconds before retrying
       delay(3000);
     }

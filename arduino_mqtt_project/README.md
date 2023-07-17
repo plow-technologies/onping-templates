@@ -3,7 +3,7 @@
 The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It does this by sending Json messages as an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain pin names and their values and writes those values in real time. The Pulse also publishes information related to all pin values when a line changes, or when prompted. Any other client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
 
 While designed using the Pulse, the firmware is compatible with any arduino board that
-supports a network connection. Look for "fitting the firmware another Arduino board" in the README. If you aren't too afraid of jumping into the firmware, there is also support for configuring the boards "virtual pins" struct, which allows you to change the functionality of the firmware when the Pulse receives a "virtual PWM" over mqtt.
+supports a network connection. Look for "fitting the firmware to a different Arduino board" in the README. If you aren't too afraid of jumping into the firmware, there is also support for configuring the boards "virtual pins" struct, which allows you to change the functionality of the firmware when the Pulse receives a "virtual PWM" over mqtt.
 
 Full feature list
 * Reading and writing digital io lines over mqtt
@@ -153,12 +153,13 @@ In theory, you can define as many virtual pins in as many virtual boards as you 
 Here I'll work through an example of setting up a virtual pin that controls a timer that causes the Pulse to publish its pin status message every 300 loops.
 
 Adding a virtual pin is the same as adding a normal pin. Set the value of `number_Vpins` to 2. Then, in the `virtual_configuration_pins` array replace
+
 '{"analogs_tied_down, 999, "virtual_configuration", 0, 0}`
 with
 '{"analogs_tied_down, 999, "virtual_configuration", 0, 0},`
-`{"hardware_timer, 999, "virtual_configuration", 0, 0}`
+`{"firmware_timer, 999, "virtual_configuration", 0, 0}`
 
-next, right above the main() function add the line 
+next, right above the main loop() function add the line 
 `int counter = 0;`
 in the global scope
 
