@@ -1,4 +1,4 @@
-<font size=4> **Features** </font>
+<font size="4"> **Features** </font>
 
 The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It does this by sending Json messages as an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain pin names and their values and writes those values in real time. The Pulse also publishes information related to all pin values when a line changes, or when prompted. Any other client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
 
