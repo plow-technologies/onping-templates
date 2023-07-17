@@ -8,7 +8,8 @@
 byte mac[] = {0x02, 0x42, 0x0a, 0x60, 0x15, 0x65};
 
 // set the ip address of the server
-IPAddress server(192, 168, 4, 121);
+//IPAddress server(192, 168, 4, 121); // lumberjack
+IPAddress server(192, 168, 4, 119); // laptop
 EthernetClient ethClient;
 PubSubClient client(ethClient);
 

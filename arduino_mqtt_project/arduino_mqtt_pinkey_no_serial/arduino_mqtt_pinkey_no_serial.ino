@@ -6,7 +6,7 @@
 #include "pinkey_settings.h"
 
 //WatchDog
-// if the production mode (and thereby the watchdog) is enabled, the reset button must be pressed during each arduino IDE upload
+// WARNING: if production mode (and thereby the watchdog) is enabled, the reset button must be pressed during each arduino IDE upload
 #ifdef production
 // enable the watchdog
 WatchdogAVR spike; // his name is spike
@@ -37,8 +37,8 @@ struct Pin {
    order from high priority in search to low priority */
 // defines the mqtt names of the adafruit feather 32u4 bluefruit LE pins
 Pin feather_pins[number_pins] = { 
-  {"D5", 5, "digital", 0, 0},
-  {"D6", 6, "digital", 0, 0},
+  {"D5", 5, "digital", 1, 1},
+  {"D6", 6, "digital", 1, 1},
   {"D9", 9, "digital", 0, 0},
   {"D10", 10, "digital", 0, 0},
   {"D11", 11, "digital", 0, 0},
@@ -55,6 +55,7 @@ Pin feather_pins[number_pins] = {
 // Virtual pins used for configuration, explaination in README
 Pin virtual_configuration_pins[number_Vpins] = {
   {"analogs_tied_down", 999, "virtual_configuration", 0, 0} // set to 1 if your analogs are tied down, allows feather to publish current values when an analog input line changes
+  
 };
 
 
@@ -277,7 +278,7 @@ void setup() {
 
   set_current_to_default(feather_pins);
 
-  client.setServer(server, 1884);
+  client.setServer(server, port);
   client.setCallback(callback);
 
   Ethernet.begin(mac);
