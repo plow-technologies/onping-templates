@@ -1,4 +1,4 @@
-<h1> **Features** </h1>
+<h1> Features </h1>
 
 The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It does this by sending Json messages as an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain pin names and their values and writes those values in real time. The Pulse also publishes information related to all pin values when a line changes, or when prompted. Any other client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
 
@@ -17,7 +17,7 @@ Full feature list
 **END**
 
 
-**Quick Configuration**
+<h2> Quick Configuration </h2>
 
 **Configuring mosquitto broker**
 
@@ -54,7 +54,7 @@ You're done configuring the Pulse for almost all default functionalities. The ne
 **END**
 
 
-**Writing values over mqtt**
+<h2> Writing values over mqtt** </h2>
 
 These next steps require an mqtt client like mosquitto-client [LINKS/ GUIDES TO INSTALL].
 
@@ -78,7 +78,7 @@ Congrats, you've just blinked an LED on the Pulse remotely over mqtt!
 **END**
 
 
-**Reading values over mqtt**
+<h2> Reading values over mqtt </h2>
 
 This step requires an mqtt client like mosquitto-client [LINKS/ GUIDES TO INSTALL].
 
@@ -143,7 +143,7 @@ That's the end of how to read values over mqtt. You also got to learn about the 
 **End**
 
 
-**Virtual Pins**
+<h2> Virtual Pins </h2>
 
 The firmware for the Pulse includes a definition of a pin struct, with a name, number, type, default and current value. There are two "boards" (pin arrays) defined in the firmware by default, `feather_pins` and `virtual_configuration_pins`. `feather_pins` contains all of the real, physical pins on the adafruit feather 32u4. `virtual_configuration_pins` contains only 1 "virtual pin" by default, `analogs_tied_down`. 
 
@@ -187,7 +187,8 @@ Congratulations! You've just changed the execution of the firmware remotely.
 
 **End**
 
-**Enabling the firmware Watchdog**
+
+<h2> Enabling the firmware Watchdog </h2>
 
 Note: The firmware watchdog is not essential for the device to function properly, it's just a safeguard.
 
@@ -207,7 +208,7 @@ Warning: When you are test the watchdog this way, the serial port will alternate
 **End**
 
 
-**Fitting the firmware to a different Arduino board**
+<h2> Fitting the firmware to a different Arduino board </h2>
 
 Remember to ensure that the Arduino IDE is configured for your board. 
 
