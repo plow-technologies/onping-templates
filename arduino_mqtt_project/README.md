@@ -179,6 +179,7 @@ if (virtual_pins[1].current_value == 1) {
  Compile and upload the firmware. 
  
  **linux**
+ 
 Run the following command in a terminal to see the routine publishing of the pin status dictionary
 `mosquitto_sub -h you.rIP.add.res -p port -t pins/current`
 
