@@ -14,8 +14,6 @@ Full feature list
 * firmware watchdog
 * generalizable pin structure for any arduino board
 
-**END**
-
 
 <h2> Quick Configuration </h2>
 
@@ -51,8 +49,6 @@ The green LED on the side of the Pulse will light up when it successfully connec
 
 You're done configuring the Pulse for almost all default functionalities. The next steps should work as described.
 
-**END**
-
 
 <h2> Writing values over mqtt </h2>
 
@@ -74,8 +70,6 @@ You should see the green LED on the pulse go dark. To turn it back on run the re
 `mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {A0: 1}`
 
 Congrats, you've just blinked an LED on the Pulse remotely over mqtt!
-
-**END**
 
 
 <h2> Reading values over mqtt </h2>
@@ -140,8 +134,6 @@ in your first terminal.
 
 That's the end of how to read values over mqtt. You also got to learn about the Pulse's virtual pins. The next section covers them more in depth. If you aren't afraid to jump into the Pulse's firmware, they could provide you some powerful functionality.
 
-**End**
-
 
 <h2> Virtual Pins </h2>
 
@@ -156,7 +148,9 @@ Here I'll work through an example of setting up a virtual pin that controls a ti
 Adding a virtual pin is the same as adding a normal pin. Set the value of `number_Vpins` to 2. Then, in the `virtual_configuration_pins` array replace
 
 `{"analogs_tied_down, 999, "virtual_configuration", 0, 0}`
+
 with
+
 ```
 {"analogs_tied_down, 999, "virtual_configuration", 0, 0},
 {"firmware_timer, 999, "virtual_configuration", 0, 0}
@@ -187,8 +181,6 @@ Run the following command in a terminal to see the routine publishing of the pin
 
 Congratulations! You've just changed the execution of the firmware remotely. 
 
-**End**
-
 
 <h2> Enabling the firmware Watchdog </h2>
 
@@ -206,8 +198,6 @@ with
 You can test that the watchdog is working by uncommenting the "test for the watchdog" in the callback() function, and publishing a message to the pins/set mqtt topic.
 
 Warning: When you are test the watchdog this way, the serial port will alternate between active and inactive. If you are looking for Serial statements, they will only appear every other cycle. This is a problem with the Adafruit_Sleepydog library described in the [repository].
-
-**End**
 
 
 <h2> Fitting the firmware to a different Arduino board </h2>
