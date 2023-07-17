@@ -165,14 +165,15 @@ in the global scope
 
 Finally, add the following in your main loop() after the reconnect() if block
 
-```if (virtual_pins[1].current_value == 1) {
+```
+if (virtual_pins[1].current_value == 1) {
       counter++;
       if (counter == 300) {
         produce_current_msg(feather_pins, client, "pins/current", 20);
         counter = 0;
       }
- }```
- 
+ }
+ ```
  Compile and upload the firmware. 
  
  **linux**
@@ -211,12 +212,14 @@ Boards are conveyed to the firmware by writing an array of the Pin structure obj
 
 To define a new board, create a new variable under `constexpr uint8_t number_pins 14;` with the number of pins on your board i.e. `constexpr uint8_t number_pins_myboard = 4`. Then, under the feather_pins array, create a new array with your board name. For example:
 
-```Pin myboard_pins[number_pins_myboard] = {
+```
+Pin myboard_pins[number_pins_myboard] = {
   {"LED1", 1, "digital", 1, 1},
   {"LED2", 2, "digital", 1, 1},
   {"LED3", 3, "digital", 0, 0},
   {"LED4", 4, "digital", 0, 0},
-};```
+};
+```
 
 You should also delete any of the Pin arrays (boards) you aren't using to save memory, like feather_pins for instance.
 
@@ -224,9 +227,11 @@ Refer to the Pin struct for an understanding of what each of these values in the
 
 Finally, move to the setup() function. Where you see all of the pinMode() statements, that is where you define the type of pin for each macro. In this example, you would replace the pinMode() statements with
 
-```pinMode(1, OUTPUT) 
+```
+pinMode(1, OUTPUT 
 pinMode(2, OUTPUT)
 pinMode(3, OUTPUT)
-pinMode(4, OUTPUT)```
+pinMode(4, OUTPUT)
+```
 
 You should be able to read and write from lines from a different Arduino board now, using the same commands described in **Writing values over mqtt** and **Reading values over mqtt**. Have fun!
