@@ -16,6 +16,7 @@ Full feature list
 * generalizable pin structure for any arduino board
 
 Quick links
+* Configuring mosquitto broker and client [Linux] [Windows]
 * Pulse pinouts & default configurations
 * 32u4 datasheet
 * ethernet featherwing datasheet
@@ -109,9 +110,9 @@ That's the basics of reading values. If this is all you need, you can skip to th
 
 **Reading digital input values as they change**
 
-This test is a little more complicated than the others. We're going to need an input line hooked up to the Pulse. Connect a wire to the D12 screw terminal. Wire it to GRD through a resistor of at least 4.6 KOhms! If you don't use a resistor, the next step will short out the board.
+This test is a little more complicated than the others. We're going to need an input line hooked up to the Pulse. Connect a wire to the D11 screw terminal. Wire it to GRD through a resistor of at least 4.6 KOhms! If you don't use a resistor, the next step will short out the board.
 
-Next, connect a wire to the 3.77V AREF pin and to the wire connected to D12.
+Next, connect a wire to the 3.77V AREF pin and to the wire connected to D11.
 
 **Linux**
 
@@ -119,7 +120,7 @@ Run the command
 
 `mosquitto_sub -h you.rIP.add.res -p port -t pins/current`
 
-Next, break and unbreak the connection between the AREF wire and the D12 wire. You should see a message with a Json dictionary of all the pins current values each time you do this. Pay attention to the value of D12. When the AREF wire is connected, you should see D12:1, when its disconnected you should see D12:0.
+Next, break and unbreak the connection between the AREF wire and the D11 wire. You should see a message with a Json dictionary of all the pins current values each time you do this. Pay attention to the value of D11. When the AREF wire is connected, you should see D11:1, when its disconnected you should see D11:0.
 
 **Reading analog input values as they change**
 
@@ -130,13 +131,17 @@ This step requires enabling a `virtual pin`. Virtual pins on the Pulse are enabl
 Open two terminal windows
 
 Run this command in one terminal
+
 `mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {analogs_tied_down: 1}`
 
 Run this command in another
+
 `mosquitto_sub -h you.rIP.add.res -p port -t pins/current`
 
 when the `analogs_tied_down` virtual pin is set to a PWM higher than 0, the Pulse will start sending messages whenever analog pin values change on the hardware. By default this is disabled, in case users don't want to be flooded by the floating values on analog lines that aren't tied down. If your analog lines aren't tied down, you should see a flood messages in pins/current (and pins/current/on_change) with the pin status dictionary. To stop these messages, run the command
+
 `mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {analogs_tied_down: 0}`
+
 in your first terminal.
 
 That's the end of how to read values over mqtt. You also got to learn about the Pulse's virtual pins. The next section covers them more in depth. If you aren't afraid to jump into the Pulse's firmware, they could provide you some powerful functionality.
@@ -144,9 +149,9 @@ That's the end of how to read values over mqtt. You also got to learn about the 
 
 <h2> Virtual Pins </h2>
 
-The firmware for the Pulse includes a definition of a pin struct, with a name, number, type, default and current value. There are two "boards" (pin arrays) defined in the firmware by default, `feather_pins` and `virtual_configuration_pins`. `feather_pins` contains all of the real, physical pins on the adafruit feather 32u4. `virtual_configuration_pins` contains only 1 "virtual pin" by default, `analogs_tied_down`. 
+The firmware for the Pulse includes a definition of a pin struct, with a name, number, type, default and current value. There are two "boards" (pin arrays) defined in the firmware by default, `board_pins` and `virtual_configuration_pins`. `board_pins` contains all of the real, physical pins on the adafruit feather 32u4. `virtual_configuration_pins` contains only 1 "virtual pin" by default, `analogs_tied_down`. 
 
-In theory, you can define as many virtual pins in as many virtual boards as you want. The purpose of this structure is so that firmware execution can be changed remotely. This is usually an unnecessary feature, but for some use cases its helpful. 
+In theory, you can have as many or as few virtual pins as you like. You may write any accompanying logic into the firmware. This will allow you to change the execution of firmware remotely.
 
 **Adding a virtual pin**
 
@@ -184,6 +189,7 @@ if (virtual_pins[1].current_value == 1) {
  **linux**
  
 Run the following command in a terminal to see the routine publishing of the pin status dictionary
+
 `mosquitto_sub -h you.rIP.add.res -p port -t pins/current`
 
 Congratulations! You've just changed the execution of the firmware remotely. 
@@ -204,19 +210,30 @@ with
 
 You can test that the watchdog is working by uncommenting the "test for the watchdog" in the callback() function, and publishing a message to the pins/set mqtt topic.
 
-Warning: When you are test the watchdog this way, the serial port will alternate between active and inactive. If you are looking for Serial statements, they will only appear every other cycle. This is a problem with the Adafruit_Sleepydog library described in the [repository].
+Warning: When you are testing the watchdog this way, the serial port will alternate between active and inactive. If you are looking for Serial statements, they will only appear every other cycle. This may not effect your board, more information is available in the [repository].
+
+<h2> Changing the modes of io pins on the Pulse </h2>
+
+There are 4 different modes that the Pulse's io pins support. 
+
+* digital_input
+* digital_output
+* analog_input
+* PWM_output
+
+Reconfiguring any of the pins requires changing the pins `pin_type`. This is defined in the board_pins array for each pin. 
 
 
 <h2> Fitting the firmware to a different Arduino board </h2>
 
 Remember to ensure that the Arduino IDE is configured for your board. 
 
-Boards are conveyed to the firmware by writing an array of the Pin structure object. For an example, look at the 'feather_pins' array in arduino_mqtt_pinkey_no_serial.ino. 
+Boards are conveyed to the firmware by writing an array of the Pin structure object. For example, look at the 'board_pins' array in arduino_mqtt_pinkey_no_serial.ino. 
 
-To define a new board, create a new variable under `constexpr uint8_t number_pins 14;` with the number of pins on your board i.e. `constexpr uint8_t number_pins_myboard = 4`. Then, under the feather_pins array, create a new array with your board name. For example:
+To define a new board, create a new variable under `constexpr uint8_t number_pins 14;` with the number of pins on your board i.e. `constexpr uint8_t number_pins_myboard = 4`. Then, you would replace the board_pins array with something like,
 
 ```
-Pin myboard_pins[number_pins_myboard] = {
+Pin board_pins[number_pins_myboard] = {
   {"LED1", 1, "digital", 1, 1},
   {"LED2", 2, "digital", 1, 1},
   {"LED3", 3, "digital", 0, 0},
@@ -224,17 +241,15 @@ Pin myboard_pins[number_pins_myboard] = {
 };
 ```
 
-You should also delete any of the Pin arrays (boards) you aren't using to save memory, like feather_pins for instance.
+Refer to the Pin struct for an understanding of what each of the values in the construction statements means.
 
-Refer to the Pin struct for an understanding of what each of these values in the construction statements means.
-
-Finally, move to the setup() function. Where you see all of the pinMode() statements, that is where you define the type of pin for each macro. In this example, you would replace the pinMode() statements with
+Finally, move to the setup() function. Where you see all of the pinMode() statements, this is where you define the type of pin for each macro. In this example, you would replace the pinMode() statements with
 
 ```
-pinMode(1, OUTPUT 
-pinMode(2, OUTPUT)
-pinMode(3, OUTPUT)
-pinMode(4, OUTPUT)
+pinMode(1, OUTPUT);
+pinMode(2, OUTPUT);
+pinMode(3, OUTPUT);
+pinMode(4, OUTPUT);
 ```
 
 You should be able to read and write from lines from a different Arduino board now, using the same commands described in **Writing values over mqtt** and **Reading values over mqtt**. Have fun!

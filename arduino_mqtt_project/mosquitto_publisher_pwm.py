@@ -36,7 +36,7 @@ while True:
     if PWM >= 45: 
         scale = -3
     
-    elif PWM <= 5:
+    elif PWM <= 0:
         scale = 3
 
     PWM += scale

@@ -33,18 +33,17 @@ struct Pin {
 
 /* IMPORTANT
    add your pinout structs to the array in the form {"logical_name", pinout, "type", default_value, current_value}
-   boolean configuration parameters can be defined here as well, and 1 (true) or 0 (false) can be sent over mqtt to turn them on or off
    order from high priority in search to low priority */
 // defines the mqtt names of the adafruit feather 32u4 pins
 Pin board_pins[number_pins] = { 
-  {"D5", 5, "digital", 1, 1},
-  {"D6", 6, "digital", 1, 1},
-  {"D9", 9, "PWM", 50, 50},
+  {"D5", 5, "digital_output", 1, 1},
+  {"D6", 6, "digital_output", 1, 1},
+  {"D9", 9, "PWM_output", 0, 0},
   //{"D10", 10, "Chip select", 1, 1}, // featherwing chip select, do not use
-  {"D11", 11, "digital", 0, 0},
-  {"D12", 12, "digital", 0, 0},
-  {"D13", 13, "digital", 0, 0},
-  {"A0", A0, "digital", 0, 0}, // mqtt connection status pin by default
+  {"D11", 11, "digital_input", 0, 0},
+  {"D12", 12, "digital_input", 0, 0},
+  {"D13", 13, "digital_input", 0, 0},
+  {"A0", A0, "digital_output", 0, 0}, // mqtt connection status LED
   {"A1", A1, "analog", 0, 0},
   {"A2", A2, "analog", 0, 0},
   {"A3", A3, "analog", 0, 0},
@@ -103,7 +102,7 @@ const char* get_pin_type(Pin Pins[], const char* name) {
 bool are_current_values_same(Pin Pins[], Pin Vpin) {
   if (Vpin.current_value == 0) { // Default behavior, updates on the analog pins are ignored
     for (uint8_t i=0; i<number_pins; i++) {
-      if (Pins[i].pin_type == "digital") {
+      if (strncmp(Pins[i].pin_type, "digital", 7) == 0) {
         // at least one of the digital pins real values is different from in memory
         if (Pins[i].current_value != digitalRead(Pins[i].pin_number)) {
           return false;
@@ -127,10 +126,10 @@ bool are_current_values_same(Pin Pins[], Pin Vpin) {
 // sets all non-PWM pin structures current values in memory to what is on their pinin line
 void set_pin_current_values(Pin Pins[]) {
   for (uint8_t i=0; i<number_pins; i++){
-    if (strncmp(Pins[i].pin_type, "digital", 10) == 0) {
+    if (strncmp(Pins[i].pin_type, "digital", 7) == 0) {
       Pins[i].current_value = digitalRead(Pins[i].pin_number); 
     }
-    else if (strncmp(Pins[i].pin_type, "analog", 10) == 0){
+    else if (strncmp(Pins[i].pin_type, "analog_input", 10) == 0){
       Pins[i].current_value = analogRead(Pins[i].pin_number);  
     }
   }
@@ -163,10 +162,10 @@ void set_virtual_pin_values (Pin Vpins[], const char* name, uint8_t value) {
 // writes the default value for each output pin if the mqtt connection is lost
 void set_current_to_default(Pin pins[]) {
   for (uint8_t i=0; i<number_pins; i++) {
-    if (strncmp(pins[i].pin_type, "digital", 10) == 0) {
+    if (strncmp(pins[i].pin_type, "digital", 7) == 0) {
       digitalWrite(pins[i].pin_number, pins[i].default_value);    
     }
-    else if (strncmp(pins[i].pin_type, "PWM", 4) == 0) {
+    else if (strncmp(pins[i].pin_type, "PWM_output", 10) == 0) {
       analogWrite(pins[i].pin_number, pins[i].default_value);
     }
   }
@@ -227,13 +226,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
     set_virtual_pin_values(virtual_configuration_pins, pin, value);
   }
   
-  if (strncmp(get_pin_type(board_pins, pin), "digital", 10) == 0) {
+  if (strncmp(get_pin_type(board_pins, pin), "digital", 7) == 0) {
       digitalWrite(get_pin_number(board_pins, pin), value);
   } 
-  else if (strncmp(get_pin_type(board_pins, pin), "PWM", 10) == 0) {
-    Serial.println("PWM PIN ASSIGNMENT CALLED");
+  else if (strncmp(get_pin_type(board_pins, pin), "PWM_output", 10) == 0) {
     if (value != get_pin_memory_value(board_pins, pin)) {
-      Serial.println("VALUES NOT THE SAME");
       analogWrite(get_pin_number(board_pins, pin), value);
       set_pwm_pin_values(board_pins, pin, value);
       set_pin_current_values(board_pins);
@@ -290,22 +287,20 @@ void reconnect() {
 
 void setup() {
   // put your setup code here, to run once:
-  
   USBDevice.attach();
 
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(9, OUTPUT);
-  pinMode(10, INPUT);
-  pinMode(11, INPUT);
-  pinMode(12, INPUT);
-  pinMode(13, INPUT);
-  pinMode(A0, OUTPUT);
-  pinMode(A1, INPUT);
-  pinMode(A2, INPUT);
-  pinMode(A3, INPUT);
-  pinMode(A4, INPUT);
-  pinMode(A5, INPUT);
+  // sets the pinMode of each pin according to their type in the board_pins struct
+  for (uint8_t i;i<number_pins; i++) {
+    if (strncmp(board_pins[i].pin_type, "digital_output", 15) == 0) {
+      pinMode(board_pins[i].pin_number, OUTPUT);      
+    }
+    else if (strncmp(board_pins[i].pin_type, "PWM_output", 10) == 0) {
+      pinMode(board_pins[i].pin_number, OUTPUT);  
+    }
+    else {
+      pinMode(board_pins[i].pin_number, INPUT);
+    }
+  }
 
   digitalWrite(9, LOW);
   digitalWrite(11, LOW);
