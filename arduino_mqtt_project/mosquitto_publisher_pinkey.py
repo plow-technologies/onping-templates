@@ -39,7 +39,7 @@ def timed_mqtt_publish(seconds, client, topic, message, qos):
 client = paho.Client()
 
 # connect to the mqtt broker on the network and port
-if client.connect("192.168.4.121", 1884, 60) != 0:
+if client.connect("192.168.4.119", 1884, 60) != 0:
     print("Could not connect to MQTT Broker!")
 
 else:
@@ -50,7 +50,7 @@ json_msg = json_msg_A1_on
 # send 16 different messages (for the sake of the example)
 for i in range(16):
     # send the json message over mqtt
-    timed_mqtt_publish(1, client, "pins/set", json_msg, 0)
+    timed_mqtt_publish(1, client, "pins/current", json_msg, 0)
     
     # rotate through the example messages
     if json_msg == json_msg_A1_on: 

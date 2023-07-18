@@ -1,18 +1,25 @@
 <h1> Features </h1>
 
-The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It does this by sending Json messages as an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain io pin names and their values and writes those values in real time. The Pulse also publishes information related to all pin values when a line changes, or when prompted. Any other mqtt client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
+The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It hosts an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain io pin names and their values and writes those values in real time. The Pulse also publishes information in a Json message related to all pin values when a line changes, or when prompted. Any other mqtt client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
 
 While designed using the Pulse, the firmware is compatible with any arduino board that
-supports a network connection. Look to **Fitting the firmware to a different Arduino board** in this README for more details. If you aren't too afraid of jumping into the firmware, there is also support for configuring the boards "virtual pins", which allows you to change the functionality of the firmware when the Pulse receives a "virtual PWM" over mqtt.
+supports a network connection. See **Fitting the firmware to a different Arduino board** in this README for more details. If you aren't too afraid of jumping into the firmware, there is also support for configuring the boards "virtual pins", which allows you to change the functionality of the firmware when the Pulse receives a "virtual PWM" over mqtt.
 
 Full feature list
 * Reading and writing digital io lines over mqtt
 * Reading analog input lines over mqtt
+* Writing PWM lines over mqtt
 * mqtt connection comm status
 * writing of (firmware configurable) default values in the event of comm failure
 * virtual pins that act as firmware parameters 
 * firmware watchdog
 * generalizable pin structure for any arduino board
+
+Quick links
+* Pulse pinouts & default configurations
+* 32u4 datasheet
+* ethernet featherwing datasheet
+* airlift WiFi datasheet
 
 
 <h2> Quick Configuration </h2>
@@ -33,7 +40,7 @@ Conect the Pulse over USB to a computer that can run the Arduino IDE. [INSTALLIN
 
 On the computer, clone this repository using git clone [INSERT GIT COMMAND]
 
-You'll need to configure the arduino IDE for the Feather 32u4 Bluefruit LE board, and install dependencies.
+You'll need to configure the arduino IDE for the Feather 32u4, and install dependencies.
 [INSERT ARDUINO BOARD CONFIG LINKS AND GUIDES]
 
 Navigate to the OnPing-templates/arduino_mqtt_project/pinkey_no_serial folder. Open arduino_mqtt_pinkey_no_serial.ino and pinkey_settings.h with the Arduino IDE.
@@ -55,14 +62,14 @@ You're done configuring the Pulse for almost all default functionalities. The ne
 
 These next steps require an mqtt client like mosquitto-client [LINKS/ GUIDES TO INSTALL].
 
-To test that your Pulse is working properly, we will blink the Ethernet LED with an mqtt Json message. This is the same format you will use to write values to any of your digital output pins on the Pulse.
+To test that your Pulse is working properly, we will blink the Ethernet LED with an mqtt Json message. We will use the same format to write values to any of the digital output pins on the Pulse.
 
 **Linux**
 
 Open a new terminal and run the command 
 `mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {A0: 0}`
 
-replace `you.rIP.add.res` and `port` with the mqtt broker's IP address and port.
+replace `you.rIP.add.res` and `port` with the mqtt broker's IP address and port number.
 
 note: If you want your write commands to show up in OnPing, you'll need to change `-m {A0:0}` to `-m {\"A0\":0}` since OnPing does not have a permissive Json interpreter.
 
@@ -94,17 +101,17 @@ You should receive a message in the terminal containing a Json formatted diction
 
 You'll notice that when the LED is on, the dictionary contains A0:1, and when its off A0:0. This is how you read values for all digital io pins.
 
-**note**: You don't need to change a pin in order to read the current values. You can get the current values a couple different ways. One is to publish a message corresponding to a pin that doesn't exist, say `{ping:0}`. You can set up your own script that publishes `{timer:0}` to `pins/set` every 30 seconds for example, and the Pulse will publish its current values to pins/current every 30 seconds in response.
+**note**: You don't need to change a pin in order to read the current values. You can get the current values by publishing a message corresponding to a pin name that doesn't exist, say `{ping:0}` for example. You could also set up your own script that publishes `{timer:0}` to `pins/set` every 30 seconds, and the Pulse will publish its current values to pins/current every 30 seconds in response.
 
 If you only want to read pin values when they change, subscribe to pins/current/on_change instead. The Pulse will only publish its pin dictionary here whenever a pin value *actually* changes.
 
-That's the basics of reading values. If this is all you need, you can skip to the next session. If you'd like to learn about reading inputs as the update on the hardware, stay here!
+That's the basics of reading values. If this is all you need, you can skip to the next session. If you'd like to learn about reading inputs as they update on the hardware, stay here!
 
 **Reading digital input values as they change**
 
-This test is a little more complicated than the others. We're going to need an input line hooked up to the Pulse. Connect a wire to the D9 screw terminal. Wire it to GRD through a resistor of at least 4.6 KOhms! If you don't use a resistor, the next step will short out the board.
+This test is a little more complicated than the others. We're going to need an input line hooked up to the Pulse. Connect a wire to the D12 screw terminal. Wire it to GRD through a resistor of at least 4.6 KOhms! If you don't use a resistor, the next step will short out the board.
 
-Next, connect a wire to the 3.77V AREF pin and to the wire connected to D9.
+Next, connect a wire to the 3.77V AREF pin and to the wire connected to D12.
 
 **Linux**
 
@@ -112,7 +119,7 @@ Run the command
 
 `mosquitto_sub -h you.rIP.add.res -p port -t pins/current`
 
-Next, break and unbreak the connection between the AREF wire and the D9 wire. You should see a message with a Json dictionary of all the pins current values each time you do this. Pay attention to the value of D9. When the AREF wire is connected, you should see D9:1, when its disconnected you should see D9:0.
+Next, break and unbreak the connection between the AREF wire and the D12 wire. You should see a message with a Json dictionary of all the pins current values each time you do this. Pay attention to the value of D12. When the AREF wire is connected, you should see D12:1, when its disconnected you should see D12:0.
 
 **Reading analog input values as they change**
 

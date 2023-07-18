@@ -18,8 +18,8 @@ PubSubClient client(ethClient);
 
 /**** PIN STRUCTURE ARRAY ****/
 // set number_pins equal to the number of pinouts you want to define
-constexpr uint8_t number_pins = 13;
-constexpr uint8_t number_Vpins = 1;
+constexpr uint8_t number_pins = 14;
+constexpr uint8_t number_Vpins = 2;
 
 // struct for associating logical names with pinouts
 struct Pin {
@@ -35,12 +35,12 @@ struct Pin {
    add your pinout structs to the array in the form {"logical_name", pinout, "type", default_value, current_value}
    boolean configuration parameters can be defined here as well, and 1 (true) or 0 (false) can be sent over mqtt to turn them on or off
    order from high priority in search to low priority */
-// defines the mqtt names of the adafruit feather 32u4 pins
-Pin board_pins[number_pins] = { 
+// defines the mqtt names of the adafruit feather 32u4 bluefruit LE pins
+Pin feather_pins[number_pins] = { 
   {"D5", 5, "digital", 1, 1},
   {"D6", 6, "digital", 1, 1},
-  {"D9", 9, "PWM", 50, 50},
-  //{"D10", 10, "Chip select", 1, 1}, // featherwing chip select, do not use
+  {"D9", 9, "digital", 0, 0},
+  {"D10", 10, "digital", 0, 0},
   {"D11", 11, "digital", 0, 0},
   {"D12", 12, "digital", 0, 0},
   {"D13", 13, "digital", 0, 0},
@@ -54,8 +54,8 @@ Pin board_pins[number_pins] = {
 
 // Virtual pins used for configuration, explaination in README
 Pin virtual_configuration_pins[number_Vpins] = {
-  {"analogs_tied_down", 999, "virtual_configuration", 0, 0} // set to 1 if your analogs are tied down, allows feather to publish current values when an analog input line changes
-  
+  {"analogs_tied_down", 999, "virtual_configuration", 0, 0}, // set to 1 if your analogs are tied down, allows feather to publish current values when an analog input line changes
+  {"firmware_timer", 999, "virtual_configuration", 0, 0}
 };
 
 
@@ -70,15 +70,6 @@ const char* contains_pin(Pin Pins[], JsonDocument* json_doc) {
     } 
   }
   return "virtual pin";
-}
-
-// searches the pinout array for the current memory value of the named pin
-uint8_t get_pin_memory_value(Pin Pins[], const char* name) {
-  for (uint8_t i=0; i<number_pins; i++){
-    if(strncmp(Pins[i].name, name, 10) == 0) {
-      return Pins[i].current_value;
-    }    
-  }
 }
 
 // searches the pinout array for the pin number of the named pin
@@ -124,24 +115,14 @@ bool are_current_values_same(Pin Pins[], Pin Vpin) {
 }
 
 /***Memory setting Functions***/
-// sets all non-PWM pin structures current values in memory to what is on their pinin line
+// sets all pin structures current values in memory to what is on their pinin line
 void set_pin_current_values(Pin Pins[]) {
   for (uint8_t i=0; i<number_pins; i++){
     if (strncmp(Pins[i].pin_type, "digital", 10) == 0) {
       Pins[i].current_value = digitalRead(Pins[i].pin_number); 
     }
-    else if (strncmp(Pins[i].pin_type, "analog", 10) == 0){
+    else {
       Pins[i].current_value = analogRead(Pins[i].pin_number);  
-    }
-  }
-}
-
-// sets values of PWM pins in memory
-void set_pwm_pin_values (Pin pins[], const char* name, uint8_t value) {
-  Serial.println("set_pwm_pin_value called");
-  for (uint8_t i=0;i<number_pins;i++) {
-    if (strncmp(pins[i].name, name, 20) == 0) {
-      pins[i].current_value = value;  
     }
   }
 }
@@ -150,10 +131,10 @@ void set_pwm_pin_values (Pin pins[], const char* name, uint8_t value) {
 void set_virtual_pin_values (Pin Vpins[], const char* name, uint8_t value) {
   for (uint8_t i=0;i<number_Vpins;i++) {
     if (strncmp(Vpins[i].name, name, 20) == 0) {
-      /* Serial.println("virtual pin: ");
+      Serial.println("virtual pin: ");
       Serial.print(Vpins[i].name);
       Serial.print(" getting set to ");
-      Serial.println(value); */
+      Serial.println(value);
       Vpins[i].current_value = value;  
     }
   }
@@ -163,12 +144,7 @@ void set_virtual_pin_values (Pin Vpins[], const char* name, uint8_t value) {
 // writes the default value for each output pin if the mqtt connection is lost
 void set_current_to_default(Pin pins[]) {
   for (uint8_t i=0; i<number_pins; i++) {
-    if (strncmp(pins[i].pin_type, "digital", 10) == 0) {
-      digitalWrite(pins[i].pin_number, pins[i].default_value);    
-    }
-    else if (strncmp(pins[i].pin_type, "PWM", 4) == 0) {
-      analogWrite(pins[i].pin_number, pins[i].default_value);
-    }
+    digitalWrite(pins[i].pin_number, pins[i].default_value);    
   }
 }
 
@@ -218,7 +194,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   deserializeJson(doc, payload);
   //doc_object = doc.to<JsonObject>();
   doc_pointer = &doc;
-  pin = contains_pin(board_pins, doc_pointer);
+  pin = contains_pin(feather_pins, doc_pointer);
   value = doc[pin];
 
   if (strncmp(pin, "virtual pin", 15) == 0) {
@@ -227,35 +203,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
     set_virtual_pin_values(virtual_configuration_pins, pin, value);
   }
   
-  if (strncmp(get_pin_type(board_pins, pin), "digital", 10) == 0) {
-      digitalWrite(get_pin_number(board_pins, pin), value);
-  } 
-  else if (strncmp(get_pin_type(board_pins, pin), "PWM", 10) == 0) {
-    Serial.println("PWM PIN ASSIGNMENT CALLED");
-    if (value != get_pin_memory_value(board_pins, pin)) {
-      Serial.println("VALUES NOT THE SAME");
-      analogWrite(get_pin_number(board_pins, pin), value);
-      set_pwm_pin_values(board_pins, pin, value);
-      set_pin_current_values(board_pins);
-      produce_current_msg(board_pins, client, "pins/current", 20);
-      produce_current_msg(board_pins, client, "pins/current/on_change", 20);
-    } 
-    else {
-      analogWrite(get_pin_number(board_pins, pin), value);
-      set_pwm_pin_values(board_pins, pin, value);
-    }
+  if (strncmp(get_pin_type(feather_pins, pin), "digital", 10) == 0)  {
+    digitalWrite(get_pin_number(feather_pins, pin), value);
+  }
+  else {
+    analogWrite(get_pin_number(feather_pins, pin), value);  
   }
 
   // publish the current values on the pin lines to the mqtt server
-  // set_pin_current_values(board_pins);
-  if (!are_current_values_same(board_pins, virtual_configuration_pins[0])) {
-    set_pin_current_values(board_pins);
-    produce_current_msg(board_pins, client, "pins/current/on_change", 20);
+  // set_pin_current_values(feather_pins);
+  if (!are_current_values_same(feather_pins, virtual_configuration_pins[0])) {
+    set_pin_current_values(feather_pins);
+    produce_current_msg(feather_pins, client, "pins/current/on_change", 20);
   }
   
-  set_pin_current_values(board_pins);
+  set_pin_current_values(feather_pins);
   for (uint8_t i = 0; i<1; i++) {
-    produce_current_msg(board_pins, client, "pins/current", 20);
+    produce_current_msg(feather_pins, client, "pins/current", 20);
   }
 
   /* This is a test for the watchdog
@@ -277,10 +241,10 @@ void reconnect() {
     if (client.connect("arduinoClient")) {
       // subscribe once connected
       digitalWrite(A0, HIGH);
-      set_pin_current_values(board_pins);
+      set_pin_current_values(feather_pins);
       client.subscribe("pins/set");
     } else {
-      set_current_to_default(board_pins);
+      set_current_to_default(feather_pins);
       digitalWrite(A0, LOW);
       // Wait 3 seconds before retrying
       delay(3000);
@@ -295,7 +259,7 @@ void setup() {
 
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
-  pinMode(9, OUTPUT);
+  pinMode(9, INPUT);
   pinMode(10, INPUT);
   pinMode(11, INPUT);
   pinMode(12, INPUT);
@@ -308,11 +272,12 @@ void setup() {
   pinMode(A5, INPUT);
 
   digitalWrite(9, LOW);
+  digitalWrite(10, LOW);
   digitalWrite(11, LOW);
   digitalWrite(12, LOW);
   digitalWrite(13, LOW);
 
-  set_current_to_default(board_pins);
+  set_current_to_default(feather_pins);
 
   client.setServer(server, port);
   client.setCallback(callback);
@@ -326,6 +291,8 @@ void setup() {
   #endif
 }
 
+int counter = 0;
+
 void loop() {
   // put your main code here, to run repeatedly:
   
@@ -335,15 +302,24 @@ void loop() {
   if (!client.connected()) {
     reconnect();
   }
-    
-  if (!are_current_values_same(board_pins, virtual_configuration_pins[0])) {
-    Serial.println(F("current values are NOT the same"));
-    set_pin_current_values(board_pins);
-    produce_current_msg(board_pins, client, "pins/current/on_change", 20);
-    produce_current_msg(board_pins, client, "pins/current", 20);
+
+  if (virtual_configuration_pins[1].current_value == 1) {
+      counter++;
+      if (counter == 500) {
+        produce_current_msg(feather_pins, client, "pins/current", 20);
+        counter = 0;
+      }
   }
-  set_pin_current_values(board_pins);
-  //produce_current_msg(board_pins, client, "pins/current", 20);
-  produce_default_msg(board_pins, client, "pins/default");
+  
+  if (!are_current_values_same(feather_pins, virtual_configuration_pins[0])) {
+    Serial.println(F("current values are NOT the same"));
+    set_pin_current_values(feather_pins);
+    produce_current_msg(feather_pins, client, "pins/current/on_change", 20);
+    produce_current_msg(feather_pins, client, "pins/current", 20);
+  }
+
+  set_pin_current_values(feather_pins);
+  //produce_current_msg(feather_pins, client, "pins/current", 20);
+  produce_default_msg(feather_pins, client, "pins/default");
   client.loop();
 }
