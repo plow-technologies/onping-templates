@@ -64,11 +64,12 @@ In `pinkey_settings.h` on the line where you see `IPAddress server` enter each b
 
 <details><summary>What is my brokers IP address?</summary>
 
-On the machine hosting the mqtt broker, execute one of the following
 
-[Linux](https://ubuntuhandbook.org/index.php/2020/07/find-ip-address-ubuntu-20-04/)
+* On the machine hosting the mqtt broker, execute one of the following
 
-[Windows](https://support.microsoft.com/en-us/windows/find-your-ip-address-in-windows-f21a9bbc-c582-55cd-35e0-73431160a1b9)
+* [Linux](https://ubuntuhandbook.org/index.php/2020/07/find-ip-address-ubuntu-20-04/)
+
+* [Windows](https://support.microsoft.com/en-us/windows/find-your-ip-address-in-windows-f21a9bbc-c582-55cd-35e0-73431160a1b9)
 
 </details>
 
