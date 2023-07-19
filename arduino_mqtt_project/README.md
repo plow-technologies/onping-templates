@@ -59,15 +59,18 @@ The libraries you will need for this project are
 
 Navigate to the OnPing-templates/arduino_mqtt_project/pinkey_no_serial folder. Open arduino_mqtt_pinkey_no_serial.ino and pinkey_settings.h with the Arduino IDE.
 
-On the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
+In `pinkey_settings.h` on the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
 
-**What is my brokers IP address?**
+
+<details><summary>**What is my brokers IP address?**</summary>
 
 On the machine hosting the mqtt broker, execute one of the following
 
 [Linux](https://ubuntuhandbook.org/index.php/2020/07/find-ip-address-ubuntu-20-04/)
 
 [Windows](https://support.microsoft.com/en-us/windows/find-your-ip-address-in-windows-f21a9bbc-c582-55cd-35e0-73431160a1b9)
+
+</details>
 
 On the line where you see `uint16_t port = 1884;` enter the port number of your mqtt broker (if you're using mosquitto broker, this is the port you set in mosquitto.conf. If you configured your mqtt broker following the steps above, you should set this number to 1884).
 
