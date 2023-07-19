@@ -62,7 +62,7 @@ Navigate to the OnPing-templates/arduino_mqtt_project/pinkey_no_serial folder. O
 In `pinkey_settings.h` on the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
 
 
-<details><summary>**What is my brokers IP address?**</summary>
+<details><summary>What is my brokers IP address?</summary>
 
 On the machine hosting the mqtt broker, execute one of the following
 
