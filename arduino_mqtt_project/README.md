@@ -16,11 +16,11 @@ Full feature list
 * generalizable pin structure for any arduino board
 
 Quick links
-* Configuring mosquitto broker and client [download](https://mosquitto.org/download/)
+* [Installing mosquitto broker and client](https://mosquitto.org/download/)
 * Pulse pinouts & default configurations
 * [32u4 datasheet](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-feather-32u4-basic-proto.pdf)
-* ethernet featherwing datasheet
-* airlift WiFi datasheet
+* [ethernet featherwing datasheet](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-wiz5500-wiznet-ethernet-featherwing.pdf)
+* [WiFi Airlift featherwing datasheet](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-airlift-featherwing-esp32-wifi-co-processor-featherwing.pdf)
 
 
 <h2> Quick Configuration </h2>
