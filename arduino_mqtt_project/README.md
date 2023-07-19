@@ -17,7 +17,6 @@ Full feature list
 
 Quick links
 * [Installing mosquitto broker and client](https://mosquitto.org/download/)
-* Pulse pinouts & default configurations
 * [32u4 datasheet](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-feather-32u4-basic-proto.pdf)
 * [ethernet featherwing datasheet](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-wiz5500-wiznet-ethernet-featherwing.pdf)
 * [WiFi Airlift featherwing datasheet](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-airlift-featherwing-esp32-wifi-co-processor-featherwing.pdf)
@@ -139,13 +138,13 @@ You'll notice that when the LED is on, the dictionary contains A0:1, and when it
 
 **note**: You don't need to change a pin in order to read the current values. You can get the current values by publishing a message corresponding to a pin name that doesn't exist, say `{ping:0}` for example. You could also set up your own script that publishes `{timer:0}` every 30 seconds, and the Pulse will publish its current values to `pins/current` every 30 seconds in response.
 
-If you only want to read pin values when they change, subscribe to pins/current/on_change instead. The Pulse will only publish its pin dictionary here whenever a pin value *actually* changes.
+If you only want to read pin values when they change, subscribe to `pins/current/on_change` instead. The Pulse will only publish its pin dictionary here whenever a pin value *actually* changes.
 
 That's the basics of reading values. If this is all you need, you can skip to the next session. If you'd like to learn about reading inputs as they update on the hardware, stay here!
 
 **Reading digital input values as they change**
 
-This test is a little more complicated than the others. We're going to need an input line hooked up to the Pulse. Connect a wire to the D11 screw terminal. Wire it to GRD through a resistor of at least 4.6 KOhms! If you don't use a resistor, the next step will short out the board.
+This test is a little more complicated than the others. We're going to need an input line hooked up to the Pulse. Connect a wire to the D11 screw terminal. Wire it to GRD through a resistor! If you don't use a resistor, the next step will short out the board.
 
 Next, connect a wire to the A0 pin and to the wire connected to D11. Make sure that the Ethernet comm status LED is on (A0 is written HIGH).
 
@@ -247,6 +246,25 @@ You can test that the watchdog is working by uncommenting the "test for the watc
 
 Warning: When you are testing the watchdog this way, the serial port will alternate between active and inactive. If you are looking for Serial statements, they will only appear every other cycle. This may not effect your board, more information is available in the [repository].
 
+<h2> Pulse default pin modes </h2>
+
+By default, the pins are in the following configurations. You can double check by examining the Pin struct array `board_pins` in the firmware.
+
+* "D5": digital_output
+* "D6": digital_output
+* "D9": PWM
+* "D10": disabled (chip select)
+* "D11": digital_input
+* "D12": digital_input
+* "D13": digital_input
+
+* A0: digital_output (also the ethernet comm status line)
+* A1: analog_input
+* A2: analog_input
+* A3: analog_input
+* A4: analog_input
+* A5: analog_input
+
 <h2> Changing the modes of io pins on the Pulse </h2>
 
 There are 4 different modes that the Pulse's io pins support. 
@@ -256,35 +274,26 @@ There are 4 different modes that the Pulse's io pins support.
 * analog_input
 * PWM_output
 
-Reconfiguring any of the pins requires changing the pins `pin_type`. This is defined in the board_pins array for each pin. 
+Reconfiguring any of the pins requires changing the pins `pin_type`. This is defined in the board_pins array for each pin. You can change the type of any pin to another type, so long as the Feather (or the pin on your board) supports that mode. Refer to the feather 32u4's [pinout](https://github.com/plow-technologies/pulse/blob/master/images/feather_pinout.png) or [datasheet](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-feather-32u4-basic-proto.pdf). 
 
 
 <h2> Fitting the firmware to a different Arduino board </h2>
 
 Remember to ensure that the Arduino IDE is configured for your board. 
 
-Boards are conveyed to the firmware by writing an array of the Pin structure object. For example, look at the 'board_pins' array in arduino_mqtt_pinkey_no_serial.ino. 
+Boards are conveyed to the firmware by writing an array of the Pin structure object. For example, look at the 'board_pins' array in `arduino_mqtt_pinkey_no_serial.ino`. 
 
 To define a new board, create a new variable under `constexpr uint8_t number_pins 14;` with the number of pins on your board i.e. `constexpr uint8_t number_pins_myboard = 4`. Then, you would replace the board_pins array with something like,
 
 ```
 Pin board_pins[number_pins_myboard] = {
-  {"LED1", 1, "digital", 1, 1},
-  {"LED2", 2, "digital", 1, 1},
-  {"LED3", 3, "digital", 0, 0},
-  {"LED4", 4, "digital", 0, 0},
+  {"LED1", 1, "digital_output", 1, 1},
+  {"LED2", 2, "digital_output", 1, 1},
+  {"LED3", 3, "digital_input", 0, 0},
+  {"LED4", 4, "digital_input", 0, 0},
 };
 ```
 
 Refer to the Pin struct for an understanding of what each of the values in the construction statements means.
-
-Finally, move to the setup() function. Where you see all of the pinMode() statements, this is where you define the type of pin for each macro. In this example, you would replace the pinMode() statements with
-
-```
-pinMode(1, OUTPUT);
-pinMode(2, OUTPUT);
-pinMode(3, OUTPUT);
-pinMode(4, OUTPUT);
-```
 
 You should be able to read and write from lines from a different Arduino board now, using the same commands described in **Writing values over mqtt** and **Reading values over mqtt**. Have fun!
