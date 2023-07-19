@@ -270,7 +270,7 @@ By default, the pins are in the following configurations. You can double check b
 There are 4 different modes that the Pulse's io pins support. 
 
 * digital_input
-* digital_outpu
+* digital_output
 * analog_input
 * PWM_output
 
