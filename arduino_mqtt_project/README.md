@@ -16,39 +16,60 @@ Full feature list
 * generalizable pin structure for any arduino board
 
 Quick links
-* Configuring mosquitto broker and client [Linux] [Windows]
+* Configuring mosquitto broker and client [download](https://mosquitto.org/download/)
 * Pulse pinouts & default configurations
-* 32u4 datasheet
+* [32u4 datasheet](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-feather-32u4-basic-proto.pdf)
 * ethernet featherwing datasheet
 * airlift WiFi datasheet
 
 
 <h2> Quick Configuration </h2>
 
-**Configuring mosquitto broker**
+**Configuring your mosquitto broker**
 
-[LINKS/ GUIDES TO HOW TO]
+Skip to **connecting the Pulse to your mqtt broker** if you've already configured your mqtt broker.
 
-Skip to **connecting to your mqtt broker** if you've already configured your mqtt broker.
+**Linux**
 
-Be sure to set `allow_anonymous` to `true` in mosquitto.conf
+In a terminal, navigate to `/etc/mosquitto`, run the command `sudo open mosquitto.conf` and add the lines `allow anonymous true` and `listener 1884 0.0.0.0`.
 
-**Connecting to your mqtt broker**
+**Windows**
+
+Navigate to C:\mosquitto\ and open mosquitto.conf as an administrator. Add the lines `allow anonymous true` and `listener 1884 0.0.0.0`.
+
+**Connecting the Pulse to your mqtt broker**
 
 In order for the Pulse's mqtt client to connect to your mqtt broker, it needs to know the IP address and port number of the broker. We'll set those now.
 
-Conect the Pulse over USB to a computer that can run the Arduino IDE. [INSTALLING THE ARDUINO IDE]
+Conect the Pulse over USB to a computer that can run the Arduino ID. If you don't have the Arduino IDE installed, you can download it [here](https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE). 
 
 On the computer, clone this repository using git clone [INSERT GIT COMMAND]
 
 You'll need to configure the arduino IDE for the Feather 32u4, and install dependencies.
-[INSERT ARDUINO BOARD CONFIG LINKS AND GUIDES]
+[Setting up the IDE for the feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/arduino-ide-setup?gclid=Cj0KCQjwk96lBhDHARIsAEKO4xb-HTH6jnBRTT8DlZ_DJDmj5NXO9ytJX4JSwXBmlLgH0CaZMCxn2HcaArvaEALw_wcB)
+[Installing dependencies in the Arduino IDE](https://support.arduino.cc/hc/en-us/articles/5145457742236-Add-libraries-to-Arduino-IDE)
+
+The libraries you will need for this project are
+* [SPI](https://www.arduino.cc/reference/en/language/functions/communication/spi/)
+* (If using Ethernet) [Ethernet](https://www.arduino.cc/reference/en/libraries/ethernet/)
+* (If using WiFi) NOT SUPPORTED YET
+* [PubSubClient](https://www.arduino.cc/reference/en/libraries/pubsubclient/)
+* [ArduinoJson](https://arduinojson.org/)
+* [Adafruit_SleepyDog](https://reference.arduino.cc/reference/en/libraries/adafruit-sleepydog-library/)
 
 Navigate to the OnPing-templates/arduino_mqtt_project/pinkey_no_serial folder. Open arduino_mqtt_pinkey_no_serial.ino and pinkey_settings.h with the Arduino IDE.
 
-On the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas (What is my brokers IP address?).
+On the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
 
-On the line where you see `uint16_t port =` enter the port number of your mqtt broker (if you're using mosquitto broker, this is the port you set in mosquitto.conf. By default this port should be 1883. If your mosquitto broker was configured by OnPing, the default port will be 1884).
+**What is my brokers IP address?**
+
+On the machine hosting the mqtt broker, execute one of the following
+
+[Linux](https://ubuntuhandbook.org/index.php/2020/07/find-ip-address-ubuntu-20-04/)
+
+[Windows](https://support.microsoft.com/en-us/windows/find-your-ip-address-in-windows-f21a9bbc-c582-55cd-35e0-73431160a1b9)
+
+On the line where you see `uint16_t port = 1884;` enter the port number of your mqtt broker (if you're using mosquitto broker, this is the port you set in mosquitto.conf. If you configured your mqtt broker following the steps above, you should set this number to 1884).
 
 In most cases, you can leave the line `byte mac[]` alone. This is where you set the mac address of the Pulse. If you have multiple Pulses, or would like to give one a specific mac address, you can do that here. Otherwise, you can leave this line alone.
 
@@ -217,7 +238,7 @@ Warning: When you are testing the watchdog this way, the serial port will altern
 There are 4 different modes that the Pulse's io pins support. 
 
 * digital_input
-* digital_output
+* digital_outpu
 * analog_input
 * PWM_output
 

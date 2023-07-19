@@ -14,7 +14,7 @@ def timed_mqtt_publish(seconds, client, topic, message, qos):
 client = paho.Client()
 
 # connect to the mqtt broker on the network and port
-if client.connect("192.168.4.119", 1884, 60) != 0:
+if client.connect("192.168.4.121", 1884, 60) != 0:
     print("Could not connect to MQTT Broker!")
 
 else:

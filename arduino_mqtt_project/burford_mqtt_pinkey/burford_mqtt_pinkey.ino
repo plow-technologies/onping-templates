@@ -31,15 +31,15 @@ struct Pin {
 
 // Adafruit Feather 32u4
 Pin board_pins[number_pins] = { 
-  {"D5", 5, "digital_output", 0, 0},
+  {"D5", 5, "digital_output", 1, 1},
   {"D6", 6, "digital_output", 1, 1},
-  {"D9", 9, "PWM_output", 0, 0},
+  {"D9", 9, "digital_input", 1, 1},
   //{"D10", 10, "Chip select", 1, 1}, // featherwing chip select, do not use
   {"D11", 11, "digital_input", 0, 0},
   {"D12", 12, "digital_input", 0, 0},
   {"D13", 13, "digital_input", 0, 0},
   {"A0", A0, "digital_output", 0, 0}, // mqtt connection status LED
-  {"A1", A1, "analog", 0, 0},
+  {"A1", A1, "digital_output", 0, 0},
   {"A2", A2, "analog", 0, 0},
   {"A3", A3, "analog", 0, 0},
   {"A4", A4, "analog", 0, 0},
