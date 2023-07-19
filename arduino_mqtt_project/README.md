@@ -31,22 +31,34 @@ Skip to **connecting the Pulse to your mqtt broker** if you've already configure
 
 **Linux**
 
-In a terminal, navigate to `/etc/mosquitto`, run the command `sudo open mosquitto.conf` and add the lines `allow anonymous true` and `listener 1884 0.0.0.0`.
+In a terminal, run `sudo apt install mosquitto`. Then, navigate to `/etc/mosquitto` and run the command `sudo open mosquitto.conf`. Add the lines `allow anonymous true` and `listener 1884 0.0.0.0` to mosquitto.conf.
+
+Type `mosquitto -v` to ensure mosquitto is installed.
 
 **Windows**
 
-Navigate to C:\mosquitto\ and open mosquitto.conf as an administrator. Add the lines `allow anonymous true` and `listener 1884 0.0.0.0`.
+[Download](https://mosquitto.org/download/) the mosquitto service on the device that you'd like to host your broker from.
+
+open the windows services app (search for services or `run` `services.msc`. Find mosquitto broker in the list, right click and choose `start`.
+
+Navigate to `C:\"Program files"\mosquitto` and type `"mosquitto.conf"` as an administrator. This should open the mosquitto.conf file. Add the lines `allow anonymous true` and `listener 1884 0.0.0.0`.
+
+Note: On windows you may have to run all of your mosquitto commands such as `mosquitto_pub` and `mosquitto_sub` in a cmd terminal in `C"\"Program Files"\mosquitto`
+
+Type `mosquitto -V` to ensure mosquitto is installed. 
 
 **Connecting the Pulse to your mqtt broker**
 
 In order for the Pulse's mqtt client to connect to your mqtt broker, it needs to know the IP address and port number of the broker. We'll set those now.
 
-Conect the Pulse over USB to a computer that can run the Arduino ID. If you don't have the Arduino IDE installed, you can download it [here](https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE). 
+Conect the Pulse over USB to a computer that can run the Arduino IDE. If you don't have the Arduino IDE installed, you can download it [here](https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE). 
 
 On the computer, clone this repository using git clone [INSERT GIT COMMAND]
 
 You'll need to configure the arduino IDE for the Feather 32u4, and install dependencies.
+
 [Setting up the IDE for the feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/arduino-ide-setup?gclid=Cj0KCQjwk96lBhDHARIsAEKO4xb-HTH6jnBRTT8DlZ_DJDmj5NXO9ytJX4JSwXBmlLgH0CaZMCxn2HcaArvaEALw_wcB)
+
 [Installing dependencies in the Arduino IDE](https://support.arduino.cc/hc/en-us/articles/5145457742236-Add-libraries-to-Arduino-IDE)
 
 The libraries you will need for this project are
@@ -61,15 +73,15 @@ Navigate to the OnPing-templates/arduino_mqtt_project/pinkey_no_serial folder. O
 
 In `pinkey_settings.h` on the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
 
-
-<details><summary>What is my brokers IP address?</summary>
-
+<details><summary>What is my broker's IP address?</summary>
 
 * On the machine hosting the mqtt broker, execute one of the following
 
 * [Linux](https://ubuntuhandbook.org/index.php/2020/07/find-ip-address-ubuntu-20-04/)
 
 * [Windows](https://support.microsoft.com/en-us/windows/find-your-ip-address-in-windows-f21a9bbc-c582-55cd-35e0-73431160a1b9)
+
+Note: You'll want all of your devices to be on the same network. That means that the first 3 bytes of the ip addresses should be the same
 
 </details>
 
@@ -86,7 +98,7 @@ You're done configuring the Pulse for almost all default functionalities. The ne
 
 <h2> Writing values over mqtt </h2>
 
-These next steps require an mqtt client like mosquitto-client [LINKS/ GUIDES TO INSTALL].
+These next steps require an mqtt client like mosquitto-client.
 
 To test that your Pulse is working properly, we will blink the Ethernet LED with an mqtt Json message. We will use the same format to write values to any of the digital output pins on the Pulse.
 
@@ -115,8 +127,6 @@ Open two terminal windows. In the first run the command
 
 `mosquitto_sub -h you.rIP.add.res -p port -t pins/current`
 
-[picture]
-
 In the second run the command
 
 `mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {A0: 0}`
@@ -125,9 +135,9 @@ You should receive a message in the terminal containing a Json formatted diction
 
 `mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {A0: 1}`
 
-You'll notice that when the LED is on, the dictionary contains A0:1, and when its off A0:0. This is how you read values for all digital io pins.
+You'll notice that when the LED is on, the dictionary contains A0:1, and when its off A0:0. This is how you read values for all of the Pulse's io pins.
 
-**note**: You don't need to change a pin in order to read the current values. You can get the current values by publishing a message corresponding to a pin name that doesn't exist, say `{ping:0}` for example. You could also set up your own script that publishes `{timer:0}` to `pins/set` every 30 seconds, and the Pulse will publish its current values to pins/current every 30 seconds in response.
+**note**: You don't need to change a pin in order to read the current values. You can get the current values by publishing a message corresponding to a pin name that doesn't exist, say `{ping:0}` for example. You could also set up your own script that publishes `{timer:0}` every 30 seconds, and the Pulse will publish its current values to `pins/current` every 30 seconds in response.
 
 If you only want to read pin values when they change, subscribe to pins/current/on_change instead. The Pulse will only publish its pin dictionary here whenever a pin value *actually* changes.
 
@@ -137,7 +147,7 @@ That's the basics of reading values. If this is all you need, you can skip to th
 
 This test is a little more complicated than the others. We're going to need an input line hooked up to the Pulse. Connect a wire to the D11 screw terminal. Wire it to GRD through a resistor of at least 4.6 KOhms! If you don't use a resistor, the next step will short out the board.
 
-Next, connect a wire to the 3.77V AREF pin and to the wire connected to D11.
+Next, connect a wire to the A0 pin and to the wire connected to D11. Make sure that the Ethernet comm status LED is on (A0 is written HIGH).
 
 **Linux**
 
@@ -145,7 +155,7 @@ Run the command
 
 `mosquitto_sub -h you.rIP.add.res -p port -t pins/current`
 
-Next, break and unbreak the connection between the AREF wire and the D11 wire. You should see a message with a Json dictionary of all the pins current values each time you do this. Pay attention to the value of D11. When the AREF wire is connected, you should see D11:1, when its disconnected you should see D11:0.
+Next, break and unbreak the connection between the A0 wire and the D11 wire. You should see a message with a Json dictionary of all the pins current values each time you do this. Pay attention to the value of D11. When the A0 wire is connected, you should see D11:1, when its disconnected you should see D11:0.
 
 **Reading analog input values as they change**
 
