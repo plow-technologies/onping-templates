@@ -56,9 +56,9 @@ On the computer, clone this repository using git clone [INSERT GIT COMMAND]
 
 You'll need to configure the arduino IDE for the Feather 32u4, and install dependencies.
 
-[Setting up the IDE for the feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/arduino-ide-setup?gclid=Cj0KCQjwk96lBhDHARIsAEKO4xb-HTH6jnBRTT8DlZ_DJDmj5NXO9ytJX4JSwXBmlLgH0CaZMCxn2HcaArvaEALw_wcB)
+* [Setting up the IDE for the feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/arduino-ide-setup?gclid=Cj0KCQjwk96lBhDHARIsAEKO4xb-HTH6jnBRTT8DlZ_DJDmj5NXO9ytJX4JSwXBmlLgH0CaZMCxn2HcaArvaEALw_wcB)
 
-[Installing dependencies in the Arduino IDE](https://support.arduino.cc/hc/en-us/articles/5145457742236-Add-libraries-to-Arduino-IDE)
+* [Installing dependencies in the Arduino IDE](https://support.arduino.cc/hc/en-us/articles/5145457742236-Add-libraries-to-Arduino-IDE)
 
 The libraries you will need for this project are
 * [SPI](https://www.arduino.cc/reference/en/language/functions/communication/spi/)
@@ -68,7 +68,7 @@ The libraries you will need for this project are
 * [ArduinoJson](https://arduinojson.org/)
 * [Adafruit_SleepyDog](https://reference.arduino.cc/reference/en/libraries/adafruit-sleepydog-library/)
 
-Navigate to the OnPing-templates/arduino_mqtt_project/pinkey_no_serial folder. Open arduino_mqtt_pinkey_no_serial.ino and pinkey_settings.h with the Arduino IDE.
+Navigate to the `OnPing-templates/arduino_mqtt_project/pinkey_no_serial` folder. Open `arduino_mqtt_pinkey_no_serial.ino` and `pinkey_settings.h` with the Arduino IDE.
 
 In `pinkey_settings.h` on the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
 
@@ -118,7 +118,7 @@ Congrats, you've just blinked an LED on the Pulse remotely over mqtt!
 
 <h2> Reading values over mqtt </h2>
 
-This step requires an mqtt client like mosquitto-client [LINKS/ GUIDES TO INSTALL].
+This step requires an mqtt client like mosquitto-client.
 
 **Linux**
 
@@ -238,8 +238,11 @@ Note: The Adafruit_Sleepydog library may not work for boards other than the feat
 Warning: After first Enabling the firmware watchdog, the feather 32u4 will require manually resetting the board with the reset button while new firmware is being uploaded. While the watchdog is disabled, you won't have to do this.
 
 Enabling the firmware watchdog is as simple as replacing
+
 `//#define production // uncomment this line to enable the watchdog`
+
 with
+
 `#define production // comment this line to disable the watchdog`
 
 You can test that the watchdog is working by uncommenting the "test for the watchdog" in the callback() function, and publishing a message to the pins/set mqtt topic.
