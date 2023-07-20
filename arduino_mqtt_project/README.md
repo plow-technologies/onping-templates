@@ -54,23 +54,57 @@ In order for the Pulse's mqtt client to connect to your mqtt broker, it needs to
 
 Conect the Pulse over USB to a computer that can run the Arduino IDE. If you don't have the Arduino IDE installed, you can download it [here](https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE). 
 
-On the computer, clone this repository using git clone [INSERT GIT COMMAND]
-
 You'll need to configure the arduino IDE for the Feather 32u4, and install dependencies.
 
-* [Setting up the IDE for the feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/arduino-ide-setup?gclid=Cj0KCQjwk96lBhDHARIsAEKO4xb-HTH6jnBRTT8DlZ_DJDmj5NXO9ytJX4JSwXBmlLgH0CaZMCxn2HcaArvaEALw_wcB)
+* Open the Arduino IDE
 
-* [Installing dependencies in the Arduino IDE](https://support.arduino.cc/hc/en-us/articles/5145457742236-Add-libraries-to-Arduino-IDE)
+* Go to File > Preferences
 
-The libraries you will need for this project are
-* [SPI](https://www.arduino.cc/reference/en/language/functions/communication/spi/)
+* copy and paste
+
+`https://adafruit.github.io/arduino-board-index/package_adafruit_index.json`
+
+* Click OK
+
+* Go to Tools > Board: > Boards Manager
+
+* Search for Adafruit AVR Boards
+
+* Find Adafruit AVR Boards by Adafruit
+
+* Click Install
+
+* Quit and reopen the Arduino IDE
+
+* Go to tools > Board: > Adafruit Feather 32u4
+
+Your IDE is now configured for the Feather 32u4
+
+<details><summary>Official guides to these steps if you need them</summary>
+* [Link to official guide](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/arduino-ide-setup?gclid=Cj0KCQjwk96lBhDHARIsAEKO4xb-HTH6jnBRTT8DlZ_DJDmj5NXO9ytJX4JSwXBmlLgH0CaZMCxn2HcaArvaEALw_wcB)
+
+* [Step 2, selecting the Feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/using-with-arduino-ide)
+</details>
+
+Downloading libraries
+
+* Go to Sketch > Include Library > Manage Libraries
+
+* Search for and download the following
+
 * (If using Ethernet) [Ethernet](https://www.arduino.cc/reference/en/libraries/ethernet/)
 * (If using WiFi) NOT SUPPORTED YET
 * [PubSubClient](https://www.arduino.cc/reference/en/libraries/pubsubclient/)
 * [ArduinoJson](https://arduinojson.org/)
 * [Adafruit_SleepyDog](https://reference.arduino.cc/reference/en/libraries/adafruit-sleepydog-library/)
 
-Navigate to the `OnPing-templates/arduino_mqtt_project/pinkey_no_serial` folder. Open `arduino_mqtt_pinkey_no_serial.ino` and `pinkey_settings.h` with the Arduino IDE.
+<details><summary>Official guides to these steps if you need them</summary>
+* [Installing dependencies in the Arduino IDE](https://support.arduino.cc/hc/en-us/articles/5145457742236-Add-libraries-to-Arduino-IDE)
+</details>
+
+On the computer, clone this repository using git clone [INSERT GIT COMMAND]
+
+Navigate to the `OnPing-templates/arduino_mqtt_project/pinkey_no_serial` folder. Open `arduino_mqtt_pinkey_no_serial.ino` with the Arduino IDE. You should see a tab in the IDE labeled `pinkey_settings.h`, navigate there.
 
 In `pinkey_settings.h` on the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
 
