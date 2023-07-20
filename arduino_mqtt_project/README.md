@@ -105,6 +105,8 @@ Your IDE is now configured for the Feather 32u4
 * [Installing dependencies in the Arduino IDE](https://support.arduino.cc/hc/en-us/articles/5145457742236-Add-libraries-to-Arduino-IDE)
 </details>
 
+<h4>Finally, clone the project and edit the configuration file</h4>
+
 On the computer, clone this repository using git clone [INSERT GIT COMMAND]
 
 Navigate to the `OnPing-templates/arduino_mqtt_project/pinkey_no_serial` folder. Open `arduino_mqtt_pinkey_no_serial.ino` with the Arduino IDE. You should see a tab in the IDE labeled `pinkey_settings.h`, navigate there.
