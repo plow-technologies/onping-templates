@@ -34,6 +34,7 @@ In a terminal, enter `sudo apt install mosquitto`. Then, enter `cd /etc/mosquitt
 
 Type `mosquitto -v` to ensure mosquitto is installed.
 </details>
+
 <details><summary><h4>Windows<h4></summary>
 
 [Download](https://mosquitto.org/download/) the mosquitto service on the device that you'd like to host your broker from.
@@ -47,7 +48,7 @@ Note: On windows you may have to run all of your mosquitto commands such as `mos
 Type `mosquitto -V` to ensure mosquitto is installed. 
 </details>
 
-<h3>Connecting the Pulse to your mqtt broker<h3>
+<h3>Connecting the Pulse to your mqtt broker</h3>
 
 In order for the Pulse's mqtt client to connect to your mqtt broker, it needs to know the IP address and port number of the broker. We'll set those now.
 
