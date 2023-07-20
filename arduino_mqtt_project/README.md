@@ -87,6 +87,7 @@ You'll need to add the Feather 32u4 to the arduino IDE.
 Your IDE is now configured for the Feather 32u4
 
 <details><summary>Official guides to these steps if you need them</summary>
+
 * [Link to official guide](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/arduino-ide-setup?gclid=Cj0KCQjwk96lBhDHARIsAEKO4xb-HTH6jnBRTT8DlZ_DJDmj5NXO9ytJX4JSwXBmlLgH0CaZMCxn2HcaArvaEALw_wcB)
 
 * [Step 2, selecting the Feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/using-with-arduino-ide)
@@ -105,6 +106,7 @@ Search for and download the following
 * (If using WiFi) NOT SUPPORTED YET
 
 <details><summary>Official guides to these steps if you need them</summary>
+
 * [Installing dependencies in the Arduino IDE](https://support.arduino.cc/hc/en-us/articles/5145457742236-Add-libraries-to-Arduino-IDE)
 </details>
 
