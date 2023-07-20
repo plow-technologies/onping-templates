@@ -33,7 +33,6 @@ Skip to **connecting the Pulse to your mqtt broker** if you've already configure
 In a terminal, enter `sudo apt install mosquitto`. Then, enter `cd /etc/mosquitto`, finally enter `sudo open mosquitto.conf`. Add the lines `allow anonymous true` and `listener 1884 0.0.0.0` to mosquitto.conf.
 
 Type `mosquitto -v` to ensure mosquitto is installed.
-
 </details>
 
 <details><summary><h4>Windows<h4></summary>
@@ -47,10 +46,9 @@ Navigate to `C:\"Program files"\mosquitto` and type `"mosquitto.conf"` as an adm
 Note: On windows you may have to run all of your mosquitto commands such as `mosquitto_pub` and `mosquitto_sub` in a cmd terminal in `C"\"Program Files"\mosquitto`
 
 Type `mosquitto -V` to ensure mosquitto is installed. 
-
 </details>
 
-**Connecting the Pulse to your mqtt broker**
+<h3>Connecting the Pulse to your mqtt broker<h3>
 
 In order for the Pulse's mqtt client to connect to your mqtt broker, it needs to know the IP address and port number of the broker. We'll set those now.
 
