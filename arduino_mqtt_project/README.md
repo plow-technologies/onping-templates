@@ -24,17 +24,19 @@ Quick links
 
 <h2> Quick Configuration </h2>
 
-**Configuring your mosquitto broker**
+<h3>Configuring your mosquitto broker</h3>
 
 Skip to **connecting the Pulse to your mqtt broker** if you've already configured your mqtt broker.
 
-**Linux**
+<details><summary><h4>Linux<h4></summary>
 
-In a terminal, run `sudo apt install mosquitto`. Then, navigate to `/etc/mosquitto` and run the command `sudo open mosquitto.conf`. Add the lines `allow anonymous true` and `listener 1884 0.0.0.0` to mosquitto.conf.
+In a terminal, enter `sudo apt install mosquitto`. Then, enter `cd /etc/mosquitto`, finally enter `sudo open mosquitto.conf`. Add the lines `allow anonymous true` and `listener 1884 0.0.0.0` to mosquitto.conf.
 
 Type `mosquitto -v` to ensure mosquitto is installed.
 
-**Windows**
+</details>
+
+<details><summary><h4>Windows<h4></summary>
 
 [Download](https://mosquitto.org/download/) the mosquitto service on the device that you'd like to host your broker from.
 
@@ -45,6 +47,8 @@ Navigate to `C:\"Program files"\mosquitto` and type `"mosquitto.conf"` as an adm
 Note: On windows you may have to run all of your mosquitto commands such as `mosquitto_pub` and `mosquitto_sub` in a cmd terminal in `C"\"Program Files"\mosquitto`
 
 Type `mosquitto -V` to ensure mosquitto is installed. 
+
+</details>
 
 **Connecting the Pulse to your mqtt broker**
 
@@ -284,7 +288,7 @@ Reconfiguring any of the pins requires changing the pins `pin_type`. This is def
 
 Remember to ensure that the Arduino IDE is configured for your board. 
 
-Boards are conveyed to the firmware by writing an array of the Pin structure object. For example, look at the 'board_pins' array in `arduino_mqtt_pinkey_no_serial.ino`. 
+Boards are conveyed to the firmware by writing an array of the Pin structure object. For example, look at the `board_pins` array in `arduino_mqtt_pinkey_no_serial.ino`. 
 
 To define a new board, create a new variable under `constexpr uint8_t number_pins 14;` with the number of pins on your board i.e. `constexpr uint8_t number_pins_myboard = 4`. Then, you would replace the board_pins array with something like,
 
