@@ -92,13 +92,13 @@ Your IDE is now configured for the Feather 32u4
 
 * Go to Sketch > Include Library > Manage Libraries
 
-Search for and download the following
+* Search for and download the following
 
-* [PubSubClient](https://www.arduino.cc/reference/en/libraries/pubsubclient/)
-* [ArduinoJson](https://arduinojson.org/)
-* [Adafruit_SleepyDog](https://reference.arduino.cc/reference/en/libraries/adafruit-sleepydog-library/)
-* (If using Ethernet) [Ethernet](https://www.arduino.cc/reference/en/libraries/ethernet/)
-* (If using WiFi) NOT SUPPORTED YET
+	* [PubSubClient](https://www.arduino.cc/reference/en/libraries/pubsubclient/)
+	* [ArduinoJson](https://arduinojson.org/)
+	* [Adafruit_SleepyDog](https://reference.arduino.cc/reference/en/libraries/adafruit-sleepydog-		library/)
+	* (If using Ethernet) [Ethernet](https://www.arduino.cc/reference/en/libraries/ethernet/)
+	* (If using WiFi) NOT SUPPORTED YET
 
 <details><summary>Official guides to these steps if you need them</summary>
 
