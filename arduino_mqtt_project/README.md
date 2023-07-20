@@ -129,7 +129,7 @@ On the line where you see `uint16_t port = 1884;` enter the port number of your 
 
 In most cases, you can leave the line `byte mac[]` alone. This is where you set the mac address of the Pulse. If you have multiple Pulses, or would like to give one a specific mac address, you can do that here. Otherwise, you can leave this line alone.
 
-Ensure that your Arduino IDE is configured for the Feather 32u4, and all dependencies are properly installed in the IDE. Then, click the blue checkmark in the top left. If you don't get any errors, upload the code to the Pulse by clicking the blue arrow next to the checkmark. When the dialog box reads "Done uploading." your configuration has been uploaded to the Pulse.
+Ensure that your Arduino IDE is configured for the Feather 32u4, and all dependencies are properly installed in the IDE. Then, **click the blue checkmark** in the top left. If you don't get any errors, **clicking the blue arrow** next to the checkmark. When the dialog box reads `Done uploading.` your configuration has been uploaded to the Pulse.
 
 The green LED on the side of the Pulse will light up when it successfully connects to the mqtt broker. Be sure to physically connect the Pulse to your network via Ethernet [later, support for wifi and wifi instructions].
 
