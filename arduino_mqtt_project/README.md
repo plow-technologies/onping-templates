@@ -34,7 +34,6 @@ In a terminal, enter `sudo apt install mosquitto`. Then, enter `cd /etc/mosquitt
 
 Type `mosquitto -v` to ensure mosquitto is installed.
 </details>
-
 <details><summary><h4>Windows<h4></summary>
 
 [Download](https://mosquitto.org/download/) the mosquitto service on the device that you'd like to host your broker from.
