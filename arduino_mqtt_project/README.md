@@ -88,7 +88,7 @@ Your IDE is now configured for the Feather 32u4
 * [Step 2, selecting the Feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/using-with-arduino-ide)
 </details>
 
-You'll also need to download the external libraries used in the project
+<h4>You'll also need to download the external libraries used in the project</h4>
 
 * Go to Sketch > Include Library > Manage Libraries
 
