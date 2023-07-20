@@ -57,7 +57,7 @@ Conect the Pulse over USB to a computer that can run the Arduino IDE. If you don
 For Linux users its important that you execute the last step on the downloads page. To do so open a terminal and enter `cd /etc/udev/rules.d`. Then enter `sudo open 99-arduino.rules`. Copy and paste
  `SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", GROUP="plugdev", MODE="0666"` and add it to the bottom of the file.
 
-You'll need to add the Feather 32u4 to the arduino IDE.
+<h4>You'll need to add the Feather 32u4 to the arduino IDE.</h4>
 
 * Open the Arduino IDE
 
