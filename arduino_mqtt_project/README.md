@@ -96,7 +96,7 @@ Your IDE is now configured for the Feather 32u4
 
 	* [PubSubClient](https://www.arduino.cc/reference/en/libraries/pubsubclient/)
 	* [ArduinoJson](https://arduinojson.org/)
-	* [Adafruit_SleepyDog](https://reference.arduino.cc/reference/en/libraries/adafruit-sleepydog-		library/)
+	* [Adafruit_SleepyDog](https://reference.arduino.cc/reference/en/libraries/adafruit-sleepydog-library/)
 	* (If using Ethernet) [Ethernet](https://www.arduino.cc/reference/en/libraries/ethernet/)
 	* (If using WiFi) NOT SUPPORTED YET
 
