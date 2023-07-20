@@ -55,10 +55,7 @@ In order for the Pulse's mqtt client to connect to your mqtt broker, it needs to
 Conect the Pulse over USB to a computer that can run the Arduino IDE. If you don't have the Arduino IDE installed, you can download it [here](https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE). 
 
 For Linux users its important that you execute the last step on the downloads page. To do so open a terminal and enter `cd /etc/udev/rules.d`. Then enter `sudo open 99-arduino.rules`. Copy and paste
-
- `SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", GROUP="plugdev", MODE="0666"`
- 
-and add it to the bottom of the file.
+ `SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", GROUP="plugdev", MODE="0666"` and add it to the bottom of the file.
 
 You'll need to add the Feather 32u4 to the arduino IDE.
 
@@ -66,9 +63,7 @@ You'll need to add the Feather 32u4 to the arduino IDE.
 
 * Go to File > Preferences
 
-* copy and paste
-
-`https://adafruit.github.io/arduino-board-index/package_adafruit_index.json`
+* copy and paste `https://adafruit.github.io/arduino-board-index/package_adafruit_index.json` into the `Additional Boards Manager URLs:` field 
 
 * Click OK
 
@@ -88,7 +83,7 @@ Your IDE is now configured for the Feather 32u4
 
 <details><summary>Official guides to these steps if you need them</summary>
 
-* [Link to official guide](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/arduino-ide-setup?gclid=Cj0KCQjwk96lBhDHARIsAEKO4xb-HTH6jnBRTT8DlZ_DJDmj5NXO9ytJX4JSwXBmlLgH0CaZMCxn2HcaArvaEALw_wcB)
+* [Step 1, Adding Adafruit board manager](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/arduino-ide-setup?gclid=Cj0KCQjwk96lBhDHARIsAEKO4xb-HTH6jnBRTT8DlZ_DJDmj5NXO9ytJX4JSwXBmlLgH0CaZMCxn2HcaArvaEALw_wcB)
 
 * [Step 2, selecting the Feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/using-with-arduino-ide)
 </details>
