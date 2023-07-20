@@ -54,7 +54,13 @@ In order for the Pulse's mqtt client to connect to your mqtt broker, it needs to
 
 Conect the Pulse over USB to a computer that can run the Arduino IDE. If you don't have the Arduino IDE installed, you can download it [here](https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE). 
 
-You'll need to configure the arduino IDE for the Feather 32u4, and install dependencies.
+For Linux users its important that you execute the last step on the downloads page. To do so open a terminal and enter `cd /etc/udev/rules.d`. Then enter `sudo open 99-arduino.rules`. Copy and paste
+
+ `SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", GROUP="plugdev", MODE="0666"`
+ 
+and add it to the bottom of the file.
+
+You'll need to add the Feather 32u4 to the arduino IDE.
 
 * Open the Arduino IDE
 
@@ -86,17 +92,17 @@ Your IDE is now configured for the Feather 32u4
 * [Step 2, selecting the Feather 32u4](https://learn.adafruit.com/adafruit-feather-32u4-basic-proto/using-with-arduino-ide)
 </details>
 
-Downloading libraries
+You'll also need to download the external libraries used in the project
 
 * Go to Sketch > Include Library > Manage Libraries
 
-* Search for and download the following
+Search for and download the following
 
-* (If using Ethernet) [Ethernet](https://www.arduino.cc/reference/en/libraries/ethernet/)
-* (If using WiFi) NOT SUPPORTED YET
 * [PubSubClient](https://www.arduino.cc/reference/en/libraries/pubsubclient/)
 * [ArduinoJson](https://arduinojson.org/)
 * [Adafruit_SleepyDog](https://reference.arduino.cc/reference/en/libraries/adafruit-sleepydog-library/)
+* (If using Ethernet) [Ethernet](https://www.arduino.cc/reference/en/libraries/ethernet/)
+* (If using WiFi) NOT SUPPORTED YET
 
 <details><summary>Official guides to these steps if you need them</summary>
 * [Installing dependencies in the Arduino IDE](https://support.arduino.cc/hc/en-us/articles/5145457742236-Add-libraries-to-Arduino-IDE)
