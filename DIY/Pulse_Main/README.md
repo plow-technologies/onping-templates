@@ -33,29 +33,25 @@ Pinout default roles:
 
 Connect Lumberjack to your home network with an Ethernet cable
 
-With Lumberjack powered up, on personal computer enable wifi and check for available connection “lumberjack-xxxx”, if not available try moving closer to Lumberjack. Once in wifi list click “Connect”, password will be plowtech. (This is not an Internet Connection) 
+With Lumberjack powered up, on personal computer enable wifi and check for available connection `lumberjack-xxxx`, if not available try moving closer to Lumberjack. Once in wifi list click “Connect”, password will be plowtech. (This is not an Internet Connection) 
 
-Open internet browser and in command line type 192.168.123.1 and hit enter. When password page loads, enter admin for password.
+Open internet browser and in command line type `192.168.123.1` and hit enter. When password page loads, enter `admin` for password.
 
-Click the drop down menu in the top right and go to network. Click where you see IPv4 Method and change it to manual. Then, click where you see IP Address and give the lumberjack the IP 192.168.168.90. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to 192.168.168.1 or the IP of the default gateway.
+Click the drop down menu in the top right and go to network. Click where you see `IPv4 Method` and change it to `manual`. Then, click where you see `IP Address` and give the lumberjack the IP `192.168.168.90`. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to `192.168.168.1` or the IP of the default gateway.
 
-Refresh the page until IPv4 Method stays as "Manual" // SNAG
+Refresh the page until IPv4 Method stays as `Manual`
 
-Go to https://onping.plowtech.net
+Go to `https://onping.plowtech.net`
 
-Press ctrl + k and search for LAS. Open the LAS panel by clicking on LAS.
+Press `ctrl+k` search for `LAS` and select it. Search for the serial number on your lumberjack. Select your lumberjack when it shows up.
 
-Search for the serial number on your lumberjack. Select your lumberjack when it shows up.
+Go to `Apps`. Search for `mqtt-json-driver` in the available apps list. Click the download button.
 
-Go to apps.
-
-Search for mqtt-json-driver in the available apps list. Click the download button.
-
-Then search for client-mosquitto-broker and download it.
+Then search for `client-mosquitto-broker` and download it.
 
 Connect your Pulse to the lumberjack using the USB cable. Connect the Pulse to the switch/ router using an Ethernet cable. Wait until the LED on the pulse turns green.
 
-You've configured the mqtt broker and the pulse has Connected to it.
+You've configured the mqtt broker and the pulse has connected to it.
 
 <h2> Creating a new site for your lumberjack </h2>
 
