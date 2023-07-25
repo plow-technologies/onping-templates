@@ -13,18 +13,18 @@ Full feature list
 * generalizable pin structure for any arduino board
 
 Pinout default roles:
-D5: digital out
-D6: digital out
-D9: PWM out
-D11: digital in
-D12: digital in
-D13: digital in
-A0: MQTT LED
-A1: digital out
-A2: digital out
-A3: analog in
-A4: analog in
-A5: analog in
+* D5: digital out
+* D6: digital out
+* D9: PWM out
+* D11: digital in
+* D12: digital in
+* D13: digital in
+* A0: MQTT LED
+* A1: digital out
+* A2: digital out
+* A3: analog in
+* A4: analog in
+* A5: analog in
 
 
 <h2> Quick Configuration </h2>
