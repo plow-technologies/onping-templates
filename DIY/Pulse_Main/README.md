@@ -37,11 +37,11 @@ With Lumberjack powered up, on personal computer enable wifi and check for avail
 
 Open internet browser and in command line type `192.168.123.1` and hit enter. When password page loads, enter `admin` for password.
 
-Click the drop down menu in the top right and go to network. Click where you see `IPv4 Method` and change it to `manual`. Then, click where you see `IP Address` and give the lumberjack the IP `192.168.168.90`. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to `192.168.168.1` or the IP of the default gateway.
+Click the drop down menu in the top right and go to network. Click where you see `IPv4 Method` and change it to `manual`. Then, click where you see `IP Address` and give the lumberjack the IP `192.168.168.90`. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to `192.168.168.1` or the IP of the default gateway. Set `DNS 1` to `127.0.0.1` and `DNS 2` to `8.8.8.8`. Click `Release / Renew`. 
 
 Refresh the page until IPv4 Method stays as `Manual`
 
-Go to `https://onping.plowtech.net`
+While connected to the internet, go to `https://onping.plowtech.net`
 
 Press `ctrl+k` search for `LAS` and select it. Search for the serial number on your lumberjack. Select your lumberjack when it shows up.
 
