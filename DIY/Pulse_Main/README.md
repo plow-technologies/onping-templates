@@ -32,40 +32,6 @@ Pinout default roles:
 <h3>Configuring your lumberjack mosquitto broker</h3>
 
 Connect Lumberjack to your home network with an Ethernet cable
-<h1> Features </h1>
-
-The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It hosts an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain io pin names and their values and writes those values in real time. The Pulse also publishes information in a Json message related to all pin values when a line changes, or when prompted. Any other mqtt client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
-
-Full feature list
-* Reading and writing digital io lines over mqtt
-* Reading analog input lines over mqtt
-* Writing PWM lines over mqtt
-* mqtt connection comm status
-* writing of (firmware configurable) default values in the event of comm failure
-* virtual pins that act as firmware parameters 
-* firmware watchdog
-* generalizable pin structure for any arduino board
-
-Pinout default roles:
-* D5: digital out
-* D6: digital out
-* D9: PWM out
-* D11: digital in
-* D12: digital in
-* D13: digital in
-* A0: MQTT LED
-* A1: digital out
-* A2: digital out
-* A3: analog in
-* A4: analog in
-* A5: analog in
-
-
-<h2> Quick Configuration </h2>
-
-<h3>Configuring your lumberjack mosquitto broker</h3>
-
-Connect Lumberjack to your home network with an Ethernet cable
 
 With Lumberjack powered up, on personal computer enable wifi and check for available connection “lumberjack-xxxx”, if not available try moving closer to Lumberjack. Once in wifi list click “Connect”, password will be plowtech. (This is not an Internet Connection) 
 
