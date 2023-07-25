@@ -3,7 +3,7 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <Adafruit_SleepyDog.h>
-#include "pinkey_settings.h"
+#include "pulse_settings.h"
 
 
 // PubSubClient
@@ -39,8 +39,8 @@ Pin board_pins[number_pins] = {
   {"D12", 12, "digital_input", 0, 0},
   {"D13", 13, "digital_input", 0, 0},
   {"A0", A0, "digital_output", 0, 0}, // mqtt connection status LED
-  {"A1", A1, "analog_input", 0, 0},
-  {"A2", A2, "analog_input", 0, 0},
+  {"A1", A1, "digital_output", 0, 0},
+  {"A2", A2, "digital_output", 0, 0},
   {"A3", A3, "analog_input", 0, 0},
   {"A4", A4, "analog_input", 0, 0},
   {"A5", A5, "analog_input", 0, 0}
@@ -108,7 +108,6 @@ void set_pin_current_values(Pin Pins[]) {
 
 // sets values of PWM pins in memory
 void set_pwm_pin_values (Pin pins[], const char* name, uint8_t value) {
-  Serial.println("set_pwm_pin_value called");
   for (uint8_t i=0;i<number_pins;i++) {
     if (strncmp(pins[i].name, name, 20) == 0) {
       pins[i].current_value = value;  
@@ -120,10 +119,6 @@ void set_pwm_pin_values (Pin pins[], const char* name, uint8_t value) {
 void set_virtual_pin_values (Pin Vpins[], const char* name, uint8_t value) {
   for (uint8_t i=0;i<number_Vpins;i++) {
     if (strncmp(Vpins[i].name, name, 20) == 0) {
-      /* Serial.println("virtual pin: ");
-      Serial.print(Vpins[i].name);
-      Serial.print(" getting set to ");
-      Serial.println(value); */
       Vpins[i].current_value = value;  
     }
   }
@@ -288,10 +283,13 @@ void reconnect() {
 WatchdogAVR spike; // his name is spike
 #endif
 
+bool startup = true;
 
 void setup() {
   // put your setup code here, to run once:
   USBDevice.attach();
+
+  startup = true;
 
   // sets the pinMode of each pin according to their type in the board_pins struct
   for (uint8_t i;i<number_pins; i++) {
@@ -325,7 +323,6 @@ void setup() {
   #endif
 }
 
-
 void loop() {
   // put your main code here, to run repeatedly:
   
@@ -335,13 +332,20 @@ void loop() {
   if (!client.connected()) {
     reconnect();
   }
+
+  if (startup && client.connected()) {
+    produce_current_msg(board_pins, client, "pins/current/on_change", 20);
+    produce_current_msg(board_pins, client, "pins/current", 20);
+    produce_current_msg(board_pins, client, "pins/set", 20);
+    startup = false;  
+  }
     
   if (!are_current_values_same(board_pins, virtual_configuration_pins[0])) {
-    Serial.println(F("current values are NOT the same"));
     set_pin_current_values(board_pins);
     produce_current_msg(board_pins, client, "pins/current/on_change", 20);
     produce_current_msg(board_pins, client, "pins/current", 20);
   }
+  
   set_pin_current_values(board_pins);
   //produce_current_msg(board_pins, client, "pins/current", 20);
   produce_default_msg(board_pins, client, "pins/default");
