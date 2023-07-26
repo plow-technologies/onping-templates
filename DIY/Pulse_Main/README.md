@@ -20,8 +20,8 @@ Pinout default roles:
 * D12: digital in
 * D13: digital in
 * A0: MQTT LED
-* A1: digital out
-* A2: digital out
+* A1: PWM out
+* A2: PWM out
 * A3: analog in
 * A4: analog in
 * A5: analog in
