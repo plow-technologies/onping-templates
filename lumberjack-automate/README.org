@@ -1,0 +1,77 @@
+* Table of Contents :ToC:
+- [[#about][About]]
+- [[#documentation][Documentation]]
+- [[#configuration][Configuration]]
+  - [[#available-options][Available options]]
+  - [[#modules][Modules]]
+- [[#building-scripts][Building scripts]]
+  - [[#onping-authentication][OnPing authentication]]
+  - [[#building-and-running][Building and running]]
+- [[#using-the-lumberjack-automate-cli-tool][Using the ~lumberjack-automate~ CLI tool]]
+
+* About
+~lumberjack-automate~ is a tool to create OnPing driver scripts. It uses the Nix module system to generate shell scripts that, when executed, perform configuration tasks corresponding to the options specified by the user. This obviates the need to use the OnPing UI to perform driver configuration tasks.
+* Documentation
+The original spec and examples for ~lumberjack-automate~ are held in the ~docs/~ [[file:docs][directory]]. These contain more background information, context, and the original motivation for the ~lumberjack-automate~ system
+* Configuration
+** Available options
+All of the configuration options are stored under the ~nix/modules~ directory. Currently, ~lumberjack-automate~ only supports Modbus location and parameter configuration.
+
+Each option corresponds to a particular driver configuration task and are organized under a ~driver.${driver}.${suboption}.${action}~ namespace. For example:
+- ~driver.modbus.location~: includes further suboptions for location ~add~ and ~update~
+- ~driver.modbus.parameter~: includes an ~update~ suboption for updating parameters
+
+Values for each suboption can then be specified by the user to build a script.
+*** OnPing options
+Because the scripts must call OnPing routes, each configuration must include values for ~onping~ options as well (see the example below).
+** Modules
+To create a configuration script, define a Nix module containing the desired options for the given driver configuration action. For example, to create a script that updates a Modbus parameter:
+
+#+begin_src nix
+{
+  config.onping = {
+    # E.g. for local testing
+    scheme = "http";
+    host = "localhost";
+    port = 3000;
+  };
+  config.driver.modbus.parameter.update = {
+    enable = true;
+    config = {
+      refId = 1;
+      params = [
+        {
+          description = "desc";
+          index = "idx";
+          dataType = "DataTypeText";
+          readWrite = "TagWriteable";
+          units.unit = "Kilograms";
+        }
+      ];
+    };
+  };
+}
+#+end_src
+
+Refer to the ~nix/modules~ directory for all module options.
+
+Note that if you choose to use the [[#cli][CLI tool]], the driver configuration is provided as JSON.
+* Building scripts
+Driver configuration module are used by ~lumberjack-automate~ to generate a script that will call the appropriate OnPing route. This is achieved by exposing a package (~packages..default~) from the flake, which applies a function to ~inputs.parameter~. In order to build the script for a specific configuration, ~--override-input~ must be used to replace ~inputs.parameter~ with the module:
+
+#+begin_src
+% nix build .# --override-input parameter path/to/configuration/module.nix
+#+end_src
+
+Building the package in this way will produce a single Bash script that can be subsequently run
+** OnPing authentication
+Because ~lumberjack-automate~ calls OnPing routes, it is necessary to authenticate. Each generated script takes a single argument consisting of the session cookie returned from OnPing's ~/auth/page/plow/plowlogin~. It would be possible to include this as part of ~config.onping~, but this would insert the credential into the Nix store. Out of an abundance of caution, it is provided as a script argument instead to prevent this.
+
+To simplify this, you can use a [[#cli][CLI tool]] developed to work with ~lumberjack-automate~, which automates the login and session cookie process.
+** Building and running
+~nix run~ can also be used instead of ~nix build~ to both build and run the script in a single command. The same conditions mentioned above apply (i.e. overriding ~inputs.parameter~ and providing the session cookie)
+* Using the ~lumberjack-automate~ CLI tool
+:PROPERTIES:
+:CUSTOM_ID: cli
+:END:
+As mentioned above, there is an identically named dedicated CLI tool for working with ~lumberjack-automate~ in ~plow-technologies/all~ (it is housed in ~all~ in order to use Haskell dependencies defined there). It simplifies using ~lumberjack-automate~ by handling authentication, building and running scripts, and converting JSON configurations into Nix modules. Please see the [[https://github.com/plow-technologies/all/blob/master/lumberjack-automate/README.md][documentation]] for more details. Note that it is *not* required to use the CLI tool to configure and build ~lumberjack-automate~ scripts; it merely simplifies doing so.
