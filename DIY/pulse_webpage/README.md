@@ -1,3 +1,5 @@
+<h1> Notice: </h1> Pulse webpage is currently broken. The groundwork is there, but the http requests and resetting of the IP during the loop are not working fully.
+
 <h1> Features </h1>
 
 The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It hosts an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain io pin names and their values and writes those values in real time. The Pulse also publishes information in a Json message related to all pin values when a line changes, or when prompted. Any other mqtt client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
@@ -109,9 +111,9 @@ Your IDE is now configured for the Feather 32u4
 
 On the computer, clone this repository using git clone [INSERT GIT COMMAND]
 
-Navigate to the `OnPing-templates/arduino_mqtt_project/pinkey_no_serial` folder. Open `arduino_mqtt_pinkey_no_serial.ino` with the Arduino IDE. You should see a tab in the IDE labeled `pinkey_settings.h`, navigate there.
+Navigate to the `OnPing-templates/arduino_mqtt_project/pulse_webpage` folder. Open `pulse_webpage.ino` with the Arduino IDE. You should see a tab in the IDE labeled `pulse_settings.h`, navigate there.
 
-In `pinkey_settings.h` on the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
+In `pulse_settings.h` on the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
 
 <details><summary>What is my broker's IP address?</summary>
 
@@ -317,7 +319,7 @@ Reconfiguring any of the pins requires changing the pins `pin_type`. This is def
 
 Remember to ensure that the Arduino IDE is configured for your board. 
 
-Boards are conveyed to the firmware by writing an array of the Pin structure object. For example, look at the `board_pins` array in `arduino_mqtt_pinkey_no_serial.ino`. 
+Boards are conveyed to the firmware by writing an array of the Pin structure object. For example, look at the `board_pins` array in `pulse_webpage.ino`. 
 
 To define a new board, create a new variable under `constexpr uint8_t number_pins 14;` with the number of pins on your board i.e. `constexpr uint8_t number_pins_myboard = 4`. Then, you would replace the board_pins array with something like,
 

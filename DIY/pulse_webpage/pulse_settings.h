@@ -4,7 +4,7 @@
    commas (,) where periods (.) normally go */
 
 // the IP address of your mqtt broker
-IPAddress server(192, 168, 168, 90);
+IPAddress server(192, 168, 4, 121);
 
 // the port of your mqtt broker
 uint16_t port = 1884;
@@ -16,3 +16,9 @@ byte mac[] = {0x98, 0x76, 0xB6, 0x11, 0x2D, 0x14};
 
 #define development
 //#define production // uncomment this line to enable the watchdog
+
+//webpage
+IPAddress arduino_ip(192, 168, 4, 145);
+EthernetServer arduino_server(80);
+EthernetClient web_client = arduino_server.available();
+bool new_ip_assigned = false;

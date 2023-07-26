@@ -10,6 +10,7 @@
 EthernetClient ethClient;
 PubSubClient client(ethClient);
 
+
 /****** PIN STRUCTURE ******/
 // set number_pins equal to the number of pinouts you want to define
 constexpr uint8_t number_pins = 13;
@@ -38,9 +39,9 @@ Pin board_pins[number_pins] = {
   {"D11", 11, "digital_input", 0, 0},
   {"D12", 12, "digital_input", 0, 0},
   {"D13", 13, "digital_input", 0, 0},
-  {"A0", A0, "PWM_output", 0, 0}, // mqtt connection status LED
-  {"A1", A1, "PWM_output", 0, 0},
-  {"A2", A2, "digital_output", 0, 0},
+  {"A0", A0, "digital_output", 0, 0}, // mqtt connection status LED
+  {"A1", A1, "analog_input", 0, 0},
+  {"A2", A2, "analog_input", 0, 0},
   {"A3", A3, "analog_input", 0, 0},
   {"A4", A4, "analog_input", 0, 0},
   {"A5", A5, "analog_input", 0, 0}
@@ -264,16 +265,174 @@ void reconnect() {
     // Attempt to connect
     if (client.connect("arduinoClient")) {
       // subscribe once connected
+      Serial.println("Connected");
       digitalWrite(A0, HIGH);
       set_pin_current_values(board_pins);
       client.subscribe("pins/set");
     } else {
+      Serial.println("Disconnected");
+      Serial.print("RC= ");
+      Serial.println(client.state());
       set_current_to_default(board_pins);
       digitalWrite(A0, LOW);
       // Wait 3 seconds before retrying
+
+      arduino_server.begin();
+      Serial.println(arduino_server.available());
+      
+      new_ip_assigned = false;
+      //arduino_server.begin();
+      if (web_client.connected()) {
+        Serial.println("oh shit");  
+      }
+      web_client = arduino_server.available();
+      while (web_client && new_ip_assigned != true) {
+        Serial.println("attempting to load webpage");
+        handleClientRequest(web_client);
+      }
       delay(3000);
     }
   }
+}
+
+void parseAfterIP(char* inputArray, int arraySize, char* resultArray) {
+  int startIndex = 0; // Initialize the start index for parsing
+  bool foundIP = false; // Flag to indicate if "ip=" is found
+
+  // Find the index of "ip=", if present
+  for (int i = 0; i < arraySize - 2; i++) { // We use arraySize - 2 to avoid accessing beyond the array boundary
+    if (inputArray[i] == 'i' && inputArray[i + 1] == 'p' && inputArray[i + 2] == '=') {
+      startIndex = i + 3; // Set the start index to three positions after "ip="
+      foundIP = true; // Set the flag to true
+      break;
+    }
+  }
+
+  // Start parsing after "ip=" or from the beginning if "ip=" is not found
+  int resultIndex = 0; // Initialize the index for the result array
+
+  for (int i = startIndex; i < arraySize; i++) {
+    char currentChar = inputArray[i];
+
+    // Check if the current character is a newline character or the null terminator
+    if (currentChar == '&' || currentChar == '\0') {
+      break; // Exit the loop when a newline character or the end of the array is reached
+    } else if (resultIndex <= 16) {
+      // Append the current character to the result array if there is enough space (leave one space for null terminator)
+      resultArray[resultIndex] = currentChar;
+      resultIndex++;
+    }
+  }
+
+  // Add null terminator at the end of the result array to ensure it's a valid C-style string
+  resultArray[resultIndex] = '\0';
+}
+
+void parseAfterPort(char* inputArray, int arraySize, char* resultArray) {
+  int startIndex = 0; // Initialize the start index for parsing
+  bool foundIP = false; // Flag to indicate if "ip=" is found
+
+  // Find the index of "rt=", if present
+  for (int i = 0; i < arraySize - 2; i++) { // We use arraySize - 2 to avoid accessing beyond the array boundary
+    if (inputArray[i] == 'r' && inputArray[i + 1] == 't' && inputArray[i + 2] == '=') {
+      startIndex = i + 3; // Set the start index to three positions after "ip="
+      foundIP = true; // Set the flag to true
+      break;
+    }
+  }
+
+  // Start parsing after "ip=" or from the beginning if "ip=" is not found
+  int resultIndex = 0; // Initialize the index for the result array
+
+  for (int i = startIndex; i < arraySize; i++) {
+    char currentChar = inputArray[i];
+
+    // Check if the current character is a newline character or the null terminator
+    if (currentChar == ' ' || currentChar == '\0') {
+      break; // Exit the loop when a newline character or the end of the array is reached
+    } else if (resultIndex <= 16) {
+      // Append the current character to the result array if there is enough space (leave one space for null terminator)
+      resultArray[resultIndex] = currentChar;
+      resultIndex++;
+    }
+  }
+
+  // Add null terminator at the end of the result array to ensure it's a valid C-style string
+  resultArray[resultIndex] = '\0';
+}
+
+void handleClientRequest(EthernetClient& web_client) {
+  char buff[100];
+  char ip_char_array[16] = "";
+  char port_char_array[4] = "";
+  uint8_t ip_bytes[4];
+  char *ip_token;
+  web_client.setTimeout(6000);
+  if (web_client.available()) {
+    size_t request = web_client.readBytesUntil(0x0a, buff, 100);
+    if (strstr(buff, "?") != NULL) {
+      parseAfterIP(buff, 100, ip_char_array);
+      parseAfterPort(buff, 100, port_char_array);
+    }
+    
+    client.flush();
+    
+    if (strncmp(ip_char_array,"", 20) != 0) {
+      ip_token = strtok(ip_char_array, ".");
+    
+      if (ip_token != NULL) {
+        // Convert the first token to an integer
+        ip_bytes[0] = atoi(ip_token);
+
+        // Parse the rest of the string and convert tokens to integers
+        for (int i = 0; i < 3; i++) {
+          ip_token = strtok(NULL, ".");
+          if (ip_token == NULL) {
+            // If there are fewer than 4 tokens, break the loop
+            break;
+          }
+
+          switch (i) {
+            case 0:
+              ip_bytes[1] = atoi(ip_token);
+              break;
+            case 1:
+              ip_bytes[2] = atoi(ip_token);
+              break;
+            case 2:
+              ip_bytes[3] = atoi(ip_token);
+              break;
+          }
+        }
+      }
+      for (uint8_t i=0;i<4;i++){
+        Serial.println(ip_bytes[i]);  
+      }
+      IPAddress new_server(ip_bytes[0], ip_bytes[1], ip_bytes[2], ip_bytes[3]);
+      uint16_t new_port = atoi(port_char_array);
+      //Serial.println(new_port);
+      client.setServer(new_server, new_port);
+      client.disconnect();
+      Serial.println(new_port);
+      new_ip_assigned = true;
+    }
+
+    web_client.println("HTTP/1.1 200 OK");
+    web_client.println("Content-Type: text/html");
+    web_client.println();
+    web_client.print(F(
+    "<HTML>  <form>   <label>Enter MQTT broker IP</label> <br><br>"
+    "<input type=\"text\" id=\"ip\" name=\"ip\"><br><br>"
+
+    "<label>Enter MQTT broker Port</label> <br><br>"
+    "<input type=\"text\" id=\"port\" name=\"port\"><br><br>"
+    "<input type=\"submit\" value= \"submit\">"
+    
+    "</form> </HTML>"
+    ));
+  }  
+  delay(1);
+  web_client.stop();
 }
 
 //WatchDog
@@ -283,13 +442,11 @@ void reconnect() {
 WatchdogAVR spike; // his name is spike
 #endif
 
-bool startup = true;
 
 void setup() {
+  Serial.begin(57600);
   // put your setup code here, to run once:
   USBDevice.attach();
-
-  startup = true;
 
   // sets the pinMode of each pin according to their type in the board_pins struct
   for (uint8_t i;i<number_pins; i++) {
@@ -314,7 +471,9 @@ void setup() {
   client.setServer(server, port);
   client.setCallback(callback);
 
-  Ethernet.begin(mac);
+  Ethernet.begin(mac, arduino_ip);
+  arduino_server.begin();
+  
   
   delay(1500);
   
@@ -324,28 +483,27 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // webpage
+  EthernetClient web_client = arduino_server.available();
+  if (web_client) {
+    web_client.print("");
+    handleClientRequest(web_client);
+  }
   
+  // put your main code here, to run repeatedly:
   #ifdef production
   spike.reset();
   #endif
+  
   if (!client.connected()) {
     reconnect();
   }
-
-  if (startup && client.connected()) {
-    produce_current_msg(board_pins, client, "pins/current/on_change", 20);
-    produce_current_msg(board_pins, client, "pins/current", 20);
-    produce_current_msg(board_pins, client, "pins/set", 20);
-    startup = false;  
-  }
-    
+  
   if (!are_current_values_same(board_pins, virtual_configuration_pins[0])) {
     set_pin_current_values(board_pins);
     produce_current_msg(board_pins, client, "pins/current/on_change", 20);
     produce_current_msg(board_pins, client, "pins/current", 20);
   }
-  
   set_pin_current_values(board_pins);
   //produce_current_msg(board_pins, client, "pins/current", 20);
   produce_default_msg(board_pins, client, "pins/default");
