@@ -7,3 +7,7 @@ who want to make their own dashboards and reports.
 
 
 [[./industry/water/README.md][Here is a listing of Industrial Water items]]
+** ~lumberjack-automate~
+This repository also contains the ~lumberjack-automate~ framework for building and running driver configuration scripts. Please see the following for more information:
+- The ~lumberjack-automate~ [[file:./lumberjack-automate][subdirectory]]
+- The ~lumberjack-automate~ CLI tool in [[https://github.com/plow-technologies/all/blob/master/lumberjack-automate/README.md][in ~all~ ]]
