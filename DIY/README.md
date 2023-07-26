@@ -131,7 +131,7 @@ In most cases, you can leave the line `byte mac[]` alone. This is where you set 
 
 Ensure that your Arduino IDE is configured for the Feather 32u4, and all dependencies are properly installed in the IDE. Then, **click the blue checkmark** in the top left. If you don't get any errors, **clicking the blue arrow** next to the checkmark. When the dialog box reads `Done uploading.` your configuration has been uploaded to the Pulse.
 
-The green LED on the side of the Pulse will light up when it successfully connects to the mqtt broker. Be sure to physically connect the Pulse to your network via Ethernet [later, support for wifi and wifi instructions].
+The green LED on the side of the Pulse will light up when it successfully connects to the mqtt broker. Be sure to physically connect the Pulse to your network via Ethernet.
 
 You're done configuring the Pulse for almost all default functionalities. The next steps should work as described.
 
@@ -142,10 +142,8 @@ These next steps require an mqtt client like mosquitto-client.
 
 To test that your Pulse is working properly, we will blink the Ethernet LED with an mqtt Json message. We will use the same format to write values to any of the digital output pins on the Pulse.
 
-**Linux**
-
 Open a new terminal and run the command 
-`mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {A0: 0}`
+`mosquitto_pub -h you.rIP.add.res -p port -t pins/set -m {A0: 0}`. If on windows be sure to do these commands in the file address of mosquitto.
 
 replace `you.rIP.add.res` and `port` with the mqtt broker's IP address and port number.
 
@@ -161,11 +159,9 @@ Congrats, you've just blinked an LED on the Pulse remotely over mqtt!
 
 This step requires an mqtt client like mosquitto-client.
 
-**Linux**
-
 Open two terminal windows. In the first run the command
 
-`mosquitto_sub -h you.rIP.add.res -p port -t pins/current`
+`mosquitto_sub -h you.rIP.add.res -p port -t pins/current`. Remember on windows this needs to be in the file address of mosquitto.
 
 In the second run the command
 
@@ -189,11 +185,9 @@ This test is a little more complicated than the others. We're going to need an i
 
 Next, connect a wire to the A0 pin and to the wire connected to D11. Make sure that the Ethernet comm status LED is on (A0 is written HIGH).
 
-**Linux**
-
 Run the command
 
-`mosquitto_sub -h you.rIP.add.res -p port -t pins/current`
+`mosquitto_sub -h you.rIP.add.res -p port -t pins/current`. Remember to run this command in the file address of mosquitto on windows.
 
 Next, break and unbreak the connection between the A0 wire and the D11 wire. You should see a message with a Json dictionary of all the pins current values each time you do this. Pay attention to the value of D11. When the A0 wire is connected, you should see D11:1, when its disconnected you should see D11:0.
 
@@ -260,8 +254,6 @@ if (virtual_pins[1].current_value == 1) {
 ```
 
  Compile and upload the firmware. 
- 
- **linux**
  
 Run the following command in a terminal to see the routine publishing of the pin status dictionary
 
