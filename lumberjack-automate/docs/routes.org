@@ -1,0 +1,43 @@
+* [ ] TODO General
+- [ ] Figure out how to authenticate to call OnPing routes
+* [ ] TODO Routes
+- [-] Locations
+  - [ ] AddModbusFlexibleLocationR ::
+    - ~/modbus/flexible/location/add~
+      ([[file:~/work/all/onping2.0/onping/Handler/ModbusFlexible/Service.hs::postAddModbusFlexibleLocationR :: Handler Value][Handler]])
+    - Types ::
+      - Takes: ~ModbusFlexibleLocationConfig~ ([[file:~/work/all/onping-types/onping-handler-types/src/Onping/Types/Handler/ModbusFlexible.hs::data ModbusFlexibleLocationConfig = ModbusFlexibleLocationConfig][Link]])
+      - Returns: ~LocationRefId~ ([[file:~/work/all/onping2.0/onping/Handler/ModbusFlexible/Service.hs::addLoc ::][Link]])
+  - [ ] UpdateModbusFlexibleLocationR ::
+    - ~/modbus/flexible/location/update~:
+      ([[file:~/work/all/onping2.0/onping/Handler/ModbusFlexible/Service.hs::postUpdateModbusFlexibleLocationR :: Handler Value][Handler]])
+    - Types ::
+      - Takes: ~ModbusFlexibleLocationConfig~ ([[file:~/work/all/onping-types/onping-handler-types/src/Onping/Types/Handler/ModbusFlexible.hs::data ModbusFlexibleLocationConfig = ModbusFlexibleLocationConfig][Link]])
+      - Returns: ~Text~ (ignore)
+  - [ ] DeleteModbusFlexibleLocationR ::
+    - ~/modbus/flexible/location/delete~
+      ([[file:~/work/all/onping2.0/onping/Handler/ModbusFlexible/Service.hs::postDeleteModbusFlexibleLocationR :: Handler Value][Handler]])
+    - Types ::
+      - Takes: ~(LocationId, Int)~
+      - Returns: ~Text~ (ignore)
+  - [X] CleanModbusFlexibleLocationR ::
+    - ~/modbus/flexible/location/clean~
+  - [X] DiagnoseModbusFlexibleLocationR ::
+    - ~/modbus/flexible/location/diagnose~
+- [-] Parameters
+  - [ ] WriteModbusFlexibleParametersR ::
+    - ~/modbus/flexible/parameters/write~
+       ([[file:~/work/all/onping2.0/onping/Handler/ModbusFlexible/Service.hs::postUpdateModbusFlexibleParametersR :: Handler (OnpingResponse Text)][Handler]])
+    - Types ::
+      - Takes: ~(Int, ModbusFlexibleIndex, Text, Text)~
+      - Returns: ~Text~ (ignore)
+  - [ ] UpdateModbusFlexibleParametersR ::
+    - ~/modbus/flexible/parameters/update~
+       ([[file:~/work/all/onping2.0/onping/Handler/ModbusFlexible/Service.hs::postUpdateModbusFlexibleParametersR :: Handler (OnpingResponse Text)][Handler]])
+    - Types ::
+      - Takes: ~(LocationIdRef, [ModbusFlexibleParamConfig])~ ([[file:~/work/all/onping-types/onping-handler-types/src/Onping/Types/Handler/ModbusFlexible.hs::data ModbusFlexibleParamConfig = ModbusFlexibleParamConfig][Link]])
+      - Returns: ~Text~ (ignore)
+  - [X] ImportModbusFlexibleParametersR ::
+    - ~/modbus/flexible/import/params~
+  - [X] ExportModbusFlexibleParametersR ::
+    - ~/modbus/flexible/export/params/#Int/#String~

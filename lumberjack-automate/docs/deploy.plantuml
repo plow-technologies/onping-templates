@@ -1,0 +1,31 @@
+@startuml
+skinparam defaultFontName Fira Sans
+
+person User
+interface Frontend
+file Configuration [
+  User configuration
+]
+cloud OnPing
+node ec2 as Server {
+    stack LA [
+        ""lumberjack-automate""
+    ]
+}
+
+User -> Configuration: Submits user-defined configuration
+Configuration --> Frontend
+Frontend --> OnPing: Routed by OnPing
+ note on link
+   ""POST /lumberjack/automate?serial=$serial""
+   JSON
+ end note
+OnPing ~~> Server
+OnPing <~~ Server
+ note on link
+    OnPing and server pass requests/responses
+    (e.g. for LAS, etc...) until automation
+    process is complete
+ end note
+Frontend <~~ OnPing
+@enduml
