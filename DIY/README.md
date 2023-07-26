@@ -109,9 +109,9 @@ Your IDE is now configured for the Feather 32u4
 
 On the computer, clone this repository using git clone [INSERT GIT COMMAND]
 
-Navigate to the `OnPing-templates/arduino_mqtt_project/pinkey_no_serial` folder. Open `arduino_mqtt_pinkey_no_serial.ino` with the Arduino IDE. You should see a tab in the IDE labeled `pinkey_settings.h`, navigate there.
+Navigate to the `OnPing-templates/arduino_mqtt_project/pulse_fw_timer` folder. Open `pulse_fw_timer.ino` with the Arduino IDE. You should see a tab in the IDE labeled `pulse_settings.h`, navigate there.
 
-In `pinkey_settings.h` on the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
+In `pulse_settings.h` on the line where you see `IPAddress server` enter each byte of your mqtt broker's ip address separated by commas 
 
 <details><summary>What is my broker's IP address?</summary>
 
@@ -317,7 +317,7 @@ Reconfiguring any of the pins requires changing the pins `pin_type`. This is def
 
 Remember to ensure that the Arduino IDE is configured for your board. 
 
-Boards are conveyed to the firmware by writing an array of the Pin structure object. For example, look at the `board_pins` array in `arduino_mqtt_pinkey_no_serial.ino`. 
+Boards are conveyed to the firmware by writing an array of the Pin structure object. For example, look at the `board_pins` array in `pulse_fw_timer.ino`. 
 
 To define a new board, create a new variable under `constexpr uint8_t number_pins 14;` with the number of pins on your board i.e. `constexpr uint8_t number_pins_myboard = 4`. Then, you would replace the board_pins array with something like,
 
