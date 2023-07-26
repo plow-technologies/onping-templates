@@ -1,0 +1,41 @@
+@startuml
+skinparam defaultFontName Fira Sans
+
+collections "User configuration" as UC
+entity "lumberjack-automate" as LA
+collections "Flake" as F
+control "Configuration framework" as CF
+actor OnPing as OP
+
+UC -> LA: Submitted as JSON
+LA -> LA: Convert to Nix expressions
+LA -> LA: Save to temp directory
+LA -> F: Build scripts
+note left
+  ""nix build .#swc""
+  ""  --override-input""
+  ""  source path:/tmp/...""
+end note
+F -> CF: Evaluate modules
+CF --> LA: Generate install script
+CF --> LA: Generate first configuration script
+LA -> OP: Execute install script
+note bottom
+  Calls OnPing LAS endpoints
+  for installation
+end note
+OP --> LA: OK
+loop for //n// scripts
+   LA -> OP: Execute configuration script
+   OP --> LA: Result
+    note bottom
+      Calls OnPing endpoints
+      for configuration
+    end note
+    LA -> LA: Convert to Nix expressions
+    LA -> LA: Save to temp directory
+    LA -> F: Build scripts
+    F -> CF: Evaluate modules
+    CF --> LA: Generate next configuration script
+end
+@enduml
