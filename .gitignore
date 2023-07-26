@@ -1,8 +1,1 @@
-lumberjack-automate/docs/*
-!lumberjack-automate/docs/example.org
-!lumberjack-automate/docs/example.pdf
-!lumberjack-automate/docs/outline.org
-!lumberjack-automate/docs/outline.pdf
-!lumberjack-automate/docs/*.png
-!lumberjack-automate/docs/lstynix.tex
 result*

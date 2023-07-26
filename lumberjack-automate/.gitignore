@@ -1,0 +1,7 @@
+docs/*
+!docs/example.org
+!docs/example.pdf
+!docs/outline.org
+!docs/outline.pdf
+!docs/*.png
+!docs/lstynix.tex
