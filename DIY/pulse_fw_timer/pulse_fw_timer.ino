@@ -38,8 +38,8 @@ Pin board_pins[number_pins] = {
   {"D11", 11, "digital_input", 0, 0},
   {"D12", 12, "digital_input", 0, 0},
   {"D13", 13, "digital_input", 0, 0},
-  {"A0", A0, "digital_output", 0, 0}, // mqtt connection status LED
-  {"A1", A1, "digital_output", 0, 0},
+  {"A0", A0, "PWM_output", 0, 0}, // mqtt connection status LED
+  {"A1", A1, "PWM_output", 0, 0},
   {"A2", A2, "digital_output", 0, 0},
   {"A3", A3, "analog_input", 0, 0},
   {"A4", A4, "analog_input", 0, 0},
