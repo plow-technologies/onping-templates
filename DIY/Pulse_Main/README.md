@@ -29,38 +29,38 @@ Pinout default roles:
 
 <h2> Quick Configuration </h2>
 
-<h3>Configuring your lumberjack mosquitto broker</h3>
+<h3>Configuring your Lumberjack mosquitto broker</h3>
 
 Connect Lumberjack to your home network with an Ethernet cable
 
-With Lumberjack powered up, on personal computer enable wifi and check for available connection `lumberjack-xxxx`, if not available try moving closer to Lumberjack. Once in wifi list click “Connect”, password will be plowtech. (This is not an Internet Connection) 
+With Lumberjack powered up, on personal computer enable wifi and check for available connection `lumberjack-xxxx`, if not available try moving closer to Lumberjack. Once in wifi list click `Connect`, password will be plowtech. (This is not an Internet Connection) 
 
 Open internet browser and in command line type `192.168.123.1` and hit enter. When password page loads, enter `admin` for password.
 
-Click the drop down menu in the top right and go to network. Click where you see `IPv4 Method` and change it to `manual`. Then, click where you see `IP Address` and give the lumberjack the IP `192.168.168.90`. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to `192.168.168.1` or the IP of the default gateway. Set `DNS 1` to `127.0.0.1` and `DNS 2` to `8.8.8.8`. Click `Release / Renew`. 
+Click the drop down menu in the top right and go to network. Click where you see `IPv4 Method` and change it to `manual`. Then, click where you see `IP Address` and give the Lumberjack the IP `192.168.168.90`. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to `192.168.168.1` or the IP of the default gateway. Set `DNS 1` to `127.0.0.1` and `DNS 2` to `8.8.8.8`. Click `Release / Renew`. 
 
 Refresh the page until IPv4 Method stays as `Manual`
 
 While connected to the internet, go to `https://onping.plowtech.net`
 
-Press `ctrl+k` search for `LAS` and select it. Search for the serial number on your lumberjack. Select your lumberjack when it shows up.
+Press `ctrl+k` search for `LAS` and select it. Search for the serial number on your Lumberjack. Select your Lumberjack when it shows up.
 
 Go to `Apps`. Search for `mqtt-json-driver` in the available apps list. Click the download button.
 
 Then search for `client-mosquitto-broker` and download it.
 
-Connect your Pulse to the lumberjack using the USB cable. Connect the Pulse to the switch/ router using an Ethernet cable. Wait until the LED on the pulse turns green.
+Connect your Pulse to the Lumberjack using the USB cable. Connect the Pulse to the switch/ router using an Ethernet cable. Wait until the LED on the pulse turns green.
 
 You've configured the mqtt broker and the pulse has connected to it.
 
-<h2> Creating a new site for your lumberjack </h2>
+<h2> Creating a new site for your Lumberjack </h2>
 
 With `https://onping.plowtech.net` open press `ctrl+k` and search `Add Site`. Enter the `Add Site` menu by selecting it. Click the `+Site` button at the top of the screen. Name your site anything you like, Site 1 for example. Under company select your company. Under group select your company's users group. Click `Add`.
 
 Next, while still on `https://onping.plowtech.net` again press `ctrl+k` and search for `Add MQTT Driver`. Press enter to select it from the menu. On the new page click `+New Location`. Create an MQTT JSON location with these attributes.
 
 * Name: Pulsejack 1
-* Lumberjack URL: IP address written on your lumberjack
+* Lumberjack URL: IP address written on your Lumberjack
 * Lumberjack port: 2000
 * Latitude: leave blank
 * Longitude: leave blank
@@ -100,7 +100,7 @@ ensure read only is checked for this parameter and click Save.
 
 The parameters should stay in the parameters table if everything was set up correctly.
 
-Unplug and plug in the Pulse USB to lumberjack. Unselect and reselect your Pulsejack 1 MQTT JSON location. You should see 1s for the `value` field of the parameter.
+Unplug and plug in the Pulse USB to the Lumberjack. Unselect and reselect your Pulsejack 1 MQTT JSON location. You should see 1s for the `value` field of the parameter.
 
 This is the general form for creating a parameter that can be written or read through OnPing. The pin name is given as the value selector, writes are set to publish on the topic `pins/set`, and reads are set to listen to the topic `pins/current`. There is also a topic `pins/current/on_change`, which will only update when values change. For now we won't use this topic, but it's available if you need it.
 
