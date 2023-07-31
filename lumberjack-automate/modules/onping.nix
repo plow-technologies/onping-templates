@@ -20,6 +20,11 @@
           type = lib.types.port;
           description = "The port OnPing is running on";
         };
+
+        cookieJar = lib.mkOption {
+          type = lib.types.path;
+          description = "Local filesystem path to cookie jar";
+        };
       };
     };
   };
