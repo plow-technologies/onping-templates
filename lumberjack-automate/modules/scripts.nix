@@ -30,18 +30,19 @@ in
   config = lib.mkIf cfg.enable {
     driver.script =
       let
-        inherit (config.onping) host port scheme;
+        inherit (config.onping) host port scheme cookieJar;
         inherit (cfg) name path body;
       in
       pkgs.writeShellApplication {
         inherit name;
         runtimeInputs = [ pkgs.curl ];
         text = ''
-          cki="$1"
           curl -X POST \
             --fail \
+            -L \
+            -c "${cookieJar}" \
+            -b "${cookieJar}" \
             -H 'Content-Type: application/json' \
-            -H "Cookie: _SESSION=$cki" \
             ${scheme}://${host}:${builtins.toString port}/${path} \
             -d '${body}'
         '';
