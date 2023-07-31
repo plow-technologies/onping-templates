@@ -98,7 +98,6 @@ Your IDE is now configured for the Feather 32u4
 	* [ArduinoJson](https://arduinojson.org/)
 	* [Adafruit_SleepyDog](https://reference.arduino.cc/reference/en/libraries/adafruit-sleepydog-library/)
 	* (If using Ethernet) [Ethernet](https://www.arduino.cc/reference/en/libraries/ethernet/)
-	* (If using WiFi) NOT SUPPORTED YET
 
 <details><summary>Official guides to these steps if you need them</summary>
 
@@ -107,7 +106,7 @@ Your IDE is now configured for the Feather 32u4
 
 <h4>Finally, clone the project and edit the configuration file</h4>
 
-On the computer, clone this repository using `git clone git@github.com:plow-technologies/onping-templates.git`. Switch to the open source branch by running `git branch pulse-open-source`
+On the computer, clone this repository using `git clone git@github.com:plow-technologies/onping-templates.git`. Switch to the open source branch by running `git checkout pulse-open-source`
 
 Navigate to the `OnPing-templates/arduino_mqtt_project/Pulse_Main` folder. Open `Pulse_Main.ino` with the Arduino IDE. You should see a tab in the IDE labeled `pulse_settings.h`, navigate there.
 
