@@ -194,8 +194,6 @@ Next, break and unbreak the connection between the A0 wire and the D11 wire. You
 
 This step requires enabling a `virtual pin`. Virtual pins on the Pulse are enabled and disabled the same way that regular pins are. 
 
-[Linux]
-
 Open two terminal windows
 
 Run this command in one terminal
