@@ -461,7 +461,6 @@ void setup() {
     }
   }
 
-  digitalWrite(9, LOW);
   digitalWrite(11, LOW);
   digitalWrite(12, LOW);
   digitalWrite(13, LOW);
