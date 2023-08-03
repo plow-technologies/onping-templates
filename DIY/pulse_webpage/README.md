@@ -297,8 +297,8 @@ By default, the pins are in the following configurations. You can double check b
 * "D13": digital_input
 
 * A0: digital_output (also the ethernet comm status line)
-* A1: PWM_output
-* A2: PWM_output
+* A1: analog_input
+* A2: analog_input
 * A3: analog_input
 * A4: analog_input
 * A5: analog_input
