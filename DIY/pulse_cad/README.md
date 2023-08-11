@@ -2,7 +2,7 @@
 
 Testing testing 123
 
-![](/images/step1.jpg)
+![](./images/step1.jpg)
 
 ![step2](/images)
 
