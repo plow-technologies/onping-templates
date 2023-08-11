@@ -1,11 +1,18 @@
-#include <Ethernet.h>
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <WiFiServer.h>
+#include <WiFiUdp.h>
+
+/* THIS BRANCH IS NOT SUPPORTED YET*/
+/*Network settings*/
+const char ssid[] = "***";
+const char password[] = "***";
 
 /* set the lan IP and port number of your mqtt-broker (lumberjack)
    commas (,) where periods (.) normally go */
 
 // the IP address of your mqtt broker
-IPAddress server(192, 168, 168, 90);
-
+IPAddress server(192, 168, 144, 149);
 // the port of your mqtt broker
 uint16_t port = 1884;
 

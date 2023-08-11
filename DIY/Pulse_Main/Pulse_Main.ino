@@ -1,14 +1,14 @@
 #include <SPI.h>
-#include <Ethernet.h>
+#include <WiFi.h>
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <Adafruit_SleepyDog.h>
 #include "pulse_settings.h"
 
-
+/* THIS BRANCH IS NOT SUPPORTED YET*/
 // PubSubClient
-EthernetClient ethClient;
-PubSubClient client(ethClient);
+WiFiClient wifiClient;
+PubSubClient client(wifiClient);
 
 /****** PIN STRUCTURE ******/
 // set number_pins equal to the number of pinouts you want to define
@@ -313,7 +313,8 @@ void setup() {
   client.setServer(server, port);
   client.setCallback(callback);
 
-  Ethernet.begin(mac);
+  WiFi.begin(ssid, password);
+  
   
   delay(1500);
   
@@ -323,6 +324,8 @@ void setup() {
 }
 
 void loop() {
+  Serial.println("SSID");
+  Serial.println(WiFi.status());
   // put your main code here, to run repeatedly:
   
   #ifdef production
