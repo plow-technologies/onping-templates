@@ -4,6 +4,18 @@ Testing testing 123
 
 ![](./images/step1.jpg)
 
-![step2](/images)
+![](./images/step2.jpg)
 
-![step3](/images)
+![](./images/step3.jpg)
+
+![](./images/step4.jpg)
+
+![](./images/step5.jpg)
+
+![](./images/step5.jpg)
+
+![](./images/step6.jpg)
+
+![](./images/step7.jpg)
+
+![](./images/step8.jpg)
