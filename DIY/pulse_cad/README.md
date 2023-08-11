@@ -24,4 +24,12 @@ Attach the long end (anode) of the LED to the A0 pin and the short end (cathode)
 
 ![](./images/step7.jpg)
 
+Insert the assembly into the 3d printed case and bend the LED such that it fits in the hole.
+
 ![](./images/step8.jpg)
+
+Attach the lid
+
+![](./images/step10.jpg)
+
+You have fully assembled the Pulse
