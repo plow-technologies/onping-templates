@@ -54,10 +54,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -100,10 +103,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -179,10 +185,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -225,10 +234,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -325,10 +337,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -369,10 +384,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -437,10 +455,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -481,10 +502,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -548,10 +572,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -592,10 +619,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -659,10 +689,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -703,10 +736,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -784,10 +820,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -828,10 +867,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -893,10 +935,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -937,10 +982,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -1031,10 +1079,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -1075,10 +1126,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -1184,10 +1238,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -1231,10 +1288,13 @@
                                             { _1 : Natural, _2 : Text }
                                         | SourceOsiIntegration : Integer
                                         | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                         | SourceSitepro : Text
                                         | SourceTankLogix : Text
                                         | SourceToku : Text
                                         | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                         | SourceRemote
                                         | SourcePlowStats
                                         | SourceUnknown
@@ -1304,10 +1364,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -1349,10 +1412,13 @@
                                   | SourceOpcUa : { _1 : Natural, _2 : Text }
                                   | SourceOsiIntegration : Integer
                                   | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                   | SourceSitepro : Text
                                   | SourceTankLogix : Text
                                   | SourceToku : Text
                                   | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                   | SourceRemote
                                   | SourcePlowStats
                                   | SourceUnknown
@@ -1426,10 +1492,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -1470,10 +1539,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -1546,10 +1618,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -1592,10 +1667,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -1690,10 +1768,13 @@
                   | SourceOpcUa : { _1 : Natural, _2 : Text }
                   | SourceOsiIntegration : Integer
                   | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                   | SourceSitepro : Text
                   | SourceTankLogix : Text
                   | SourceToku : Text
                   | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                   | SourceRemote
                   | SourcePlowStats
                   | SourceUnknown
@@ -1734,10 +1815,13 @@
                       | SourceOpcUa : { _1 : Natural, _2 : Text }
                       | SourceOsiIntegration : Integer
                       | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                       | SourceSitepro : Text
                       | SourceTankLogix : Text
                       | SourceToku : Text
                       | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                       | SourceRemote
                       | SourcePlowStats
                       | SourceUnknown
@@ -1828,10 +1912,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -1874,10 +1961,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -1953,10 +2043,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -1999,10 +2092,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -2099,10 +2195,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -2143,10 +2242,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -2211,10 +2313,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -2255,10 +2360,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -2322,10 +2430,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -2366,10 +2477,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -2433,10 +2547,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -2477,10 +2594,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -2558,10 +2678,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -2602,10 +2725,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -2667,10 +2793,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -2711,10 +2840,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -2805,10 +2937,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -2849,10 +2984,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -2958,10 +3096,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -3005,10 +3146,13 @@
                                             { _1 : Natural, _2 : Text }
                                         | SourceOsiIntegration : Integer
                                         | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                         | SourceSitepro : Text
                                         | SourceTankLogix : Text
                                         | SourceToku : Text
                                         | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                         | SourceRemote
                                         | SourcePlowStats
                                         | SourceUnknown
@@ -3078,10 +3222,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -3123,10 +3270,13 @@
                                   | SourceOpcUa : { _1 : Natural, _2 : Text }
                                   | SourceOsiIntegration : Integer
                                   | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                   | SourceSitepro : Text
                                   | SourceTankLogix : Text
                                   | SourceToku : Text
                                   | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                   | SourceRemote
                                   | SourcePlowStats
                                   | SourceUnknown
@@ -3200,10 +3350,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -3244,10 +3397,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -3320,10 +3476,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -3366,10 +3525,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -3483,10 +3645,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -3529,10 +3694,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -3602,10 +3770,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -3648,10 +3819,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -3721,10 +3895,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -3767,10 +3944,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -3840,10 +4020,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -3886,10 +4069,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -3951,10 +4137,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -4002,10 +4191,13 @@
                                   | SourceOpcUa : { _1 : Natural, _2 : Text }
                                   | SourceOsiIntegration : Integer
                                   | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                   | SourceSitepro : Text
                                   | SourceTankLogix : Text
                                   | SourceToku : Text
                                   | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                   | SourceRemote
                                   | SourcePlowStats
                                   | SourceUnknown
@@ -4074,10 +4266,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -4120,10 +4315,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -4193,10 +4391,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -4239,10 +4440,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -4304,10 +4508,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -4355,10 +4562,13 @@
                                   | SourceOpcUa : { _1 : Natural, _2 : Text }
                                   | SourceOsiIntegration : Integer
                                   | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                   | SourceSitepro : Text
                                   | SourceTankLogix : Text
                                   | SourceToku : Text
                                   | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                   | SourceRemote
                                   | SourcePlowStats
                                   | SourceUnknown
@@ -4427,10 +4637,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -4473,10 +4686,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -4546,10 +4762,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -4592,10 +4811,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -4657,10 +4879,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -4707,10 +4932,13 @@
                                   | SourceOpcUa : { _1 : Natural, _2 : Text }
                                   | SourceOsiIntegration : Integer
                                   | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                   | SourceSitepro : Text
                                   | SourceTankLogix : Text
                                   | SourceToku : Text
                                   | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                   | SourceRemote
                                   | SourcePlowStats
                                   | SourceUnknown
@@ -4795,10 +5023,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -4841,10 +5072,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -4920,10 +5154,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -4966,10 +5203,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -5066,10 +5306,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -5110,10 +5353,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -5178,10 +5424,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -5222,10 +5471,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -5289,10 +5541,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -5333,10 +5588,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -5400,10 +5658,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -5444,10 +5705,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -5525,10 +5789,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -5569,10 +5836,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -5634,10 +5904,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -5678,10 +5951,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -5772,10 +6048,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -5816,10 +6095,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -5925,10 +6207,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -5972,10 +6257,13 @@
                                             { _1 : Natural, _2 : Text }
                                         | SourceOsiIntegration : Integer
                                         | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                         | SourceSitepro : Text
                                         | SourceTankLogix : Text
                                         | SourceToku : Text
                                         | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                         | SourceRemote
                                         | SourcePlowStats
                                         | SourceUnknown
@@ -6045,10 +6333,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -6090,10 +6381,13 @@
                                   | SourceOpcUa : { _1 : Natural, _2 : Text }
                                   | SourceOsiIntegration : Integer
                                   | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                   | SourceSitepro : Text
                                   | SourceTankLogix : Text
                                   | SourceToku : Text
                                   | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                   | SourceRemote
                                   | SourcePlowStats
                                   | SourceUnknown
@@ -6167,10 +6461,13 @@
                           | SourceOpcUa : { _1 : Natural, _2 : Text }
                           | SourceOsiIntegration : Integer
                           | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                           | SourceSitepro : Text
                           | SourceTankLogix : Text
                           | SourceToku : Text
                           | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                           | SourceRemote
                           | SourcePlowStats
                           | SourceUnknown
@@ -6211,10 +6508,13 @@
                               | SourceOpcUa : { _1 : Natural, _2 : Text }
                               | SourceOsiIntegration : Integer
                               | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                               | SourceSitepro : Text
                               | SourceTankLogix : Text
                               | SourceToku : Text
                               | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                               | SourceRemote
                               | SourcePlowStats
                               | SourceUnknown
@@ -6287,10 +6587,13 @@
                                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                                 | SourceOsiIntegration : Integer
                                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                 | SourceSitepro : Text
                                 | SourceTankLogix : Text
                                 | SourceToku : Text
                                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                 | SourceRemote
                                 | SourcePlowStats
                                 | SourceUnknown
@@ -6333,10 +6636,13 @@
                                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                                     | SourceOsiIntegration : Integer
                                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                                     | SourceSitepro : Text
                                     | SourceTankLogix : Text
                                     | SourceToku : Text
                                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                                     | SourceRemote
                                     | SourcePlowStats
                                     | SourceUnknown
@@ -6432,10 +6738,13 @@
                   | SourceOpcUa : { _1 : Natural, _2 : Text }
                   | SourceOsiIntegration : Integer
                   | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                   | SourceSitepro : Text
                   | SourceTankLogix : Text
                   | SourceToku : Text
                   | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                   | SourceRemote
                   | SourcePlowStats
                   | SourceUnknown
@@ -6476,10 +6785,13 @@
                       | SourceOpcUa : { _1 : Natural, _2 : Text }
                       | SourceOsiIntegration : Integer
                       | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                       | SourceSitepro : Text
                       | SourceTankLogix : Text
                       | SourceToku : Text
                       | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                       | SourceRemote
                       | SourcePlowStats
                       | SourceUnknown
@@ -6540,10 +6852,13 @@
                   | SourceOpcUa : { _1 : Natural, _2 : Text }
                   | SourceOsiIntegration : Integer
                   | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                   | SourceSitepro : Text
                   | SourceTankLogix : Text
                   | SourceToku : Text
                   | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                   | SourceRemote
                   | SourcePlowStats
                   | SourceUnknown
@@ -6584,10 +6899,13 @@
                       | SourceOpcUa : { _1 : Natural, _2 : Text }
                       | SourceOsiIntegration : Integer
                       | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                       | SourceSitepro : Text
                       | SourceTankLogix : Text
                       | SourceToku : Text
                       | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                       | SourceRemote
                       | SourcePlowStats
                       | SourceUnknown
@@ -6719,10 +7037,13 @@
                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                     | SourceOsiIntegration : Integer
                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                     | SourceSitepro : Text
                     | SourceTankLogix : Text
                     | SourceToku : Text
                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                     | SourceRemote
                     | SourcePlowStats
                     | SourceUnknown
@@ -6763,10 +7084,13 @@
                         | SourceOpcUa : { _1 : Natural, _2 : Text }
                         | SourceOsiIntegration : Integer
                         | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                         | SourceSitepro : Text
                         | SourceTankLogix : Text
                         | SourceToku : Text
                         | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                         | SourceRemote
                         | SourcePlowStats
                         | SourceUnknown
@@ -6823,10 +7147,13 @@
                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                 | SourceOsiIntegration : Integer
                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                 | SourceSitepro : Text
                 | SourceTankLogix : Text
                 | SourceToku : Text
                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                 | SourceRemote
                 | SourcePlowStats
                 | SourceUnknown
@@ -6882,10 +7209,13 @@
                     | SourceOpcUa : { _1 : Natural, _2 : Text }
                     | SourceOsiIntegration : Integer
                     | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                     | SourceSitepro : Text
                     | SourceTankLogix : Text
                     | SourceToku : Text
                     | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                     | SourceRemote
                     | SourcePlowStats
                     | SourceUnknown
@@ -6926,10 +7256,13 @@
                         | SourceOpcUa : { _1 : Natural, _2 : Text }
                         | SourceOsiIntegration : Integer
                         | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                         | SourceSitepro : Text
                         | SourceTankLogix : Text
                         | SourceToku : Text
                         | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                         | SourceRemote
                         | SourcePlowStats
                         | SourceUnknown
@@ -6986,10 +7319,13 @@
                 | SourceOpcUa : { _1 : Natural, _2 : Text }
                 | SourceOsiIntegration : Integer
                 | SourceElynxIntegration : Text
+                                    | SourceEnbaseIntegration : Integer
                 | SourceSitepro : Text
                 | SourceTankLogix : Text
                 | SourceToku : Text
                 | SourceWellPilot : Integer
+                                    | SourceUnico : Integer
+                                    | SourceLufkin : Integer
                 | SourceRemote
                 | SourcePlowStats
                 | SourceUnknown
