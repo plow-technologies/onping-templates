@@ -7,6 +7,8 @@ who want to make their own dashboards and reports.
 
 
 [[./industry/water/README.md][Here is a listing of Industrial Water items]]
+
+[[https://onping.plowtech.net/v3/dashboards/o63e3c31fb58a021161000005][Here is a link to an example dashboard with all the Items above]]
 ** ~lumberjack-automate~
 This repository also contains the ~lumberjack-automate~ framework for building and running driver configuration scripts. Please see the following for more information:
 - The ~lumberjack-automate~ [[file:./lumberjack-automate][subdirectory]]
