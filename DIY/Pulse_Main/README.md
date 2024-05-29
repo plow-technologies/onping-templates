@@ -84,19 +84,19 @@ Click `+1 Parameter`
 
 Create the following parameter
 * Description: Green Ethernet LED Write
-* topic: pins/set
-* value selector: .A0
-* time selector: .unused
-* Timer Format: LumberjackTime
-uncheck read only and click on Save
+* Topic: pins/set
+* Value Selector: .A0
+* Time Selector: .unused
+* Time Format: LumberjackTime
+* Writable: uncheck read only and click on Save
 
 Then add another parameter
 * Description: Green Ethernet LED Read
-* topic: pins/current
-* value selector: .A0
-* time selector: .unused
-* Timer Format: LumberjackTime
-ensure read only is checked for this parameter and click Save.
+* Topic: pins/current
+* Value Selector: .A0
+* Time Selector: .unused
+* Time Format: LumberjackTime
+* Writable: ensure read only is checked for this parameter and click Save
 
 The parameters should stay in the parameters table if everything was set up correctly.
 
