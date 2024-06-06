@@ -2,6 +2,8 @@
 
 The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It hosts an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain io pin names and their values and writes those values in real time. The Pulse also publishes information in a Json message related to all pin values when a line changes, or when prompted. Any other mqtt client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
 
+The board used is the Adafruit Feather 32u4 Basic Proto with an Adafruit Ethernet Featherwing.
+
 Full feature list
 * Reading and writing digital io lines over mqtt
 * Reading analog input lines over mqtt
@@ -37,7 +39,7 @@ With Lumberjack powered up, on personal computer enable wifi and check for avail
 
 Open internet browser and in command line type `192.168.123.1` and hit enter. When password page loads, enter `admin` for password.
 
-Click the drop down menu in the top right and go to network. Click where you see `IPv4 Method` and change it to `manual`. Then, click where you see `IP Address` and give the Lumberjack the IP `192.168.168.90`. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to `192.168.168.1` or the IP of the default gateway. Set `DNS 1` to `127.0.0.1` and `DNS 2` to `8.8.8.8`. Click `Release / Renew`. 
+Click the drop down menu in the top right and go to network. Click where you see `IPv4 Method` and change it to `manual`. Then, click where you see `IP Address` and give the Lumberjack the IP `192.168.168.89`. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to `192.168.168.1` or the IP of the default gateway. Set `DNS 1` to `127.0.0.1` and `DNS 2` to `8.8.8.8`. Click `Release / Renew`. 
 
 Refresh the page until IPv4 Method stays as `Manual`
 
@@ -65,7 +67,7 @@ Next, while still on `https://onping.plowtech.net` again press `ctrl+k` and sear
 * Latitude: leave blank
 * Longitude: leave blank
 * Company: your company name
-* site: your site name
+* Site: your site name
 * Group: your company users group
 
 Click `Save`.
@@ -76,7 +78,7 @@ We're going to create a parameter in OnPing that lets us turn the onboard LED on
 
 With `https://onping.plowtech.net` open press `ctrl+k` and search for `MQTT JSON`. Open `MQTT JSON` by selecting it from the menu.
 
-In the company field enter and select the name of your company. In the site field enter and slect the name of the site you created. In the `MQTT JSON` field enter and select Pulsejack 1.
+In the company field enter and select the name of your company. In the site field enter and select the name of the site you created. In the `MQTT JSON` field enter and select Pulsejack 1.
 
 Under configure parameters click `Edit Parameters`.
 
@@ -88,7 +90,7 @@ Create the following parameter
 * Value Selector: .A0
 * Time Selector: .unused
 * Time Format: LumberjackTime
-* Writable: uncheck read only and click on Save
+* Writable: uncheck read only
 
 Then add another parameter
 * Description: Green Ethernet LED Read
@@ -96,7 +98,9 @@ Then add another parameter
 * Value Selector: .A0
 * Time Selector: .unused
 * Time Format: LumberjackTime
-* Writable: ensure read only is checked for this parameter and click Save
+* Writable: ensure read only is checked
+
+Click `Save`
 
 The parameters should stay in the parameters table if everything was set up correctly.
 
@@ -120,4 +124,80 @@ Finally, add two buttons at the bottom of the menu like this
 * Write value: 0
 * Active value: 0
 
-Click save. Then click the wrench in the top right above your widget panel. You should be able to turn the onboard LED on and off using the button!
+Click `save`. Then click the wrench in the top right above your widget panel. You should be able to turn the onboard LED on and off using the button!
+
+<h2> Troubleshooting </h2>
+
+If the parameters do not appear when creating the HMI:
+* Check that the MQTT json host and port are specified and correct in rtuClientConfig.yml in sitebuild/rtu-client
+
+  rtuClientConfig:
+  ```
+  # url and port for mqtt json
+  mqttJsonOnSiteHost : 127.0.0.1
+  mqttJsonOnSitePort : 2000
+  ```
+* Check that the tachdb port is correct in rtuManagerConfig.yml in sitebuild/rtu-manager and onping-core.yml in sitebuild
+  * onping-core.yml is used in multiple places in sitebuild, so make sure to change this wherever you want to use your custom parameters
+  * also need to manually change onping-core.yml in onping2.0/onping/config
+
+  rtuManagerConfig:
+  ```
+  tachUrl : 127.0.0.1
+  tachPort : 4001
+  ```
+  onping-core:
+  ```
+  tachdb:
+  - data-client:
+      host: 127.0.0.1
+      port: 4001
+      key:  www.aacs-us.com
+  ```
+* Check that config.yml in sitebuild/mqtt-json has the correct information 
+
+  config:
+  ```
+  broker: mqtt://127.0.0.1
+  port: 1883
+  printstore: true
+  tachPort: 4001
+  tachUrl: 127.0.0.1
+  webPort: 2000
+  ```
+* Check that mosquitto-microservices.conf has the correct information in sitebuild/mosquitto-d
+
+  mosquitto-microservices:
+  ```
+  listener 1888 0.0.0.0
+  allow_anonymous true
+  ```
+
+Pulse_Main debugging
+* Check to ensure the port used is the same port used in the mqtt-json configs
+
+  Pulse_Main:
+  ```
+  uint16_t port = 1883;
+  ```
+* Check the error codes in serial if the Pulse is unable to connect to the MQTT broker
+  * -4 : MQTT_CONNECTION_TIMEOUT - the server didn't respond within the keepalive time
+  * -3 : MQTT_CONNECTION_LOST - the network connection was broken
+  * -2 : MQTT_CONNECT_FAILED - the network connection failed
+  * -1 : MQTT_DISCONNECTED - the client is disconnected cleanly
+  * 0 : MQTT_CONNECTED - the client is connected
+  * 1 : MQTT_CONNECT_BAD_PROTOCOL - the server doesn't support the requested version of MQTT
+  * 2 : MQTT_CONNECT_BAD_CLIENT_ID - the server rejected the client identifier
+  * 3 : MQTT_CONNECT_UNAVAILABLE - the server was unable to accept the connection
+  * 4 : MQTT_CONNECT_BAD_CREDENTIALS - the username/password were rejected
+  * 5 : MQTT_CONNECT_UNAUTHORIZED - the client was not authorized to connect
+* If the sketch uses too much storage space, check the versions of the installed libraries and ensure they match the versions listed. The current version of the sketch uses 25058 bytes of storage space with the following library versions.
+
+  Pulse_Main:
+  ```
+  #include <Ethernet.h>             // Version 2.0.0 
+  #include <PubSubClient.h>         // Version 2.6.0
+  #include <ArduinoJson.h>          // Version 6.21.5
+  #include <Adafruit_SleepyDog.h>   // Version 1.6.4
+  ```
+* If the program is failing to upload, press the reset button on the Pulse as soon as compiling finishes and uploading begins
