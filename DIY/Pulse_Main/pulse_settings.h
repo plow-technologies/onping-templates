@@ -4,10 +4,10 @@
    commas (,) where periods (.) normally go */
 
 // the IP address of your mqtt broker
-IPAddress server(192, 168, 168, 90);
+IPAddress server(192, 168, 168, 89);
 
 // the port of your mqtt broker
-uint16_t port = 1884;
+uint16_t port = 1883;
 
 /* set the mac address you want for this feather
    98:76:B6:11:2D:14 works by default, multiple pulses should have different mac addresses here
