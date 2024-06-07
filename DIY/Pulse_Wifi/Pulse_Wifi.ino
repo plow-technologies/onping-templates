@@ -2,30 +2,11 @@
 #include <WiFi.h>          // Version 1.2.7
 #include <PubSubClient.h>  // Version 2.6.0
 #include <ArduinoJson.h>   // Version 6.21.5
-
-// WiFi
-const char* ssid = "Access Point 5Ghz";
-const char* password = "ThisIsShopWAP2";
-int status = WL_IDLE_STATUS;
-
-// MQTT broker
-const char* broker = "mqtt://127.0.0.1";
-const int port = 1883;
+#include "pulse_wifi_settings.h"
 
 // PubSubClient
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
-
-/* set the lan IP and port number of your mqtt-broker (lumberjack)
-   commas (,) where periods (.) normally go */
-IPAddress localIp(192, 168, 168, 89);
-IPAddress serverIp(192, 168, 168, 90);
-
-
-/* set the mac address you want for this feather
-   98:76:B6:11:2D:14 works by default, multiple pulses should have different mac addresses here
-   commas (,) where colons (:) normally go */
-byte mac[] = { 0x98, 0x76, 0xB6, 0x11, 0x2D, 0x15 };
 
 // PWM output setup
 int frequency = 1000;
@@ -54,22 +35,6 @@ struct Pin {
 //TODO: Reassign pin numbers
 
 Pin board_pins[number_pins] = {
-  /*
-  {"D5", 5, "digital_output", 0, 0},
-  {"D6", 6, "digital_output", 1, 1},
-  {"D9", 9, "PWM_output", 0, 0},
-  //{"D10", 10, "Chip select", 1, 1}, // featherwing chip select, do not use
-  {"D11", 11, "digital_input", 0, 0},
-  {"D12", 12, "digital_input", 0, 0},
-  {"D13", 13, "digital_input", 0, 0},
-  {"A0", 2, "digital_output", 0, 0}, // mqtt connection status LED
-  {"A1", A1, "PWM_output", 0, 0},
-  {"A2", A2, "PWM_output", 0, 0},
-  {"A3", A3, "analog_input", 0, 0},
-  {"A4", A4, "analog_input", 0, 0},
-  {"A5", A5, "analog_input", 0, 0}
-  */
-
   { "A0", 2, "digital_output", 0, 0 },  // On board LED
   { "D13", 13, "digital_output", 0, 0 },
   { "D14", 14, "digital_output", 0, 0 },
@@ -303,8 +268,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reconnect() {
   // Loop until we're reconnected
   if (WiFi.status() == WL_CONNECTED) {
+    IPAddress localIp = WiFi.localIP();
     Serial.print("Connected, IP address: ");
-    Serial.println(WiFi.localIP());
+    Serial.println(localIp);
     delay(2000);
   }
   while (!client.connected()) {
@@ -328,30 +294,13 @@ void reconnect() {
   }
 }
 
-void reconnect_wifi() {
-  while(WiFi.status() != WL_CONNECTED)
-  {
-    Serial.println(F("Connecting to WiFi"));
-
-    WiFi.begin(ssid, password);
-
-    if (WiFi.status() == WL_CONNECTED) {
-      Serial.println("WiFi connected");
-      Serial.println(WiFi.status());
-    } else {
-      Serial.print(F("WiFi connection error: "));
-      Serial.println(WiFi.status());
-      // wait 10 sec before trying again
-      delay(10000);
-    }
-  }
-}
-
 bool startup = true;
 
 void setup() {
   //USBDevice.attach();
   Serial.begin(115200);
+  Serial.println();
+  delay(200);
 
   startup = true;
 
@@ -371,12 +320,9 @@ void setup() {
 
   set_current_to_default(board_pins);
 
-  client.setServer(broker, port);
+  client.setServer(serverIp, port);
   client.setCallback(callback);
 
-  Serial.begin(115200);
-  Serial.println();
-  delay(200);
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 

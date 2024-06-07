@@ -1,11 +1,8 @@
-#include <Ethernet.h>
-
 /* set the lan IP and port number of your mqtt-broker (lumberjack)
    commas (,) where periods (.) normally go */
 
 // the IP address of your mqtt broker
-IPAddress localIp(192, 168, 168, 89);
-IPAddress serverIp(192, 168, 168, 90);
+IPAddress serverIp(127, 0, 0, 1); // unsure what this should be
 
 // the port of your mqtt broker
 uint16_t port = 1883;
@@ -15,5 +12,9 @@ uint16_t port = 1883;
    commas (,) where colons (:) normally go */
 byte mac[] = {0x98, 0x76, 0xB6, 0x11, 0x2D, 0x14};
 
+// ssid and password for your WiFi network (WPA)
+const char* ssid = "Access Point 5Ghz";
+const char* password = "ThisIsShopWAP2";
+
+
 #define development
-//#define production // uncomment this line to enable the watchdog
