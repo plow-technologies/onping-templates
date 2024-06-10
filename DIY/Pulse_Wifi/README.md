@@ -23,14 +23,14 @@ Pinout default roles:
 * D17: digital in
 * D18: digital in
 * D19: digital in
-* D21: PWM out
-* D22: PWM out
-* D23: PWM out
-* D25: PWM out
-* D32: analog in
-* D33: analog in
-* D34: analog in
-* D35: analog in
+* A21: PWM out
+* A22: PWM out
+* A23: PWM out
+* A25: PWM out
+* A32: analog in
+* A33: analog in
+* A34: analog in
+* A35: analog in
 
 <h2> Quick Configuration </h2>
 
