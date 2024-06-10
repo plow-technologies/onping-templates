@@ -36,18 +36,7 @@ Pinout default roles:
 
 <h3> Configuring your Lumberjack mosquitto broker </h3>
 
-Connect Lumberjack to your home network with an Ethernet cable
-
-Likely need to change all of the following
-{
-With Lumberjack powered up, on personal computer enable wifi and check for available connection `lumberjack-xxxx`, if not available try moving closer to Lumberjack. Once in wifi list click `Connect`, password will be plowtech. (This is not an Internet Connection) 
-
-Open internet browser and in command line type `192.168.123.1` and hit enter. When password page loads, enter `admin` for password.
-
-Click the drop down menu in the top right and go to network. Click where you see `IPv4 Method` and change it to `manual`. Then, click where you see `IP Address` and give the Lumberjack the IP `192.168.168.90`. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to `192.168.168.1` or the IP of the default gateway. Set `DNS 1` to `127.0.0.1` and `DNS 2` to `8.8.8.8`. Click `Release / Renew`. 
-
-Refresh the page until IPv4 Method stays as `Manual`
-}
+ADD INSTRUCTIONS TO CONNECT LUMBERJACK TO WIFI
 
 While connected to the internet, go to `https://onping.plowtech.net`
 
@@ -56,6 +45,8 @@ Press `ctrl+k` search for `LAS` and select it. Search for the serial number on y
 Go to `Apps`. Search for `mqtt-json-driver` in the available apps list. Click the download button.
 
 Then search for `client-mosquitto-broker` and download it.
+
+Ensure the port listed in both apps is the same.
 
 Connect your Pulse to the Lumberjack using the USB cable. Ensure the Pulse is connected to the same WiFi network as the Lumberjack by setting the ssid and password in pulse_wifi_settings.
 
@@ -132,60 +123,16 @@ Click `save`. Then click the wrench in the top right above your widget panel. Yo
 
 <h2> Troubleshooting </h2>
 
-If the parameters do not appear when creating the HMI:
-* Check that the MQTT json host and port are specified and correct in rtuClientConfig.yml in sitebuild/rtu-client
-
-  rtuClientConfig:
-  ```
-  # url and port for mqtt json
-  mqttJsonOnSiteHost : 127.0.0.1
-  mqttJsonOnSitePort : 2000
-  ```
-* Check that the tachdb port is correct in rtuManagerConfig.yml in sitebuild/rtu-manager and onping-core.yml in sitebuild
-  * onping-core.yml is used in multiple places in sitebuild, so make sure to change this wherever you want to use your custom parameters
-  * also need to manually change onping-core.yml in onping2.0/onping/config
-
-  rtuManagerConfig:
-  ```
-  tachUrl : 127.0.0.1
-  tachPort : 4001
-  ```
-  onping-core:
-  ```
-  tachdb:
-  - data-client:
-      host: 127.0.0.1
-      port: 4001
-      key:  www.aacs-us.com
-  ```
-* Check that config.yml in sitebuild/mqtt-json has the correct information 
-
-  config:
-  ```
-  broker: mqtt://127.0.0.1
-  port: 1883
-  printstore: true
-  tachPort: 4001
-  tachUrl: 127.0.0.1
-  webPort: 2000
-  ```
-* Check that mosquitto-microservices.conf has the correct information in sitebuild/mosquitto-d
-
-  mosquitto-microservices:
-  ```
-  listener 1888 0.0.0.0
-  allow_anonymous true
-  ```
-
 Code debugging
-* Check to ensure the port used is the same port used in the mqtt-json configs
+* Check to ensure the IP address and port used are the IP Address of the Lumberjack and the port used in client-mosquitto-broker and mqtt-json-driver
 
   pulse_wifi_settings:
   ```
-  uint16_t port = 1883;
+  IPAddress server(192, 168, 144, 123); // Your Lumberjack IP Address
+  uint16_t port = 1884;                 // The port found in client-mosquitto-broker and mqtt-json-driver
   ```
-* Check to ensure the ssid and password for your WiFi network are correct
-* Check the error codes in serial if the Pulse is unable to connect to the MQTT broker
+* Check to ensure the ssid and password for your WiFi network are correct in pulse_wifi_settings
+* Check the error codes in serial if the Pulse is unable to connect to the MQTT broker. MQTT_CONNECT_FAILED is the most common and the issue is usually an incorrect IP Address for the MQTT broker.
   * -4 : MQTT_CONNECTION_TIMEOUT - the server didn't respond within the keepalive time
   * -3 : MQTT_CONNECTION_LOST - the network connection was broken
   * -2 : MQTT_CONNECT_FAILED - the network connection failed
@@ -196,7 +143,7 @@ Code debugging
   * 3 : MQTT_CONNECT_UNAVAILABLE - the server was unable to accept the connection
   * 4 : MQTT_CONNECT_BAD_CREDENTIALS - the username/password were rejected
   * 5 : MQTT_CONNECT_UNAUTHORIZED - the client was not authorized to connect
-* Check PubSubClient.h and ensure that MQTT_MAX_PACKET_SIZE is set to 256 if you are using more than 13 pins in board_pins. You may also need to increase the size of the json documents in produce_default_msg and produce_current_msg if you use more than 16 pins.
+* Check PubSubClient.h and ensure that MQTT_MAX_PACKET_SIZE is set to 256 if you are using more than 13 pins in board_pins.
 
   PubSubClient.h:
   ```
@@ -205,10 +152,4 @@ Code debugging
   #define MQTT_MAX_PACKET_SIZE 256
   #endif
   ```
-
-  Pulse_Main:
-  ```
-  StaticJsonDocument<512> pub_doc;
-  char serialized_pub_doc[512];
-  ```
-* If the program is failing to upload, press the reset button on the Pulse as soon as you see "Connecting..." in the IDE output
+* If the program is failing to upload, press the `BOOT` button on the Pulse as soon as you see "Connecting..." in the IDE output
