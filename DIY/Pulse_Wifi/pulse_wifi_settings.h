@@ -2,12 +2,14 @@
    commas (,) where periods (.) normally go */
 
 // the IP address of your mqtt broker
-IPAddress serverIp(127, 0, 0, 1); // unsure what this should be
+// find IP address of broker connected to same WiFi network as the pulse
+IPAddress server(192, 168, 144, 123);
 
 // the port of your mqtt broker
-uint16_t port = 1883;
+// find in client-mosquitto-broker and mqtt-json-driver apps
+uint16_t port = 1884;
 
-/* set the mac address you want for this feather
+/* set the mac address you want for this esp32
    98:76:B6:11:2D:14 works by default, multiple pulses should have different mac addresses here
    commas (,) where colons (:) normally go */
 byte mac[] = {0x98, 0x76, 0xB6, 0x11, 0x2D, 0x14};
@@ -18,3 +20,4 @@ const char* password = "ThisIsShopWAP2";
 
 
 #define development
+//#define production // uncomment to enable watchdog

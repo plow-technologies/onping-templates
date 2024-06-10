@@ -4,8 +4,8 @@
    commas (,) where periods (.) normally go */
 
 // the IP address of your mqtt broker
-IPAddress localIp(192, 168, 168, 89);
-IPAddress serverIp(192, 168, 168, 90);
+IPAddress local_ip(192, 168, 168, 89);
+IPAddress server_ip(192, 168, 168, 90);
 
 // the port of your mqtt broker
 uint16_t port = 1883;

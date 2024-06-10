@@ -1,12 +1,13 @@
 #include <SPI.h>
-#include <WiFi.h>          // Version 1.2.7
-#include <PubSubClient.h>  // Version 2.6.0
-#include <ArduinoJson.h>   // Version 6.21.5
+#include <WiFi.h>                // Version 1.2.7
+#include <PubSubClient.h>        // Version 2.6.0, change MQTT_MAX_PACKET_SIZE to 256 for more than 13 pins
+#include <ArduinoJson.h>         // Version 6.21.5
+#include <Adafruit_SleepyDog.h>  // Version 1.6.5
 #include "pulse_wifi_settings.h"
 
 // PubSubClient
-WiFiClient wifiClient;
-PubSubClient client(wifiClient);
+WiFiClient wifi_client;
+PubSubClient client(wifi_client);
 
 // PWM output setup
 int frequency = 1000;
@@ -14,7 +15,7 @@ int resolution = 8;  // 8-bit resolution, 256 possible values
 
 /****** PIN STRUCTURE ******/
 // set number_pins equal to the number of pinouts you want to define
-constexpr uint8_t number_pins = 18;
+constexpr uint8_t number_pins = 16;
 constexpr uint8_t number_Vpins = 1;
 
 // struct for associating logical names with pinouts
@@ -32,27 +33,25 @@ struct Pin {
  * add your pinout structs to the array in the form {"mqtt_name, pinout, "type", default_value, current_value}
  */
 
-//TODO: Reassign pin numbers
+// Board used is an ESP-WROOM-32 on an ESP-32S development board
 
 Pin board_pins[number_pins] = {
   { "A0", 2, "digital_output", 0, 0 },  // On board LED
   { "D13", 13, "digital_output", 0, 0 },
   { "D14", 14, "digital_output", 0, 0 },
-  { "D15", 15, "digital_output", 0, 0 },
-  { "D16", 16, "digital_output", 0, 0 },
-  { "D17", 17, "digital_input", 0, 0 },
-  { "D18", 18, "digital_input", 1, 1 },
+  { "D15", 15, "digital_output", 1, 1 },
+  { "D16", 16, "digital_input", 0, 0 },  // RX2 on ESP32
+  { "D17", 17, "digital_input", 0, 0 },  // TX2 on ESP32
+  { "D18", 18, "digital_input", 0, 0 },
   { "D19", 19, "digital_input", 0, 0 },
-  { "D21", 21, "digital_input", 0, 0 },
-  { "D22", 22, "PWM_output", 0, 0 },  // PWM channel 2
-  { "D23", 23, "PWM_output", 0, 0 },  // PWM channel 3
-  { "D25", 25, "PWM_output", 0, 0 },  // PWM channel 5
-  { "D26", 26, "PWM_output", 0, 0 },  // PWM channel 6
-  { "D27", 27, "PWM_output", 0, 0 },  // PWM channel 7
-  { "D32", 32, "analog_input", 0, 0 },
-  { "D33", 33, "analog_input", 0, 0 },
-  { "D34", 34, "analog_input", 0, 0 },  // no internal pull-up/pull-down resistor
-  { "D35", 35, "analog_input", 0, 0 }   // no internal pull-up/pull-down resistor
+  { "A21", 21, "PWM_output", 0, 0 },  // PWM channel 1
+  { "A22", 22, "PWM_output", 0, 0 },  // PWM channel 2
+  { "A23", 23, "PWM_output", 0, 0 },  // PWM channel 3
+  { "A25", 25, "PWM_output", 0, 0 },  // PWM channel 5
+  { "A32", 32, "analog_input", 0, 0 },
+  { "A33", 33, "analog_input", 0, 0 },
+  { "A34", 34, "analog_input", 0, 0 },  // no internal pull-up/pull-down resistor
+  { "A35", 35, "analog_input", 0, 0 }   // no internal pull-up/pull-down resistor
 };
 
 
@@ -261,6 +260,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   set_pin_current_values(board_pins);
   produce_current_msg(board_pins, client, "pins/current", 20);
+
+  /* This is a test for the watchdog
+  while(true) {
+    Serial.println(F("Causing the watchdog spike to bark"));
+  }*/
 }
 
 /****** ATTEMPT TO RECONNECT TO MQTT BROKER ******/
@@ -268,21 +272,24 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void reconnect() {
   // Loop until we're reconnected
   if (WiFi.status() == WL_CONNECTED) {
-    IPAddress localIp = WiFi.localIP();
+    IPAddress local_ip = WiFi.localIP();
     Serial.print("Connected, IP address: ");
-    Serial.println(localIp);
+    Serial.println(local_ip);
     delay(2000);
   }
   while (!client.connected()) {
     Serial.println(F("Attempting to connect"));
-
+#ifdef production
+    spike.reset();
+#endif
     // Attempt to connect
     if (client.connect("arduinoClient")) {
       // subscribe once connected
-      digitalWrite(2, HIGH);
       set_pin_current_values(board_pins);
       client.subscribe("pins/set");
-      Serial.println(F("Connected"));
+      Serial.print(F("Connected to broker at IP address: "));
+      Serial.println(server);
+      digitalWrite(2, HIGH);
     } else {
       Serial.print(F("Connection Error: "));
       Serial.println(client.state());
@@ -293,6 +300,13 @@ void reconnect() {
     }
   }
 }
+
+// WatchDog
+// WARNING: if production mode (and thereby the watchdog) is enabled, the reset button must be pressed during each arduino IDE upload
+#ifdef production
+// enable the watchdog
+WatchdogAVR spike;  // his name is spike
+#endif
 
 bool startup = true;
 
@@ -312,7 +326,7 @@ void setup() {
       ledcAttach(board_pins[i].pin_number, frequency, resolution);
     } else {
       pinMode(board_pins[i].pin_number, INPUT);
-      if(strncmp(board_pins[i].pin_type, "digital", 7) == 0) {
+      if (strncmp(board_pins[i].pin_type, "digital", 7) == 0) {
         digitalWrite(board_pins[i].pin_number, LOW);
       }
     }
@@ -320,11 +334,13 @@ void setup() {
 
   set_current_to_default(board_pins);
 
-  client.setServer(serverIp, port);
-  client.setCallback(callback);
-
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
+
+  delay(2500);
+  
+  client.setServer(server, port);
+  client.setCallback(callback);
 
   Serial.println("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
@@ -332,10 +348,19 @@ void setup() {
     Serial.println(WiFi.status());
   }
   Serial.println();
+
+#ifdef production
+  int countdownMS = spike.enable(7000);
+#endif
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+
+#ifdef production
+  spike.reset();
+#endif
+
   if (!client.connected()) {
     reconnect();
   }

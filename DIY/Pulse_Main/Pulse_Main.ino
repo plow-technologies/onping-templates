@@ -6,8 +6,8 @@
 #include "pulse_settings.h" 
 
 // PubSubClient
-EthernetClient ethClient;
-PubSubClient client(ethClient);
+EthernetClient eth_client;
+PubSubClient client(eth_client);
 
 /****** PIN STRUCTURE ******/
 // set number_pins equal to the number of pinouts you want to define
@@ -283,7 +283,7 @@ void reconnect() {
   }
 }
 
-//WatchDog
+// WatchDog
 // WARNING: if production mode (and thereby the watchdog) is enabled, the reset button must be pressed during each arduino IDE upload
 #ifdef production
 // enable the watchdog
@@ -316,12 +316,11 @@ void setup() {
 
   set_current_to_default(board_pins);
 
-
-  Ethernet.begin(mac, localIp);
+  Ethernet.begin(mac, local_ip);
 
   delay(2500);
 
-  client.setServer(serverIp, port);
+  client.setServer(server_ip, port);
   client.setCallback(callback);
 
 #ifdef production
