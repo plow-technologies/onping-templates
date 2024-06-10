@@ -36,7 +36,30 @@ Pinout default roles:
 
 <h3> Configuring your Lumberjack mosquitto broker </h3>
 
-WIP
+Connect Lumberjack to your home network with an Ethernet cable
+
+Likely need to change all of the following
+{
+With Lumberjack powered up, on personal computer enable wifi and check for available connection `lumberjack-xxxx`, if not available try moving closer to Lumberjack. Once in wifi list click `Connect`, password will be plowtech. (This is not an Internet Connection) 
+
+Open internet browser and in command line type `192.168.123.1` and hit enter. When password page loads, enter `admin` for password.
+
+Click the drop down menu in the top right and go to network. Click where you see `IPv4 Method` and change it to `manual`. Then, click where you see `IP Address` and give the Lumberjack the IP `192.168.168.90`. Ensure that the first 3 bytes are the same as the rest of the devices on the network. Set the default gateway to `192.168.168.1` or the IP of the default gateway. Set `DNS 1` to `127.0.0.1` and `DNS 2` to `8.8.8.8`. Click `Release / Renew`. 
+
+Refresh the page until IPv4 Method stays as `Manual`
+}
+
+While connected to the internet, go to `https://onping.plowtech.net`
+
+Press `ctrl+k` search for `LAS` and select it. Search for the serial number on your Lumberjack. Select your Lumberjack when it shows up.
+
+Go to `Apps`. Search for `mqtt-json-driver` in the available apps list. Click the download button.
+
+Then search for `client-mosquitto-broker` and download it.
+
+Connect your Pulse to the Lumberjack using the USB cable. Ensure the Pulse is connected to the same WiFi network as the Lumberjack by setting the ssid and password in pulse_wifi_settings.
+
+You've configured the mqtt broker and the pulse has connected to it.
 
 <h2> Creating a new site for your Lumberjack </h2>
 
