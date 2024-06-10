@@ -173,10 +173,10 @@ If the parameters do not appear when creating the HMI:
   allow_anonymous true
   ```
 
-Pulse_Main debugging
+Code debugging
 * Check to ensure the port used is the same port used in the mqtt-json configs
 
-  Pulse_Main:
+  pulse_settings:
   ```
   uint16_t port = 1883;
   ```
