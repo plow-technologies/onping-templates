@@ -15,7 +15,7 @@ Full feature list
 * generalizable pin structure for any arduino board
 
 Pinout default roles:
-* A0: MQTT LED
+* LED: Onboard LED
 * D13: digital out
 * D14: digital out
 * D15: digital out
@@ -31,6 +31,8 @@ Pinout default roles:
 * A33: analog in
 * A34: analog in
 * A35: analog in
+
+PWM values range from 0 to 255, analog input values range from 0 to 4095, and digital input and output values are either 0 or 1.
 
 <h2> Quick Configuration </h2>
 
