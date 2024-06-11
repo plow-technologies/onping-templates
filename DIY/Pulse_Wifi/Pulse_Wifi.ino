@@ -5,6 +5,8 @@
 #include <Adafruit_SleepyDog.h>  // Version 1.6.5
 #include "pulse_wifi_settings.h"
 
+int inputValue = 0;
+
 // PubSubClient
 WiFiClient wifi_client;
 PubSubClient client(wifi_client);
@@ -23,8 +25,8 @@ struct Pin {
   const char* name;
   uint8_t pin_number;
   const char* pin_type;
-  uint8_t default_value;
-  uint8_t current_value;
+  uint16_t default_value;
+  uint16_t current_value;
 };
 
 
@@ -36,7 +38,7 @@ struct Pin {
 // Board used is an ESP-WROOM-32 on an ESP-32S development board
 
 Pin board_pins[number_pins] = {
-  { "A0", 2, "digital_output", 0, 0 },  // On board LED
+  { "LED", 2, "digital_output", 0, 0 },  // On board LED
   { "D13", 13, "digital_output", 0, 0 },
   { "D14", 14, "digital_output", 0, 0 },
   { "D15", 15, "digital_output", 1, 1 },
@@ -44,10 +46,10 @@ Pin board_pins[number_pins] = {
   { "D17", 17, "digital_input", 0, 0 },  // TX2 on ESP32
   { "D18", 18, "digital_input", 0, 0 },
   { "D19", 19, "digital_input", 0, 0 },
-  { "A21", 21, "PWM_output", 0, 0 },  // PWM channel 1
-  { "A22", 22, "PWM_output", 0, 0 },  // PWM channel 2
-  { "A23", 23, "PWM_output", 0, 0 },  // PWM channel 3
-  { "A25", 25, "PWM_output", 0, 0 },  // PWM channel 5
+  { "A21", 21, "PWM_output", 0, 0 },
+  { "A22", 22, "PWM_output", 0, 0 },
+  { "A23", 23, "PWM_output", 0, 0 },
+  { "A25", 25, "PWM_output", 0, 0 },
   { "A32", 32, "analog_input", 0, 0 },
   { "A33", 33, "analog_input", 0, 0 },
   { "A34", 34, "analog_input", 0, 0 },  // no internal pull-up/pull-down resistor
@@ -142,7 +144,7 @@ void set_current_to_default(Pin pins[]) {
       digitalWrite(pins[i].pin_number, pins[i].default_value);
     } 
     else if (strncmp(pins[i].pin_type, "PWM_output", 10) == 0) {
-      ledcWrite((pins[i].pin_number - 20), pins[i].default_value);
+      ledcWrite(pins[i].pin_number, pins[i].default_value);
     }
   }
 }
@@ -195,14 +197,22 @@ bool are_current_values_same(Pin Pins[], Pin Vpin) {
         }
       }
     }
-    // if analog pins are not tied down this will DDOS your mqtt server
-    // if you write analog_pins_tied_down to high, this function will return true when any pin, digital or analog, has a different actual value than in memory
   } 
+  // if analog pins are not tied down this will DDOS your mqtt server
+  // if you write analog_pins_tied_down to high, this function will return true when any pin, digital or analog, has a different actual value than in memory
   else if (Vpin.current_value != 0) {
     for (uint8_t i = 0; i < number_pins; i++) {
       // at least one of the pins values are different
-      if (Pins[i].current_value != analogRead(Pins[i].pin_number)) {
-        return false;
+      if(strncmp(Pins[i].pin_type, "digital", 7) == 0) {
+        // at least one of the digital pins real values is different from in memory
+        if (Pins[i].current_value != digitalRead(Pins[i].pin_number)) {
+          return false;
+        }
+      }
+      else if(strncmp(Pins[i].pin_type, "analog", 6) == 0) {
+        if (abs(Pins[i].current_value - analogRead(Pins[i].pin_number)) > 300) {
+          return false;
+        }
       }
     }
   }
@@ -242,20 +252,19 @@ void callback(char* topic, byte* payload, unsigned int length) {
   } 
   else if (strncmp(get_pin_type(board_pins, pin), "PWM_output", 10) == 0) {
     if (value != get_pin_memory_value(board_pins, pin)) {
-      ledcWrite((get_pin_number(board_pins, pin) - 20), value);
+      ledcWrite(get_pin_number(board_pins, pin), value);
       set_pwm_pin_values(board_pins, pin, value);
       set_pin_current_values(board_pins);
       produce_current_msg(board_pins, client, "pins/current", 20);
       produce_current_msg(board_pins, client, "pins/current/on_change", 20);
     } 
     else {
-      ledcWrite((get_pin_number(board_pins, pin) - 20), value);
+      ledcWrite(get_pin_number(board_pins, pin), value);
       set_pwm_pin_values(board_pins, pin, value);
     }
   }
 
   // publish the current values on the pin lines to the mqtt server
-  // set_pin_current_values(board_pins);
   if (!are_current_values_same(board_pins, virtual_configuration_pins[0])) {
     set_pin_current_values(board_pins);
     produce_current_msg(board_pins, client, "pins/current/on_change", 20);
@@ -350,6 +359,7 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     // Wait 2 seconds before retrying
     delay(2000);
+    Serial.print("WiFi Connection Error: ");
     Serial.println(WiFi.status());
   }
 
