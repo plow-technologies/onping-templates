@@ -2,7 +2,6 @@
    commas (,) where periods (.) normally go */
 
 // the IP address of your mqtt broker
-// find IP address of broker connected to same WiFi network as the pulse
 IPAddress server(192, 168, 144, 123);
 
 // the port of your mqtt broker
@@ -14,10 +13,9 @@ uint16_t port = 1884;
    commas (,) where colons (:) normally go */
 byte mac[] = {0x98, 0x76, 0xB6, 0x11, 0x2D, 0x14};
 
-// ssid and password for your WiFi network (WPA)
+// SSID and password for your WiFi network (WPA)
 const char* ssid = "Access Point 5Ghz";
 const char* password = "ThisIsShopWAP2";
-
 
 #define development
 //#define production // uncomment to enable watchdog

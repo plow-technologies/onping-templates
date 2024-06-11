@@ -99,7 +99,8 @@ void set_pin_current_values(Pin Pins[]) {
   for (uint8_t i = 0; i < number_pins; i++) {
     if (strncmp(Pins[i].pin_type, "digital", 7) == 0) {
       Pins[i].current_value = digitalRead(Pins[i].pin_number);
-    } else if (strncmp(Pins[i].pin_type, "analog_input", 10) == 0) {
+    } 
+    else if (strncmp(Pins[i].pin_type, "analog_input", 10) == 0) {
       Pins[i].current_value = analogRead(Pins[i].pin_number);
     }
   }
@@ -130,7 +131,8 @@ void set_current_to_default(Pin pins[]) {
   for (uint8_t i = 0; i < number_pins; i++) {
     if (strncmp(pins[i].pin_type, "digital", 7) == 0) {
       digitalWrite(pins[i].pin_number, pins[i].default_value);
-    } else if (strncmp(pins[i].pin_type, "PWM_output", 10) == 0) {
+    } 
+    else if (strncmp(pins[i].pin_type, "PWM_output", 10) == 0) {
       analogWrite(pins[i].pin_number, pins[i].default_value);
     }
   }
@@ -184,7 +186,8 @@ bool are_current_values_same(Pin Pins[], Pin Vpin) {
       }
     }
     // if analog pins are not tied down this will DDOS your mqtt server
-  } else if (Vpin.current_value != 0) {  // if you write analog_pins_tied_down to high, this function will return true when any pin, digital or analog, has a different actual value than in memory
+  } 
+  else if (Vpin.current_value != 0) {  // if you write analog_pins_tied_down to high, this function will return true when any pin, digital or analog, has a different actual value than in memory
     for (uint8_t i = 0; i < number_pins; i++) {
       // at least one of the pins values are different
       if (Pins[i].current_value != analogRead(Pins[i].pin_number)) {
@@ -218,23 +221,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
     set_virtual_pin_values(virtual_configuration_pins, pin, value);
   }
 
-  //Serial.print(F("Got Write: "));
-  //Serial.println(value);
-
   if (strncmp(get_pin_type(board_pins, pin), "digital", 7) == 0) {
     if (value == 0) {
       digitalWrite(get_pin_number(board_pins, pin), LOW);
-    } else if (value == 1) {
+    } 
+    else if (value == 1) {
       digitalWrite(get_pin_number(board_pins, pin), HIGH);
     }
-  } else if (strncmp(get_pin_type(board_pins, pin), "PWM_output", 10) == 0) {
+  } 
+  else if (strncmp(get_pin_type(board_pins, pin), "PWM_output", 10) == 0) {
     if (value != get_pin_memory_value(board_pins, pin)) {
       analogWrite(get_pin_number(board_pins, pin), value);
       set_pwm_pin_values(board_pins, pin, value);
       set_pin_current_values(board_pins);
       produce_current_msg(board_pins, client, "pins/current", 20);
       produce_current_msg(board_pins, client, "pins/current/on_change", 20);
-    } else {
+    } 
+    else {
       analogWrite(get_pin_number(board_pins, pin), value);
       set_pwm_pin_values(board_pins, pin, value);
     }
@@ -272,7 +275,8 @@ void reconnect() {
       set_pin_current_values(board_pins);
       client.subscribe("pins/set");
       Serial.println(F("Connected"));
-    } else {
+    } 
+    else {
       Serial.print(F("Connection Error: "));
       Serial.println(client.state());
       set_current_to_default(board_pins);
@@ -293,7 +297,6 @@ WatchdogAVR spike;  // his name is spike
 bool startup = true;
 
 void setup() {
-  // put your setup code here, to run once:
   USBDevice.attach();
   Serial.begin(9600);
 
@@ -303,9 +306,11 @@ void setup() {
   for (uint8_t i; i < number_pins; i++) {
     if (strncmp(board_pins[i].pin_type, "digital_output", 15) == 0) {
       pinMode(board_pins[i].pin_number, OUTPUT);
-    } else if (strncmp(board_pins[i].pin_type, "PWM_output", 10) == 0) {
+    } 
+    else if (strncmp(board_pins[i].pin_type, "PWM_output", 10) == 0) {
       pinMode(board_pins[i].pin_number, OUTPUT);
-    } else {
+    } 
+    else {
       pinMode(board_pins[i].pin_number, INPUT);
     }
   }
@@ -329,8 +334,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
 #ifdef production
   spike.reset();
 #endif
@@ -339,6 +342,7 @@ void loop() {
     reconnect();
   }
 
+  // publish states of pins when first connected to broker
   if (startup && client.connected()) {
     produce_current_msg(board_pins, client, "pins/current/on_change", 20);
     produce_current_msg(board_pins, client, "pins/current", 20);
@@ -346,6 +350,7 @@ void loop() {
     startup = false;
   }
 
+  // publish states of pins whenever there is a change to any pins
   if (!are_current_values_same(board_pins, virtual_configuration_pins[0])) {
     set_pin_current_values(board_pins);
     produce_current_msg(board_pins, client, "pins/current/on_change", 20);

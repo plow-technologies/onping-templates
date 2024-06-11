@@ -1,5 +1,3 @@
-#include <Ethernet.h>
-
 /* set the lan IP and port number of your mqtt-broker (lumberjack)
    commas (,) where periods (.) normally go */
 
