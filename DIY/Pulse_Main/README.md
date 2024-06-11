@@ -127,60 +127,54 @@ Finally, add two buttons at the bottom of the menu like this
 Click `save`. Then click the wrench in the top right above your widget panel. You should be able to turn the onboard LED on and off using the button!
 
 <h2> Troubleshooting </h2>
+<h3>If the parameters do not appear when creating the HMI:</h3>
 
-If the parameters do not appear when creating the HMI:
-* Check that the MQTT json host and port are specified and correct in rtuClientConfig.yml in sitebuild/rtu-client
+* Check the settings for mqtt-json-driver and client-mosquitto-broker
+  * Go to LAS, select your Lumberjack, and navigate to Apps.
+  * Find mqtt-json-driver and client-mosquitto-broker and ensure the ports are the same
 
-  rtuClientConfig:
-  ```
-  # url and port for mqtt json
-  mqttJsonOnSiteHost : 127.0.0.1
-  mqttJsonOnSitePort : 2000
-  ```
-* Check that the tachdb port is correct in rtuManagerConfig.yml in sitebuild/rtu-manager and onping-core.yml in sitebuild
-  * onping-core.yml is used in multiple places in sitebuild, so make sure to change this wherever you want to use your custom parameters
-  * also need to manually change onping-core.yml in onping2.0/onping/config
+    ![image](https://github.com/plow-technologies/onping-templates/assets/112007663/ba962230-22ed-4ce2-8ef0-73f0da85b1ec)
+    ![image](https://github.com/plow-technologies/onping-templates/assets/112007663/4e3591de-4c9c-410e-b0ca-998077ee5e8f)
 
-  rtuManagerConfig:
-  ```
-  tachUrl : 127.0.0.1
-  tachPort : 4001
-  ```
-  onping-core:
-  ```
-  tachdb:
-  - data-client:
-      host: 127.0.0.1
-      port: 4001
-      key:  www.aacs-us.com
-  ```
-* Check that config.yml in sitebuild/mqtt-json has the correct information 
+  * Check that `allow-anonymous` in client-mosquitto-broker is set to true
+  
+    ![image](https://github.com/plow-technologies/onping-templates/assets/112007663/73dea1b2-47b3-4cb1-8669-5c5a32b582d5)
+
+* Check that config.yaml in lumberjack/onping-pubsub has the correct information and the mosquitto host and port match the host and port in mosquitto.conf
 
   config:
   ```
-  broker: mqtt://127.0.0.1
-  port: 1883
-  printstore: true
-  tachPort: 4001
-  tachUrl: 127.0.0.1
-  webPort: 2000
+  forward-to-mqtt: true
+  mosquitto-host: 127.0.0.1
+  mosquitto-port: 1885
   ```
-* Check that mosquitto-microservices.conf has the correct information in sitebuild/mosquitto-d
 
-  mosquitto-microservices:
+  mosquitto:
   ```
-  listener 1888 0.0.0.0
+  listener 1885 127.0.0.1
   allow_anonymous true
   ```
+  
+<h3>Code debugging</h3>
 
-Code debugging
-* Check to ensure the port used is the same port used in the mqtt-json configs
+* If the program is failing to upload, press the reset button on the Pulse as soon as compiling finishes and uploading begins
+* If the sketch uses too much storage space, or there are compile errors due to function names not being declared, check the installed libraries and ensure they match the versions listed. The current version of the sketch uses 24030 bytes of storage space with the following library versions.
+  * Ensure that ArduinoJson is Version 6, not Version 7, as the current code is not compatible with Version 7 and the library for 7 is too large for the Feather.
+
+  Pulse_Main:
+  ```
+  #include <Ethernet.h>             // Version 2.0.0 
+  #include <PubSubClient.h>         // Version 2.6.0
+  #include <ArduinoJson.h>          // Version 6.21.5
+  #include <Adafruit_SleepyDog.h>   // Version 1.6.4
+  ```
+* Check to ensure the port used is the same port used in mqtt-json-driver and client-mosquitto-broker
 
   pulse_settings:
   ```
-  uint16_t port = 1883;
+  uint16_t port = 1884;
   ```
-* Check the error codes in serial if the Pulse is unable to connect to the MQTT broker
+* Check the error codes in the serial monitor if the Pulse is unable to connect to the MQTT broker. MQTT_CONNECT_FAILED is the most common and the issue is usually an incorrect IP Address or port for the MQTT broker.
   * -4 : MQTT_CONNECTION_TIMEOUT - the server didn't respond within the keepalive time
   * -3 : MQTT_CONNECTION_LOST - the network connection was broken
   * -2 : MQTT_CONNECT_FAILED - the network connection failed
@@ -191,13 +185,4 @@ Code debugging
   * 3 : MQTT_CONNECT_UNAVAILABLE - the server was unable to accept the connection
   * 4 : MQTT_CONNECT_BAD_CREDENTIALS - the username/password were rejected
   * 5 : MQTT_CONNECT_UNAUTHORIZED - the client was not authorized to connect
-* If the sketch uses too much storage space, check the versions of the installed libraries and ensure they match the versions listed. The current version of the sketch uses 25058 bytes of storage space with the following library versions.
 
-  Pulse_Main:
-  ```
-  #include <Ethernet.h>             // Version 2.0.0 
-  #include <PubSubClient.h>         // Version 2.6.0
-  #include <ArduinoJson.h>          // Version 6.21.5
-  #include <Adafruit_SleepyDog.h>   // Version 1.6.4
-  ```
-* If the program is failing to upload, press the reset button on the Pulse as soon as compiling finishes and uploading begins
