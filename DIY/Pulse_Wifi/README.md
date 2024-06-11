@@ -36,7 +36,7 @@ Pinout default roles:
 
 <h3> Configuring your Lumberjack mosquitto broker </h3>
 
-ADD INSTRUCTIONS TO CONNECT LUMBERJACK TO WIFI
+Connect Lumberjack to your home network with an Ethernet cable
 
 While connected to the internet, go to `https://onping.plowtech.net`
 
@@ -47,6 +47,8 @@ Go to `Apps`. Search for `mqtt-json-driver` in the available apps list. Click th
 Then search for `client-mosquitto-broker` and download it.
 
 Ensure the port listed in both apps is the same.
+
+Next, go to `Network` and note the IP Address of your Lumberjack. You will need to change server in pulse_wifi_settings to match this address
 
 Connect your Pulse to the Lumberjack using the USB cable. Ensure the Pulse is connected to the same WiFi network as the Lumberjack by setting the ssid and password in pulse_wifi_settings.
 
@@ -59,7 +61,7 @@ With `https://onping.plowtech.net` open press `ctrl+k` and search `Add Site`. En
 Next, while still on `https://onping.plowtech.net` again press `ctrl+k` and search for `Add MQTT Driver`. Press enter to select it from the menu. On the new page click `+New Location`. Create an MQTT JSON location with these attributes.
 
 * Name: Pulsejack 1
-* Lumberjack URL: IP address written on your Lumberjack
+* Lumberjack URL: IP address for your Lumberjack in LAS
 * Lumberjack port: 2000
 * Latitude: leave blank
 * Longitude: leave blank
@@ -123,16 +125,74 @@ Click `save`. Then click the wrench in the top right above your widget panel. Yo
 
 <h2> Troubleshooting </h2>
 
-Code debugging
+<h3>If the parameters do not appear when creating the HMI:</h3>
+
+* Check the settings for mqtt-json-driver and client-mosquitto-broker
+  * Go to LAS, select your Lumberjack, and navigate to Apps.
+  * Find mqtt-json-driver and client-mosquitto-broker and ensure the ports are the same
+
+    ![image](https://github.com/plow-technologies/onping-templates/assets/112007663/ba962230-22ed-4ce2-8ef0-73f0da85b1ec)
+    ![image](https://github.com/plow-technologies/onping-templates/assets/112007663/4e3591de-4c9c-410e-b0ca-998077ee5e8f)
+
+  * Check that `allow-anonymous` in client-mosquitto-broker is set to true
+  
+    ![image](https://github.com/plow-technologies/onping-templates/assets/112007663/73dea1b2-47b3-4cb1-8669-5c5a32b582d5)
+
+* Check that config.yaml in lumberjack/onping-pubsub has the correct information and the mosquitto host and port match the host and port in mosquitto.conf
+
+  config:
+  ```
+  forward-to-mqtt: true
+  mosquitto-host: 127.0.0.1
+  mosquitto-port: 1885
+  ```
+
+  mosquitto:
+  ```
+  listener 1885 127.0.0.1
+  allow_anonymous true
+  ```
+  
+<h3>Code debugging</h3>
+
+* If the program is failing to upload, press the `BOOT` button on the Pulse as soon as you see "Connecting..." in the IDE output
+* If the sketch uses too much storage space, or there are compile errors due to function names not being declared, check the installed libraries and ensure they match the versions listed. The current version of the sketch uses 937833 bytes of storage space with the following library versions.
+  * Ensure that ArduinoJson is Version 6, not Version 7, as the current code is not compatible with Version 7.
+
+  Pulse_Main:
+  ```
+  #include <WiFi.h>                 // Version 1.2.7
+  #include <PubSubClient.h>         // Version 2.6.0
+  #include <ArduinoJson.h>          // Version 6.21.5
+  #include <Adafruit_SleepyDog.h>   // Version 1.6.5
+  ```
+* Check PubSubClient.h and ensure that MQTT_MAX_PACKET_SIZE is set to 256 if you are using more than 13 pins in board_pins.
+
+  PubSubClient.h:
+  ```
+  // MQTT_MAX_PACKET_SIZE : Maximum packet size
+  #ifndef MQTT_MAX_PACKET_SIZE
+  #define MQTT_MAX_PACKET_SIZE 256
+  #endif
+  ```
+* Check to ensure the SSID and password for your WiFi network are correct in pulse_wifi_settings
+
+  pulse_wifi_settings:
+  ```
+  // SSID and password for your WiFi network (WPA)
+  const char* ssid = "YourNetworkSSID";
+  const char* password = "YourNetworkPassword";
+  ```
 * Check to ensure the IP address and port used are the IP Address of the Lumberjack and the port used in client-mosquitto-broker and mqtt-json-driver
 
   pulse_wifi_settings:
   ```
-  IPAddress server(192, 168, 144, 123); // Your Lumberjack IP Address
-  uint16_t port = 1884;                 // The port found in client-mosquitto-broker and mqtt-json-driver
+  // Your Lumberjack IP Address
+  IPAddress server(192, 168, 144, 123);
+  // The port found in client-mosquitto-broker and mqtt-json-driver
+  uint16_t port = 1884;
   ```
-* Check to ensure the ssid and password for your WiFi network are correct in pulse_wifi_settings
-* Check the error codes in serial if the Pulse is unable to connect to the MQTT broker. MQTT_CONNECT_FAILED is the most common and the issue is usually an incorrect IP Address for the MQTT broker.
+* Check the error codes in the serial monitor if the Pulse is unable to connect to the MQTT broker. MQTT_CONNECT_FAILED is the most common and the issue is usually an incorrect IP Address or port for the MQTT broker.
   * -4 : MQTT_CONNECTION_TIMEOUT - the server didn't respond within the keepalive time
   * -3 : MQTT_CONNECTION_LOST - the network connection was broken
   * -2 : MQTT_CONNECT_FAILED - the network connection failed
@@ -143,13 +203,4 @@ Code debugging
   * 3 : MQTT_CONNECT_UNAVAILABLE - the server was unable to accept the connection
   * 4 : MQTT_CONNECT_BAD_CREDENTIALS - the username/password were rejected
   * 5 : MQTT_CONNECT_UNAUTHORIZED - the client was not authorized to connect
-* Check PubSubClient.h and ensure that MQTT_MAX_PACKET_SIZE is set to 256 if you are using more than 13 pins in board_pins.
 
-  PubSubClient.h:
-  ```
-  // MQTT_MAX_PACKET_SIZE : Maximum packet size
-  #ifndef MQTT_MAX_PACKET_SIZE
-  #define MQTT_MAX_PACKET_SIZE 256
-  #endif
-  ```
-* If the program is failing to upload, press the `BOOT` button on the Pulse as soon as you see "Connecting..." in the IDE output
