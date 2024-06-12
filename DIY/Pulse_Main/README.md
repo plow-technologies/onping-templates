@@ -28,6 +28,7 @@ Pinout default roles:
 * A4: analog in
 * A5: analog in
 
+PWM values range from 0 to 255, analog input values range from 0 to 1024, and digital input and output values are either 0 or 1.
 
 <h2> Quick Configuration </h2>
 
