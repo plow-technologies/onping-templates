@@ -63,7 +63,7 @@ With `https://onping.plowtech.net` open press `ctrl+k` and search `Add Site`. En
 Next, while still on `https://onping.plowtech.net` again press `ctrl+k` and search for `Add MQTT Driver`. Press enter to select it from the menu. On the new page click `+New Location`. Create an MQTT JSON location with these attributes.
 
 * Name: Pulsejack 1
-* Lumberjack URL: IP address for your Lumberjack in LAS
+* Lumberjack: select your Lumberjack
 * Lumberjack port: 2000
 * Latitude: leave blank
 * Longitude: leave blank
