@@ -2,6 +2,8 @@
 
 The Pulse is a small device that supports remote reading and writing of io lines over mqtt. It hosts an mqtt client that can connect to a broker on your network (mosquitto broker for example). The Pulse client looks for Json messages corresponding to certain io pin names and their values and writes those values in real time. The Pulse also publishes information in a Json message related to all pin values when a line changes, or when prompted. Any other mqtt client can directly read and write the io lines of the Pulse. This establishes a remote control loop.
 
+<h3> Hardware Info </h3>
+
 The board used is the Adafruit Feather 32u4 Basic Proto with an Adafruit Ethernet Featherwing.
 
 Full feature list
